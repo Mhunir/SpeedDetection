@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 224
-  Top = 76
+  Left = 193
+  Top = 189
   Width = 1036
   Height = 627
   Caption = 'frmMain'
@@ -280,11 +280,11 @@ object frmMain: TfrmMain
         SkinData.SkinSection = 'PANEL'
       end
       object pnlLabelOffender: TPanel
-        Left = 248
-        Top = 64
+        Left = 256
+        Top = 80
         Width = 65
         Height = 15
-        Caption = 'Offender'
+        Caption = 'List Video'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
         Font.Height = -11
@@ -430,14 +430,14 @@ object frmMain: TfrmMain
           Display = pnlMainVideo
           FileName = 
             'E:\Tugas Akhir PENS\Coding\Delphi\Desain UI\Alpha_4\Desember\Gre' +
-            'sik - Surabaya (Asli)\Siang\VID_20141206_125924.3gp'
+            'sik - Surabaya (Asli)\Siang\VID_20141206_125505.3gp'
           Visible = False
           TabOrder = 0
         end
       end
       object pnlLabelCapture: TPanel
         Left = 256
-        Top = 104
+        Top = 120
         Width = 65
         Height = 15
         Caption = 'Capture'
@@ -567,17 +567,17 @@ object frmMain: TfrmMain
         object mmo1: TMemo
           Left = 8
           Top = 8
-          Width = 89
-          Height = 201
+          Width = 185
+          Height = 105
           Lines.Strings = (
             'mmo1')
           TabOrder = 0
           OnChange = mmo1Change
         end
         object listVIdeo: TListBox
-          Left = 104
-          Top = 8
-          Width = 89
+          Left = 8
+          Top = 112
+          Width = 185
           Height = 201
           ItemHeight = 13
           TabOrder = 1
@@ -985,6 +985,7 @@ object frmMain: TfrmMain
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
+      OnClick = btnVideoFileClick
       Width = 80
     end
     object btnVideoStream: TdxBarLargeButton
@@ -2868,5 +2869,10 @@ object frmMain: TfrmMain
       Caption = 'Setting Coord.'
       OnClick = Seeting1Click
     end
+  end
+  object dlgOpen1: TOpenDialog
+    Filter = '.3gp'
+    Left = 458
+    Top = 312
   end
 end

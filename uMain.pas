@@ -125,6 +125,7 @@ type
     pm1: TPopupMenu;
     Seeting1: TMenuItem;
     listVIdeo: TListBox;
+    dlgOpen1: TOpenDialog;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -149,6 +150,7 @@ type
     procedure itemSiangClick(Sender: TObject);
     procedure itemSoreClick(Sender: TObject);
     procedure listVIdeoClick(Sender: TObject);
+    procedure btnVideoFileClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -172,6 +174,16 @@ type
 
     FrMean : array [0..1000,0..1000,0..1000] of byte;
     SysDev : TSysDevEnum;
+
+    //Untuk Speed Jalur  Kiri
+    kordKiriAwal, kordKiriAkir : TPoint;
+    cekAwalKiri, cekAkirKiri : Boolean;
+    hasilSpeedKiri : Double;
+    //Untuk Speed Jalur  Kanan
+    kordKananAwal, kordKananAkir : TPoint;
+    cekAwalKanan, cekAkirKanan : Boolean;
+    hasilSpeedKanan : Double;
+
 
     procedure ListFileDir(Path: string; FileList: TStrings);
     procedure tampilanAwal;
@@ -373,6 +385,18 @@ begin
       Top := pnlLabelOffender.Top + pnlLabelOffender.Height + 2;
       Width := pnlLabelOffender.Width;
       Height := (tabPreview.Height - 7 - pnlInformation.Height - pnlLabelInformation.Height - pnlLabelOffender.Height);
+      with listVIdeo do
+        begin
+          Width := Width - 6;
+          Height := Height - 50;
+          Left := 3;
+          Top := 3;
+        end;
+      mmo1.Top := listVIdeo.Top + listVIdeo.Height + 3;
+      mmo1.Height := 200;
+      mmo1.Left := listVIdeo.Left;
+      mmo1.Width := listVIdeo.Width;
+
     end;
 
   //Tampilan Tanggal
@@ -408,13 +432,7 @@ end;
 
 procedure TfrmMain.filter;
 var
-x,y : Integer;
-  i,j : Integer;
-  Color : LongInt;
-  R, G, B : Byte;
-  posX,posY : Integer;
-  med : Integer;
-  max, min : Integer;
+  x,y : Integer;
 begin
   inc(nilaiN);
   bmpMeanSumber := TBitmap.Create;
@@ -425,7 +443,6 @@ begin
   bmpHasilMean.Width:=bmpMeanSumber.Width;
   bmpHasilMean.PixelFormat:=pf8bit;
 
-
   for y:=0 to pnlMainVideo.Height -1 do
     begin
       pbmpSumberMean := bmpMeanSumber.Scanline[y];
@@ -433,9 +450,7 @@ begin
         begin
           FrMean[nilaiN,x,y]:=pbmpSumberMean[3*x];
         end;
-    end;
-
-
+    end;     
 
   for y:=1 to pnlMainVideo.Height -2 do
     begin
@@ -504,14 +519,14 @@ end;
 procedure TfrmMain.blobExtraction;
 var
   colCek : TColor;
-  R1, G1, B1 : Byte;
   x,y : Integer;
-  RKiri, RKanan, G, B : Byte;
-  awalKiri, akirKiri : TPoint;
-  detX_AwalKiri, detY_AwalKiri: Boolean;
-  awalKanan, akirKanan : TPoint;
-  detX_AwalKanan, detY_AwalKanan : Boolean;
+  RKiri, RKanan, RPojok, G, B : Byte;
+  awalKiri, akirKiri : TPoint;//Untuk BLOB
+  detX_AwalKiri, detY_AwalKiri: Boolean;//Untuk BLOB
+  awalKanan, akirKanan : TPoint;//Untuk BLOB
+  detX_AwalKanan, detY_AwalKanan : Boolean;//Untuk BLOB
   speedKiri, speedKanan, jarakKiri, jarakKanan : Double;
+  adaKiri, adaKanan : Boolean; 
 begin
   //Menampilkan Gambar Jalur
   if cbbJalur.ItemIndex = 0 then
@@ -523,6 +538,7 @@ begin
       LineLurus(img5.Canvas,jalurTengah_bawah.X,jalurTengah_bawah.Y,jalurKanan_bawah.X,jalurKanan_bawah.Y,clYellow);
     end;
 
+  //Untuk BLOB
   awalKiri.X := 0;
   awalKiri.Y := 0;
   akirKiri.X := 0;
@@ -537,11 +553,310 @@ begin
   detY_AwalKanan := True;
   detX_AwalKanan := True;
 
+  {Untuk BLOB Jalur Kiri}
+  //Y
+  for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+    for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+      begin
+        colcek := img5.Canvas.Pixels[x,y];
+        GetRGB(colcek, RKiri);
+        if RKiri = 255 then
+          begin
+            if (detY_AwalKiri = True) then
+              begin
+                awalKiri.Y := y;
+                detY_AwalKiri := False;
+              end;
+            akirKiri.Y := y;
+          end;
+      end;
+
+  //X
+  for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+    for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+      begin
+        colcek := img5.Canvas.Pixels[x,y];
+        GetRGB(colcek, RKiri);
+        if RKiri = 255 then
+          begin
+            if (detX_AwalKiri = True) then
+              begin
+                awalKiri.X := x;
+                detX_AwalKiri := False;
+              end;
+            akirKiri.X := x;
+          end;
+      end;
+  if (awalKiri.X<>0)and(awalKiri.Y<>0)and(akirKiri.X<>0)and(akirKiri.Y<>0) then
+    begin
+      BlobBox(img5.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
+      BlobBox(img1.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
+      if hasilSpeedKiri > 0 then
+      TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,hasilSpeedKiri);
+    end;
+    
+  {Untuk BLOB Jalur Kanan}
+  for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+    for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+      begin
+        colcek := img5.Canvas.Pixels[x,y];
+        GetRGB(colcek, RKanan);
+        if RKanan = 255 then
+          begin
+            if (detY_AwalKanan = True) then
+              begin
+                awalKanan.Y := y;
+                detY_AwalKanan := False;
+              end;
+            akirKanan.Y := y;
+          end;
+      end;
+
+  //X
+  for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+    for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+      begin
+        colcek := img5.Canvas.Pixels[x,y];
+        GetRGB(colcek, RKanan);
+        if RKanan = 255 then
+          begin
+            if (detX_AwalKanan = True) then
+              begin
+                awalKanan.X := x;
+                detX_AwalKanan := False;
+              end;
+            akirKanan.X := x;
+          end;
+      end;
+  if (awalKanan.X<>0)and(awalKanan.Y<>0)and(akirKanan.X<>0)and(akirKanan.Y<>0) then
+    begin
+      BlobBox(img5.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clAqua);
+      BlobBox(img1.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clAqua);
+    end;
+
+  {Untuk Kordinat Awal Kiri}
+  colCek := img5.Canvas.Pixels[1,1];
+  GetRGB(colCek,RPojok);
+  if (RPojok = 0)and(cekAwalKiri = True) then
+    begin
+      //Y
+      for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+        for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,y];
+            GetRGB(colcek, RKiri);
+            if (cekAwalKiri = True)and(RKiri = 255) then
+              begin
+                kordKiriAwal.Y := y;
+              end;
+          end;
+      //X
+      if kordKiriAwal.Y <> 0 then
+        for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,kordKiriAwal.Y];
+            GetRGB(colcek, RKiri);
+            if (cekAwalKiri = True)and(RKiri = 255) then
+              begin
+                kordKiriAwal.X := x;
+                cekAwalKiri := False;
+                cekAkirKiri := True;
+                //mmo1.Lines.Add(IntToStr(kordKiriAwal.X)+','+IntToStr(kordKiriAwal.Y));
+                //mp1.Stop;
+                //tmrThreshold.Enabled := False;
+                Break;
+              end;
+          end;
+    end;
+  {Untuk Kordinat Akir Kiri}
+
+  if cekAkirKiri = True then
+    begin
+      //Y
+      for y := kordKiriAwal.Y+1 to jalurTengah_bawah.Y-1 do
+        for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,y];
+            GetRGB(colcek, RKiri);
+            if (cekAkirKiri = True)and(RKiri = 255) then
+              begin
+                kordKiriAkir.Y := y;
+              end;
+          end;
+      //X
+      if kordKiriAkir.Y <> 0 then
+        for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,kordKiriAkir.Y];
+            GetRGB(colcek, RKiri);
+            if (cekAkirKiri = True)and(RKiri = 255) then
+              begin
+                kordKiriAkir.X := x;
+                cekAkirKiri := False;
+//                tmrThreshold.Enabled := False;
+//                mp1.Stop;
+                jarakKiri := hasilJarak(kordKiriAwal.X,kordKiriAwal.Y,kordKiriAkir.X,kordKiriAkir.Y);
+                speedKiri := hasilSpeed(jarakKiri);
+                hasilSpeedKiri := speedKiri;
+                //mmo1.Lines.Add(IntToStr(kordKiriAkir.X)+','+IntToStr(kordKiriAkir.Y)+'>'+FloatToStr(speedKiri));
+                TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
+                mmo1.Lines.Add(FormatFloat('Kiri : '+'0.00' + ' Km/h',hasilSpeedKiri));
+                Break;
+              end;
+          end;
+    end;
+
+  //Reset jalur kiri untuk kembali menghitung speed
+  if (not cekAwalKiri)and(not cekAkirKiri) then
+    begin
+      adaKiri := False;
+      for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+        for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,y];
+            GetRGB(colcek, RKiri);
+            if (RKiri = 255) then
+              begin
+                adaKiri := True;
+                Break;
+              end;
+          end;
+      if not adaKiri then
+        begin
+          cekAwalKiri := True;
+          cekAkirKiri := True;
+          hasilSpeedKiri := 0;
+        end;
+    end;
+
+  {Untuk Kordinat Awal Kanan}
+  colCek := img5.Canvas.Pixels[1,1];
+  GetRGB(colCek,RPojok);
+  if (RPojok = 0)and(cekAwalKanan = True) then
+    begin
+      //Y
+      for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+        for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,y];
+            GetRGB(colcek, RKanan);
+            if (cekAwalKanan = True)and(RKanan = 255) then
+              begin
+                kordKananAwal.Y := y;
+              end;
+          end;
+      //X
+      if kordKananAwal.Y <> 0 then
+        for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,kordKananAwal.Y];
+            GetRGB(colcek, RKanan);
+            if (cekAwalKanan = True)and(RKanan = 255) then
+              begin
+                kordKananAwal.X := x;
+                cekAwalKanan := False;
+                cekAkirKanan := True;
+                Break;
+              end;
+          end;
+    end;
+  {Untuk Kordinat Akir Kanan}
+  if cekAkirKanan = True then
+    begin
+      //Y
+      for y := kordKananAwal.Y+1 to jalurTengah_bawah.Y-1 do
+        for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,y];
+            GetRGB(colcek, RKanan);
+            if (cekAkirKanan = True)and(RKanan = 255) then
+              begin
+                kordKananAkir.Y := y;
+              end;
+          end;
+      //X
+      if kordKananAkir.Y <> 0 then
+        for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,kordKananAkir.Y];
+            GetRGB(colcek, RKanan);
+            if (cekAkirKanan = True)and(RKanan = 255) then
+              begin
+                kordKananAkir.X := x;
+                cekAkirKanan := False;
+//                tmrThreshold.Enabled := False;
+//                mp1.Stop;
+                jarakKanan := hasilJarak(kordKananAwal.X,kordKananAwal.Y,kordKananAkir.X,kordKananAkir.Y);
+                speedKanan := hasilSpeed(jarakKanan);
+                hasilSpeedKanan := speedKanan;
+                //mmo1.Lines.Add(IntToStr(kordKananAkir.X)+','+IntToStr(kordKananAkir.Y)+'>'+FloatToStr(speedKanan));
+                TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
+                mmo1.Lines.Add(FormatFloat('Kanan : '+'0.00' + ' Km/h',hasilSpeedKanan));
+                Break;
+              end;
+          end;
+    end;
+  //Reset jalur kanan untuk kembali menghitung speed
+  if (not cekAwalKanan)and(not cekAkirKanan) then
+    begin
+      adaKanan := False;
+      for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+        for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
+          begin
+            colcek := img5.Canvas.Pixels[x,y];
+            GetRGB(colcek, RKanan);
+            if (RKanan = 255) then
+              begin
+                adaKanan := True;
+                Break;
+              end;
+          end;
+      if not adaKanan then
+        begin
+          cekAwalKanan := True;
+          cekAkirKanan := True;
+          hasilSpeedKanan := 0;
+        end;
+    end;
+        {
+  //X
+  for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+    for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+      begin
+        colcek := img5.Canvas.Pixels[x,y];
+        GetRGB(colcek, RKiri);
+        if RKiri = 255 then
+          begin
+            mp1.Stop;
+            tmrThreshold.Enabled := False;
+            //if (detX_AwalKiri = True) then
+            //  begin
+            //    awalKiri.X := x;
+            //    detX_AwalKiri := False;
+            //  end;
+            //akirKiri.X := x;
+          end;
+      end;
+
+              {
+  for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+    for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
+      begin
+        colcek := img5.Canvas.Pixels[x,y];
+        GetRGB(colcek, RKiri);
+        if RKiri = 255 then
+          begin
+            if not adaKiri then adaKiri:= True;
+            Break;
+          end;
+      end;
+    mmo1.Lines.Add(BoolToStr(adaKiri));
+
 
   //Cari kordinat X dan Y
   {Jalur Kiri}
   //Y
-  for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+  {for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
     for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
       begin
         colcek := img5.Canvas.Pixels[x,y];
@@ -575,7 +890,7 @@ begin
       end;
   {Jalur Kanan}
   //Y
-  for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
+  {for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
     for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
       begin
         colcek := img5.Canvas.Pixels[x,y];
@@ -655,8 +970,17 @@ begin
         mmo1.Lines.Add('L: '+FloatToStr(speedKiri));
       if speedKiri > StrToInt(edtMaxSpeed.Text) then
         CaptureImage(awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5);
-      if speedKiri > 1 then
-        mmo1.Lines.Add(FormatFloat('0.00'+'Km/h',speedKiri));
+      //if speedKiri > 1 then
+//      mmo1.Lines.Add(FormatFloat('0.00'+' Km/h',speedKiri));
+      if (adaKiri)and(speedKiri > 1) then
+        begin
+          mmo1.Lines.Add(FormatFloat('0.00'+' Km/h',speedKiri));
+          mp1.Stop;
+          tmrThreshold.Enabled := False;
+
+          //adaKiri := False;
+        end;
+
     end;
 
   if (awalKanan.X<>0)and(awalKanan.Y<>0)and(akirKanan.X<>0)and(akirKanan.Y<>0) then
@@ -675,7 +999,7 @@ begin
       if speedKiri > StrToInt(edtMaxSpeed.Text) then
         CaptureImage(awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5);
       if speedKanan > 1 then
-        mmo1.Lines.Add(FormatFloat('0.00'+'Km/h',speedKanan));
+        mmo1.Lines.Add(FormatFloat('0.00'+' Km/h',speedKanan));
     end;
     
   //Reset Nilai Center Menajadi 0
@@ -692,7 +1016,7 @@ begin
       centerAkirKanan.Y := 0;
 
     end;
-
+   }
 
 end;
 
@@ -796,7 +1120,6 @@ end;
 function TfrmMain.sauvolaFilter(x,y : Integer):Integer;
 var
   deviasi : Double;
-  hasilniBlack : Integer;
   jumlah, jumlahKuadrat : Double;
   valueNiblack : array [1..9] of Integer;
   i : Integer;
@@ -833,14 +1156,15 @@ end;
 
 function TfrmMain.hasilSpeed(jarak : Double) : Double;
 var
-  waktuTimer,panjangPixel, panjangMeter, satuanMeter,speed : Double;
+  waktuTimer,panjangPixel, panjangMeter, satuanMeter, speed, jarakMeter : Double;
 begin
   Result := 0;
   waktuTimer := 1000 / tmrThreshold.Interval;
-  panjangMeter := 8;//Panjang Marka + Cela (Meter)
-  panjangPixel := Abs(jalurTengah_bawah.Y - jalurTengah_atas.Y);//Pixel
-  satuanMeter := panjangMeter / panjangPixel;
-  speed := satuanMeter * jarak * waktuTimer * 3.6;
+  panjangMeter := 13{8};//Panjang Marka + Cela (Meter)
+  panjangPixel := hasilJarak(markaAtas.X, markaAtas.Y, markaBawah.X, markaBawah.Y);//Pixel marka tengah
+  satuanMeter := panjangPixel / panjangMeter;//Pixel/Meter
+  jarakMeter := jarak / satuanMeter;
+  speed := jarakMeter * waktuTimer * 3.6;
   Result := speed;
 end;
 
@@ -868,26 +1192,45 @@ begin
   klikKe := 0;
   lokasiKamera := 1;
   waktuRekaman := 1;
+
+  kordKiriAwal.X := 0;
+  kordKiriAwal.Y := 0;
+  kordKiriAkir.X := 0;
+  kordKiriAkir.Y := 0;
+  cekAwalKiri := True;
+  cekAkirKiri := False;
+  hasilSpeedKiri := 0;
+
+  kordKananAwal.X := 0;
+  kordKananAwal.Y := 0;
+  kordKananAkir.X := 0;
+  kordKananAkir.Y := 0;
+  cekAwalKanan := True;
+  cekAkirKanan := False;
+  hasilSpeedKanan := 0;
+
   //Titik Jalur
-//  jalurKiri_atas.X := 88;
-//  jalurKiri_atas.Y := 136;
-//  jalurKiri_bawah.X := 56;
-//  jalurKiri_bawah.Y := 186;
-//
-//  jalurTengah_atas.X := 138;
-//  jalurTengah_atas.Y := 136;
-//  jalurTengah_bawah.X := 138;
-//  jalurTengah_bawah.Y := 186;
-//
-//  jalurKanan_atas.X := 194;
-//  jalurKanan_atas.Y := 136;
-//  jalurKanan_bawah.X := 228;
-//  jalurKanan_bawah.Y := 186;
-//
-//  markaAtas.X := 138;
-//  markaAtas.Y := 0;
-//  markaBawah.X := 138;
-//  markaBawah.Y := pnlThresholdVideo.Height;
+  jalurKiri_atas.X := 94;//59;
+  jalurKiri_atas.Y := 114;//158;
+  jalurKiri_bawah.X := 24;//22;
+  jalurKiri_bawah.Y := 216;//217;
+
+  jalurTengah_atas.X := 170;//170;
+  jalurTengah_atas.Y := 114;//158;
+  jalurTengah_bawah.X := 172;//170;
+  jalurTengah_bawah.Y := 216;//217;
+
+  jalurKanan_atas.X := 273;//313;
+  jalurKanan_atas.Y := 114;//158;
+  jalurKanan_bawah.X := 358;//363;
+  jalurKanan_bawah.Y := 216;//217;
+
+  markaAtas.X := jalurTengah_atas.X;//170;
+  markaAtas.Y := jalurTengah_atas.Y;//158;
+  markaBawah.X := jalurTengah_bawah.X;//170;
+  markaBawah.Y := jalurTengah_bawah.Y;//217;
+
+  mulaiHitung := True;
 end;
 
 procedure TfrmMain.CaptureImage(x1,y1,x2,y2 : Integer);
@@ -979,6 +1322,10 @@ begin
       fltrgrph1.Active := False;
       fltrgrph1.Stop;
       cbbWebcamList.Enabled := False;
+      tmrThreshold.Enabled := False;
+      img1.Picture.Assign(nil);
+      img2.Picture.Assign(nil);
+      img5.Picture.Assign(nil);
     end;
 
 end;
@@ -986,13 +1333,16 @@ end;
 procedure TfrmMain.imgPlayClick(Sender: TObject);
 begin
   informasiVideo;
-  tmrThreshold.Enabled := True;
   mp1.Play;
+  tmrThreshold.Enabled := True;
 end;
 
 procedure TfrmMain.imgStopClick(Sender: TObject);
 begin
   tmrThreshold.Enabled := False;
+  img1.Picture.Assign(nil);
+  img2.Picture.Assign(nil);
+  img5.Picture.Assign(nil);
   mp1.Stop;
 end;
 
@@ -1016,6 +1366,7 @@ begin
   vdwndw1.Left := 0;
   vdwndw1.Align := alClient;
   fltrgrph1.Play;
+  tmrThreshold.Enabled := True;
 end;
 
 procedure TfrmMain.Seeting1Click(Sender: TObject);
@@ -1107,6 +1458,7 @@ end;
 procedure TfrmMain.img1MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
+  if setKordinat then
   with img1.Canvas do
     begin
       Pen.Color := clYellow;
@@ -1164,10 +1516,32 @@ end;
 procedure TfrmMain.listVIdeoClick(Sender: TObject);
 begin
   mp1.Stop;
+  mp1.Close;
+  img1.Picture.Assign(nil);
+  img2.Picture.Assign(nil);
+  img5.Picture.Assign(nil);
   tmrThreshold.Enabled := False;
-  //mp1.FileName := '';
   mp1.FileName := ExtractFilePath(Application.ExeName)+'Desember\'+folderJurusan+'\'+folderWaktu+'\'+listVIdeo.Items[listVIdeo.ItemIndex];
-  ShowMessage(mp1.FileName);
+  mp1.Open;
+  mp1.DisplayRect:=Rect(0,0,pnlMainVideo.Width,pnlMainVideo.Height);
+  mp1.Play;
+  tmrThreshold.Enabled := True;
+  informasiVideo;
+  //ShowMessage(mp1.FileName);
+end;
+
+procedure TfrmMain.btnVideoFileClick(Sender: TObject);
+begin
+  if dlgOpen1.Execute then
+    begin
+      mp1.Close;
+      mp1.FileName := dlgOpen1.FileName;
+      mp1.Open;
+      mp1.DisplayRect:=Rect(0,0,pnlMainVideo.Width,pnlMainVideo.Height);
+      mp1.Play;
+      tmrThreshold.Enabled := True;
+      informasiVideo;
+    end;
 end;
 
 end.
