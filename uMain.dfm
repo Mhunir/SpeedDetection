@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 193
-  Top = 189
+  Left = 269
+  Top = 45
   Width = 1036
   Height = 627
   Caption = 'frmMain'
@@ -59,6 +59,14 @@ object frmMain: TfrmMain
         ParentBiDiMode = False
         Text = 'Vehicle Speed Detection System @2014     '
         Width = 500
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        PanelStyle.Alignment = taCenter
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        PanelStyle.Alignment = taCenter
       end>
     Ribbon = dxRibbon1
     Font.Charset = DEFAULT_CHARSET
@@ -462,6 +470,7 @@ object frmMain: TfrmMain
           Top = 0
           Width = 100
           Height = 100
+          Proportional = True
         end
       end
       object pnlLabelFrameVideo: TPanel
@@ -710,7 +719,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar2: TdxBar
       Caption = 'Report'
       CaptionButtons = <>
-      DockedLeft = 334
+      DockedLeft = 510
       DockedTop = 0
       FloatLeft = 623
       FloatTop = 336
@@ -768,6 +777,14 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'cbbJalur'
+        end
+        item
+          Visible = True
+          ItemName = 'edtMeter'
+        end
+        item
+          Visible = True
+          ItemName = 'edtLocation'
         end>
       OneOnRow = False
       Row = 0
@@ -778,7 +795,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar4: TdxBar
       Caption = 'Cordinat'
       CaptionButtons = <>
-      DockedLeft = 592
+      DockedLeft = 768
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 10
@@ -1769,7 +1786,7 @@ object frmMain: TfrmMain
       Hint = 'Max Speed'
       Visible = ivAlways
       Width = 100
-      Text = '80'
+      Text = '30'
     end
     object dxbrdt2: TdxBarEdit
       Caption = 'New Item'
@@ -2417,6 +2434,28 @@ object frmMain: TfrmMain
       Visible = ivAlways
       Width = 100
     end
+    object edtMeter: TdxBarEdit
+      Align = iaClient
+      Caption = 'Length (m)'
+      Category = 0
+      Hint = 'Length (m)'
+      Visible = ivAlways
+      Width = 100
+      Text = '8'
+    end
+    object edtLocation: TdxBarEdit
+      Align = iaClient
+      Caption = 'Capture Loc.'
+      Category = 0
+      Hint = 'Capture Loc.'
+      Visible = ivAlways
+      Width = 100
+    end
+    object dxbrlstm3: TdxBarListItem
+      Caption = 'New Item'
+      Category = 0
+      Visible = ivAlways
+    end
   end
   object dxbrplctnmn1: TdxBarApplicationMenu
     BarManager = dxbrmngr1
@@ -2874,5 +2913,10 @@ object frmMain: TfrmMain
     Filter = '.3gp'
     Left = 458
     Top = 312
+  end
+  object tmrJam: TTimer
+    OnTimer = tmrJamTimer
+    Left = 402
+    Top = 472
   end
 end

@@ -126,6 +126,10 @@ type
     Seeting1: TMenuItem;
     listVIdeo: TListBox;
     dlgOpen1: TOpenDialog;
+    edtMeter: TdxBarEdit;
+    edtLocation: TdxBarEdit;
+    dxbrlstm3: TdxBarListItem;
+    tmrJam: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -151,6 +155,7 @@ type
     procedure itemSoreClick(Sender: TObject);
     procedure listVIdeoClick(Sender: TObject);
     procedure btnVideoFileClick(Sender: TObject);
+    procedure tmrJamTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -195,8 +200,9 @@ type
     procedure blobExtraction;
     procedure GetRGB(Col: TColor; var R : Byte);
     procedure gray;
-    procedure CaptureImage(x1,y1,x2,y2 : Integer);
+    procedure CaptureImage(x1,y1,x2,y2 : Integer; speed : Double);
     procedure tampilList;
+    procedure createFolder;
 
     function meanFilter(x,y : Integer):Integer;
     function sauvolaFilter(x,y : Integer):Integer;
@@ -213,6 +219,27 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmMain.createFolder;
+var
+  lokasiFolder : string;
+begin
+  lokasiFolder := edtLocation.Text;
+  if not DirectoryExists(lokasiFolder+'Hasil Capture') then
+    begin
+      CreateDir(lokasiFolder+'Hasil Capture');
+      CreateDir(lokasiFolder+'Hasil Capture\Surabaya - Gresik');
+      CreateDir(lokasiFolder+'Hasil Capture\Gresik - Surabaya');
+    end;
+  if not DirectoryExists(lokasiFolder+'Hasil Capture\Surabaya - Gresik\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
+    begin
+      CreateDir(lokasiFolder+'Hasil Capture\Surabaya - Gresik\'+FormatDateTime('d mmmmmmmm yyyy',Now));
+    end;
+  if not DirectoryExists(lokasiFolder+'Hasil Capture\Gresik - Surabaya\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
+    begin
+      CreateDir(lokasiFolder+'Hasil Capture\Gresik - Surabaya\'+FormatDateTime('d mmmmmmmm yyyy',Now));
+    end;              
+end;
 
 procedure TfrmMain.ListFileDir(Path: string; FileList: TStrings);
 var
@@ -234,8 +261,8 @@ procedure TfrmMain.tampilList;
 begin
   listVIdeo.Clear;
   case lokasiKamera of
-    1: folderJurusan := 'Surabaya - Gresik (Asli)';
-    2: folderJurusan := 'Gresik - Surabaya (Asli)';
+    1: folderJurusan := 'Surabaya - Gresik';
+    2: folderJurusan := 'Gresik - Surabaya';
   end;
   case waktuRekaman of
     1: folderWaktu := 'Pagi';
@@ -428,6 +455,12 @@ begin
       Left := imgPause.Left + imgPause.Width;
       Top := imgPlay.Top;
     end;
+
+  edtLocation.Text := ExtractFilePath(Application.ExeName);
+
+  barBawah.Panels[2].Width := 100;
+  barBawah.Panels[1].Width := 150;
+  barBawah.Panels[0].Width := frmMain.Width - 250;
 end;
 
 procedure TfrmMain.filter;
@@ -592,7 +625,7 @@ begin
       BlobBox(img5.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
       BlobBox(img1.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
       if hasilSpeedKiri > 0 then
-      TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,hasilSpeedKiri);
+        TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,hasilSpeedKiri);
     end;
     
   {Untuk BLOB Jalur Kanan}
@@ -632,6 +665,8 @@ begin
     begin
       BlobBox(img5.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clAqua);
       BlobBox(img1.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clAqua);
+      if hasilSpeedKanan > 0 then
+        TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,hasilSpeedKanan);
     end;
 
   {Untuk Kordinat Awal Kiri}
@@ -700,6 +735,8 @@ begin
                 hasilSpeedKiri := speedKiri;
                 //mmo1.Lines.Add(IntToStr(kordKiriAkir.X)+','+IntToStr(kordKiriAkir.Y)+'>'+FloatToStr(speedKiri));
                 TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
+                if hasilSpeedKiri > StrToInt(edtMaxSpeed.Text) then
+                  CaptureImage(kordKiriAkir.X-25,kordKiriAkir.Y-50,kordKiriAkir.X+35,kordKiriAkir.Y+25, hasilSpeedKiri);
                 mmo1.Lines.Add(FormatFloat('Kiri : '+'0.00' + ' Km/h',hasilSpeedKiri));
                 Break;
               end;
@@ -789,8 +826,11 @@ begin
                 jarakKanan := hasilJarak(kordKananAwal.X,kordKananAwal.Y,kordKananAkir.X,kordKananAkir.Y);
                 speedKanan := hasilSpeed(jarakKanan);
                 hasilSpeedKanan := speedKanan;
-                //mmo1.Lines.Add(IntToStr(kordKananAkir.X)+','+IntToStr(kordKananAkir.Y)+'>'+FloatToStr(speedKanan));
+//                mmo1.Lines.Add(IntToStr(kordKananAwal.X)+','+IntToStr(kordKananAwal.Y));
+//                mmo1.Lines.Add(IntToStr(kordKananAkir.X)+','+IntToStr(kordKananAkir.Y)+'>'+FloatToStr(speedKanan));
                 TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
+                if hasilSpeedKanan > StrToInt(edtMaxSpeed.Text) then
+                  CaptureImage(kordKananAkir.X-25,kordKananAkir.Y-50,kordKananAkir.X+35,kordKananAkir.Y+25, hasilSpeedKanan);
                 mmo1.Lines.Add(FormatFloat('Kanan : '+'0.00' + ' Km/h',hasilSpeedKanan));
                 Break;
               end;
@@ -1160,7 +1200,7 @@ var
 begin
   Result := 0;
   waktuTimer := 1000 / tmrThreshold.Interval;
-  panjangMeter := 13{8};//Panjang Marka + Cela (Meter)
+  panjangMeter := StrToInt(edtMeter.Text);//Panjang Marka + Cela (Meter)
   panjangPixel := hasilJarak(markaAtas.X, markaAtas.Y, markaBawah.X, markaBawah.Y);//Pixel marka tengah
   satuanMeter := panjangPixel / panjangMeter;//Pixel/Meter
   jarakMeter := jarak / satuanMeter;
@@ -1186,12 +1226,14 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   tampilanAwal;
+  createFolder;
   mp1.Open;
   mp1.DisplayRect:=Rect(0,0,pnlMainVideo.Width,pnlMainVideo.Height);
   frameKe := 2;
   klikKe := 0;
   lokasiKamera := 1;
   waktuRekaman := 1;
+  folderJurusan := 'Surabaya - Gresik';
 
   kordKiriAwal.X := 0;
   kordKiriAwal.Y := 0;
@@ -1233,14 +1275,13 @@ begin
   mulaiHitung := True;
 end;
 
-procedure TfrmMain.CaptureImage(x1,y1,x2,y2 : Integer);
+procedure TfrmMain.CaptureImage(x1,y1,x2,y2 : Integer; speed : Double);
 var
   capture : TBitmap;
 begin
   capture := PanelToBmp(pnlMainVideo);
-  //capture := img1.Picture.Bitmap;
   imgHasilCapture.Canvas.CopyRect(Rect(0,0,100,100),capture.Canvas,Rect(x1,y1,x2,y2));
-  //imgHasilCapture.Canvas.CopyRect(Rect((imgHasilCapture.Width - (x1+x2)) div 2,(imgHasilCapture.Height - (y1+y2)) div 2,imgHasilCapture.Width - ((imgHasilCapture.Width - (x1+x2)) div 2),imgHasilCapture.Height - ((imgHasilCapture.Height - (y1+y2)) div 2)),capture.Canvas,Rect(x1,y1,x2,y2));
+  imgHasilCapture.Picture.SaveToFile('Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+') .jpg');
 end;
 
 procedure TfrmMain.tmrThresholdTimer(Sender: TObject);
@@ -1542,6 +1583,14 @@ begin
       tmrThreshold.Enabled := True;
       informasiVideo;
     end;
+end;
+
+procedure TfrmMain.tmrJamTimer(Sender: TObject);
+begin
+  //barBawah.Panels[1].Text := DateTimeToStr(Now) +'  '+ TimeToStr(Now);
+  barBawah.Panels[1].Text := FormatDateTime('d mmmmmmmm yyyy',Now);
+  barBawah.Panels[2].Text := FormatDateTime('h:n:ss',Now);
+
 end;
 
 end.
