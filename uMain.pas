@@ -134,6 +134,7 @@ type
     btn1: TButton;
     dxbrcmb4: TdxBarCombo;
     btn2: TButton;
+    listPelanggar: TListBox;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -1357,6 +1358,7 @@ end;
 procedure TfrmMain.btnReportDayClick(Sender: TObject);
 begin
   jenisReport := 1;
+  listPelanggar.Clear;
   cbbDaily.Enabled := True;
   cbbWeekly.Enabled := False;
   cbbMonthly.Enabled := False;
@@ -1368,6 +1370,7 @@ end;
 procedure TfrmMain.btnReportWeekClick(Sender: TObject);
 begin
   jenisReport := 2;
+  listPelanggar.Clear;
   cbbDaily.Enabled := True;
   cbbWeekly.Enabled := True;
   cbbMonthly.Enabled := False;
@@ -1379,6 +1382,7 @@ end;
 procedure TfrmMain.btnReportMonthClick(Sender: TObject);
 begin
   jenisReport := 3;
+  listPelanggar.Clear;
   cbbDaily.Enabled := False;
   cbbWeekly.Enabled := False;
   cbbMonthly.Enabled := True;
@@ -1658,8 +1662,12 @@ end;
 procedure TfrmMain.btn1Click(Sender: TObject);
 var
   i, j : Integer;
+  awal, akir : Integer;
+  jumlahAda : Integer;
 begin
   //Atur Jumlah Baris
+  listPelanggar.Clear;
+  jumlahAda := 0;
   case jenisReport of
     1:
       begin
@@ -1679,6 +1687,9 @@ begin
             Cells[2,2] := 'Gresik - Surabaya';
             Cells[1,3] := 'TOTAL';
             Cells[3,3] := '0';
+            Cells[4,1] := '0';
+            Cells[4,2] := '0';
+            Cells[4,3] := '0';
 
             for i := 1 to RowCount - 2 do
               begin
@@ -1686,8 +1697,26 @@ begin
                   Cells[3,i] := IntToStr(fileCount(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\'))
                     else Cells[3,i] := '0';
                 Cells[3,3] := IntToStr( StrToInt(Cells[3,3]) + StrToInt(Cells[3,i]) );
+                ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
+                for j := 0 to listPelanggar.Count-1 do
+                  begin
+                    awal := AnsiPos('(', listPelanggar.Items[j]);
+                    akir := AnsiPos(')',listPelanggar.Items[j]);
+                    Cells[4,i] := FloatToStr( StrToFloat(Cells[4,i]) + StrToFloat(Copy(listPelanggar.Items[j],awal+1,akir-awal-1)) );
+                  end;
+                listPelanggar.Clear;
               end;
 
+            for i := 1 to RowCount-2 do
+              begin
+                if Cells[4,i] <> '0' then
+                  Cells[4,i] := FormatFloat('0.00', StrToFloat(Cells[4,i]) / StrToInt(Cells[3,i]) )
+                else Cells[4,i] := '0';
+                Cells[4,RowCount-1] := FloatToStr(  StrToFloat(Cells[4,RowCount-1]) + StrToFloat(Cells[4,i]) );
+                if Cells[4,i] <> '0' then
+                  jumlahAda := jumlahAda + 1;
+              end;
+            Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
           end;
       end;
 
@@ -1716,6 +1745,9 @@ begin
               end;
             Cells[1,15] := 'TOTAL';
             Cells[3,15] := '0';
+            
+            for i := 1 to RowCount-1 do
+              Cells[4,i] := '0';
 
             for i := 1 to RowCount - 2 do
               begin
@@ -1723,7 +1755,25 @@ begin
                   Cells[3,i] := IntToStr(fileCount(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\'))
                     else Cells[3,i] := '0';
                 Cells[3,15] := IntToStr( StrToInt(Cells[3,15]) + StrToInt(Cells[3,i]) );
+                ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
+                for j := 0 to listPelanggar.Count-1 do
+                  begin
+                    awal := AnsiPos('(', listPelanggar.Items[j]);
+                    akir := AnsiPos(')',listPelanggar.Items[j]);
+                    Cells[4,i] := FloatToStr( StrToFloat(Cells[4,i]) + StrToFloat(Copy(listPelanggar.Items[j],awal+1,akir-awal-1)) );
+                  end;
+                listPelanggar.Clear;
               end;
+            for i := 1 to RowCount-2 do
+              begin
+                if Cells[4,i] <> '0' then
+                  Cells[4,i] := FormatFloat('0.00', StrToFloat(Cells[4,i]) / StrToInt(Cells[3,i]) )
+                else Cells[4,i] := '0';
+                Cells[4,RowCount-1] := FloatToStr(  StrToFloat(Cells[4,RowCount-1]) + StrToFloat(Cells[4,i]) );
+                if Cells[4,i] <> '0' then
+                  jumlahAda := jumlahAda + 1;
+              end;
+            Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
           end;
       end;
     3:
@@ -1757,7 +1807,8 @@ begin
               end;
             Cells[1,RowCount-1] := 'TOTAL';
             Cells[3,RowCount-1] := '0';
-
+            for i := 1 to RowCount-1 do
+              Cells[4,i] := '0';
 
             for i := 1 to RowCount - 2 do
               begin
@@ -1765,7 +1816,26 @@ begin
                   Cells[3,i] := IntToStr(fileCount(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\'))
                     else Cells[3,i] := '0';
                 Cells[3,RowCount-1] := IntToStr( StrToInt(Cells[3,RowCount-1]) + StrToInt(Cells[3,i]) );
+                ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
+                for j := 0 to listPelanggar.Count-1 do
+                  begin
+                    awal := AnsiPos('(', listPelanggar.Items[j]);
+                    akir := AnsiPos(')',listPelanggar.Items[j]);
+                    Cells[4,i] := FloatToStr( StrToFloat(Cells[4,i]) + StrToFloat(Copy(listPelanggar.Items[j],awal+1,akir-awal-1)) );
+                  end;
+                listPelanggar.Clear;
               end;
+            for i := 1 to RowCount-2 do
+              begin
+                if Cells[4,i] <> '0' then
+                  Cells[4,i] := FormatFloat('0.00', StrToFloat(Cells[4,i]) / StrToInt(Cells[3,i]) )
+                else Cells[4,i] := '0';
+                Cells[4,RowCount-1] := FloatToStr(  StrToFloat(Cells[4,RowCount-1]) + StrToFloat(Cells[4,i]) );
+                if Cells[4,i] <> '0' then
+                  jumlahAda := jumlahAda + 1;
+              end;
+            Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
+
           end;
       end;
   end;

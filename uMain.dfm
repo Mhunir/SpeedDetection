@@ -645,6 +645,14 @@ object frmMain: TfrmMain
           TabOrder = 1
           OnClick = btn2Click
         end
+        object listPelanggar: TListBox
+          Left = 32
+          Top = 128
+          Width = 137
+          Height = 145
+          ItemHeight = 15
+          TabOrder = 2
+        end
       end
     end
   end
