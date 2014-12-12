@@ -10,7 +10,8 @@ uses
   dxSkinsdxNavBar2Painter, dxNavBarCollns, dxNavBarBase, dxNavBar, ImgList,
   ComCtrls, sPageControl, sTabControl, StdCtrls, sLabel, MPlayer, Unit1,
   jpeg, acProgressBar, dxBarExtItems, Math, DSPack, DirectShow9, DSUtil,
-  dxGDIPlusClasses, TFlatButtonUnit, Menus;
+  dxGDIPlusClasses, TFlatButtonUnit, Menus,
+  Grids, DateUtils;
 
 type
   TfrmMain = class(TForm)
@@ -52,8 +53,6 @@ type
     pnlMedia: TsPanel;
     pnlLabelCapture: TPanel;
     mp1: TMediaPlayer;
-    pnlLabelSebelummnya: TPanel;
-    pnlLabelSekarang: TPanel;
     lblVideoName: TLabel;
     lblVideoLength: TLabel;
     lblVideoResolution: TLabel;
@@ -130,6 +129,11 @@ type
     edtLocation: TdxBarEdit;
     dxbrlstm3: TdxBarListItem;
     tmrJam: TTimer;
+    strngrdLaporan: TStringGrid;
+    pnlKanan: TPanel;
+    btn1: TButton;
+    dxbrcmb4: TdxBarCombo;
+    btn2: TButton;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -156,12 +160,17 @@ type
     procedure listVIdeoClick(Sender: TObject);
     procedure btnVideoFileClick(Sender: TObject);
     procedure tmrJamTimer(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
+    procedure strngrdLaporanDrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
+    procedure cbbMonthlyChange(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
 
-    nilaiN, lokasiKamera, waktuRekaman : Integer;
+    nilaiN, lokasiKamera, waktuRekaman, jenisReport : Integer;
     frameKe : Integer;
     setKordinat, mulaiHitung, hitungSpeedKiri, hitungSpeedKanan : Boolean;
     bmpMeanSumber , bmpHasilMean : TBitmap;
@@ -209,7 +218,8 @@ type
     function hasilJarak(x1,y1,x2,y2:Integer) : Double;
     function hasilSpeed(jarak : Double) : Double;
     function PanelToBmp(Panel:TPanel):TBitmap;
-
+    function fileCount(Path: String): Integer;
+    function LastDayCurrMon: TDate;
   end;
 
 var
@@ -219,6 +229,24 @@ var
 implementation
 
 {$R *.dfm}
+
+function TfrmMain.LastDayCurrMon: TDate;
+begin
+   result := EncodeDate(YearOf(Now),MonthOf(Now), DaysInMonth(Now)) ;
+end;
+
+function TfrmMain.fileCount (Path: String): Integer;
+var
+SearchRec : TSearchRec;
+begin
+  Result := 0;
+  Path := IncludeTrailingBackslash (ExtractFilePath (Path)) + '*.jpg*';
+  if FindFirst (Path, faAnyFile, SearchRec) = 0 then
+    repeat
+      if SearchRec.Attr <> faDirectory then
+      Inc (Result);
+    until FindNext (SearchRec) <> 0;
+end;
 
 procedure TfrmMain.createFolder;
 var
@@ -284,6 +312,7 @@ end;
 procedure TfrmMain.tampilanAwal;
 var
   myYear, myMonth, myDay : Word;
+  i, j : Integer;
 begin
   with pageView do
     begin
@@ -427,8 +456,8 @@ begin
     end;
 
   //Tampilan Tanggal
-  cbbDaily.DateOnStart := bdsToday;
-  cbbWeekly.Date := cbbDaily.Date + 6;
+  cbbWeekly.DateOnStart := bdsToday;//cbbDaily.Date + 6;
+  cbbDaily.Date := cbbWeekly.Date - 6;
   DecodeDate(cbbDaily.Date, myYear, myMonth, myDay);
   cbbMonthly.ItemIndex := myMonth - 1;
 
@@ -461,6 +490,23 @@ begin
   barBawah.Panels[2].Width := 100;
   barBawah.Panels[1].Width := 150;
   barBawah.Panels[0].Width := frmMain.Width - 250;
+
+  with strngrdLaporan do
+    begin
+      Color := $303030;
+      FixedColor := $636363;
+      ColWidths[0] := 50;
+      for i := 1 to 4 do
+        begin
+          ColWidths[i] := (tabProcess.Width - pnlKanan.Width - 58) div 4;
+        end;
+      Cells[0,0] := 'No';
+      Cells[1,0] := 'Date';
+      Cells[2,0] := 'Location';
+      Cells[3,0] := 'Number of Offenders';
+      Cells[4,0] := 'Speed Average (Km/h)';
+    end;
+  pnlKanan.Color := $303030;
 end;
 
 procedure TfrmMain.filter;
@@ -1234,7 +1280,7 @@ begin
   lokasiKamera := 1;
   waktuRekaman := 1;
   folderJurusan := 'Surabaya - Gresik';
-
+  jenisReport := 1;
   kordKiriAwal.X := 0;
   kordKiriAwal.Y := 0;
   kordKiriAkir.X := 0;
@@ -1281,7 +1327,7 @@ var
 begin
   capture := PanelToBmp(pnlMainVideo);
   imgHasilCapture.Canvas.CopyRect(Rect(0,0,100,100),capture.Canvas,Rect(x1,y1,x2,y2));
-  imgHasilCapture.Picture.SaveToFile('Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+') .jpg');
+  imgHasilCapture.Picture.SaveToFile('Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').jpg');
 end;
 
 procedure TfrmMain.tmrThresholdTimer(Sender: TObject);
@@ -1310,33 +1356,47 @@ end;
 
 procedure TfrmMain.btnReportDayClick(Sender: TObject);
 begin
+  jenisReport := 1;
   cbbDaily.Enabled := True;
   cbbWeekly.Enabled := False;
   cbbMonthly.Enabled := False;
+  cbbDaily.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now));
+  cbbWeekly.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) + 6);
+
 end;
 
 procedure TfrmMain.btnReportWeekClick(Sender: TObject);
 begin
+  jenisReport := 2;
   cbbDaily.Enabled := True;
   cbbWeekly.Enabled := True;
   cbbMonthly.Enabled := False;
+  cbbDaily.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) - 6);
+  cbbWeekly.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now));
+
 end;
 
 procedure TfrmMain.btnReportMonthClick(Sender: TObject);
 begin
+  jenisReport := 3;
   cbbDaily.Enabled := False;
   cbbWeekly.Enabled := False;
   cbbMonthly.Enabled := True;
+  cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
+  cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
+
 end;
 
 procedure TfrmMain.cbbDailyChange(Sender: TObject);
 begin
-  cbbWeekly.Date := cbbDaily.Date + 6;
+  if jenisReport = 2 then
+    cbbWeekly.Date := cbbDaily.Date + 6;
 end;
 
 procedure TfrmMain.cbbWeeklyChange(Sender: TObject);
 begin
-  cbbDaily.Date := cbbWeekly.Date - 6;
+  if jenisReport = 2 then
+    cbbDaily.Date := cbbWeekly.Date - 6;
 end;
 
 procedure TfrmMain.btnVideoStreamClick(Sender: TObject);
@@ -1591,6 +1651,162 @@ begin
   barBawah.Panels[1].Text := FormatDateTime('d mmmmmmmm yyyy',Now);
   barBawah.Panels[2].Text := FormatDateTime('h:n:ss',Now);
 
+end;
+
+
+
+procedure TfrmMain.btn1Click(Sender: TObject);
+var
+  i, j : Integer;
+begin
+  //Atur Jumlah Baris
+  case jenisReport of
+    1:
+      begin
+        with strngrdLaporan do
+          begin
+            for i := 1 to RowCount-1 do
+              for j := 1 to ColCount - 1 do
+                Cells[i,j] := '';
+            for i := 1 to RowCount-1 do
+              Cells[0,i] := '';
+            RowCount := (1 * 2) + 2;
+            Cells[0,1] := '1';//Nomor
+            Cells[0,2] := '2';//Nomor
+            Cells[1,1] := FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date);
+            Cells[1,2] := FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date);
+            Cells[2,1] := 'Surabaya - Gresik';
+            Cells[2,2] := 'Gresik - Surabaya';
+            Cells[1,3] := 'TOTAL';
+            Cells[3,3] := '0';
+
+            for i := 1 to RowCount - 2 do
+              begin
+                if DirectoryExists(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]) then
+                  Cells[3,i] := IntToStr(fileCount(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\'))
+                    else Cells[3,i] := '0';
+                Cells[3,3] := IntToStr( StrToInt(Cells[3,3]) + StrToInt(Cells[3,i]) );
+              end;
+
+          end;
+      end;
+
+    2:
+      begin
+        with strngrdLaporan do
+          begin
+            for i := 1 to RowCount-1 do
+              for j := 1 to ColCount - 1 do
+                Cells[i,j] := '';
+            for i := 1 to RowCount-1 do
+              Cells[0,i] := '';
+            RowCount := (7 * 2) + 2;
+            for i := 1 to RowCount-2 do
+              Cells[0,i] := IntToStr(i);
+            for i := 1 to 7 do
+              begin
+                Cells[1,i] := FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date + (i-1));
+                Cells[2,i] := 'Surabaya - Gresik';
+              end;
+
+            for i := 8 to 14 do
+              begin
+                Cells[1,i] := FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date + (i-8));
+                Cells[2,i] := 'Gresik - Surabaya';
+              end;
+            Cells[1,15] := 'TOTAL';
+            Cells[3,15] := '0';
+
+            for i := 1 to RowCount - 2 do
+              begin
+                if DirectoryExists(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]) then
+                  Cells[3,i] := IntToStr(fileCount(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\'))
+                    else Cells[3,i] := '0';
+                Cells[3,15] := IntToStr( StrToInt(Cells[3,15]) + StrToInt(Cells[3,i]) );
+              end;
+          end;
+      end;
+    3:
+      begin
+        with strngrdLaporan do
+          begin
+            for i := 1 to RowCount-1 do
+              for j := 1 to ColCount - 1 do
+                Cells[i,j] := '';
+            for i := 1 to RowCount-1 do
+              begin
+                Cells[0,i] := '';
+                Cells[1,i] := '';
+                Cells[2,i] := '';
+                Cells[3,i] := '';
+                Cells[4,i] := '';
+              end;
+            RowCount := (DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)) * 2 ) + 2;
+            for i := 1 to RowCount-2 do
+              Cells[0,i] := IntToStr(i);
+            for i := 1 to DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)) do
+              begin
+                Cells[1,i] := FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date + (i-1));
+                Cells[2,i] := 'Surabaya - Gresik';
+              end;
+
+            for i := DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1))+1 to RowCount-2 do
+              begin
+                Cells[1,i] := FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date + (i-(DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)))-1) );
+                Cells[2,i] := 'Gresik - Surabaya';
+              end;
+            Cells[1,RowCount-1] := 'TOTAL';
+            Cells[3,RowCount-1] := '0';
+
+
+            for i := 1 to RowCount - 2 do
+              begin
+                if DirectoryExists(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]) then
+                  Cells[3,i] := IntToStr(fileCount(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\'))
+                    else Cells[3,i] := '0';
+                Cells[3,RowCount-1] := IntToStr( StrToInt(Cells[3,RowCount-1]) + StrToInt(Cells[3,i]) );
+              end;
+          end;
+      end;
+  end;
+
+end;
+
+procedure TfrmMain.strngrdLaporanDrawCell(Sender: TObject; ACol,
+  ARow: Integer; Rect: TRect; State: TGridDrawState);
+var
+  sText : String;
+  i, j : Integer;
+begin
+  for i := 0 to strngrdLaporan.ColCount-1 do
+    for j := 0 to strngrdLaporan.RowCount-1 do
+      begin
+        sText := strngrdLaporan.Cells[ACol,ARow];
+        if (aCol = i) and (aRow = j) then
+          begin
+            strngrdLaporan.Canvas.FillRect(Rect);
+            DrawText(strngrdLaporan.Canvas.Handle,PChar(sText),Length(sText),Rect,DT_VCENTER + DT_SINGLELINE + DT_CENTER);
+          end;
+      end;
+end;
+
+procedure TfrmMain.cbbMonthlyChange(Sender: TObject);
+begin
+  if jenisReport = 3 then
+    begin
+      //cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
+      //cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
+    end;
+
+  //ShowMessage(IntToStr(DayOfTheMonth(LastDayCurrMon)));
+  //cbbWeekly.Date := DayOfTheMonth(EncodeDate(2014,cbbMonthly.ItemIndex+1,1));
+  //ShowMessage(IntToStr(cbbMonthly.ItemIndex+1));
+  //cbbWeekly.Date := cbbDaily.Date + DayOfTheMonth(cbbMonthly.ItemIndex+1);
+end;
+
+procedure TfrmMain.btn2Click(Sender: TObject);
+begin
+   ShowMessage(IntToStr(DayOfTheMonth(EndOfAMonth(2014, 2))));
 end;
 
 end.

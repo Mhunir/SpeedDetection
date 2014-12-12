@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 269
-  Top = 45
+  Left = 232
+  Top = 133
   Width = 1036
   Height = 627
   Caption = 'frmMain'
@@ -147,7 +147,7 @@ object frmMain: TfrmMain
     Top = 126
     Width = 870
     Height = 440
-    ActivePage = tabPreview
+    ActivePage = tabProcess
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -432,7 +432,7 @@ object frmMain: TfrmMain
         object mp1: TMediaPlayer
           Left = 48
           Top = 107
-          Width = 85
+          Width = -2
           Height = 30
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
@@ -595,36 +595,56 @@ object frmMain: TfrmMain
       end
     end
     object tabProcess: TsTabSheet
-      Caption = 'Process'
+      Caption = 'Report'
       SkinData.CustomColor = False
       SkinData.CustomFont = False
-      object pnlLabelSebelummnya: TPanel
-        Left = 448
-        Top = 128
-        Width = 81
-        Height = 15
-        Caption = 't-1'
+      object strngrdLaporan: TStringGrid
+        Left = 0
+        Top = 0
+        Width = 677
+        Height = 410
+        Align = alClient
+        Color = clBtnShadow
+        FixedColor = clWhite
+        RowCount = 1
+        FixedRows = 0
         Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
+        Font.Color = clWhite
         Font.Height = -11
         Font.Name = 'Arial Narrow'
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        OnDrawCell = strngrdLaporanDrawCell
       end
-      object pnlLabelSekarang: TPanel
-        Left = 624
-        Top = 168
-        Width = 81
-        Height = 15
-        Caption = 't'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Arial Narrow'
-        Font.Style = [fsBold]
-        ParentFont = False
+      object pnlKanan: TPanel
+        Left = 677
+        Top = 0
+        Width = 185
+        Height = 410
+        Align = alRight
+        BevelOuter = bvNone
+        BorderStyle = bsSingle
+        Color = clBtnShadow
         TabOrder = 1
+        object btn1: TButton
+          Left = 38
+          Top = 16
+          Width = 75
+          Height = 25
+          Caption = 'Tampil Report'
+          TabOrder = 0
+          OnClick = btn1Click
+        end
+        object btn2: TButton
+          Left = 64
+          Top = 64
+          Width = 75
+          Height = 25
+          Caption = 'btn2'
+          TabOrder = 1
+          OnClick = btn2Click
+        end
       end
     end
   end
@@ -657,14 +677,14 @@ object frmMain: TfrmMain
     ThirdParty.ThirdToolBar = ' '
     ThirdParty.ThirdStatusBar = ' '
     ThirdParty.ThirdSpeedButton = ' '
-    Left = 576
-    Top = 168
+    Left = 88
+    Top = 456
   end
   object sknprvdr1: TsSkinProvider
     SkinData.SkinSection = 'FORM'
     TitleButtons = <>
-    Left = 680
-    Top = 176
+    Left = 16
+    Top = 480
   end
   object dxbrmngr1: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -681,8 +701,8 @@ object frmMain: TfrmMain
     ImageOptions.LargeIcons = True
     PopupMenuLinks = <>
     UseSystemFont = True
-    Left = 592
-    Top = 216
+    Left = 56
+    Top = 472
     DockControlHeights = (
       0
       0
@@ -719,7 +739,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar2: TdxBar
       Caption = 'Report'
       CaptionButtons = <>
-      DockedLeft = 510
+      DockedLeft = 460
       DockedTop = 0
       FloatLeft = 623
       FloatTop = 336
@@ -795,7 +815,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar4: TdxBar
       Caption = 'Cordinat'
       CaptionButtons = <>
-      DockedLeft = 768
+      DockedLeft = 698
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 10
@@ -1003,7 +1023,7 @@ object frmMain: TfrmMain
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
       OnClick = btnVideoFileClick
-      Width = 80
+      Width = 60
     end
     object btnVideoStream: TdxBarLargeButton
       Caption = 'Video Stream'
@@ -1176,7 +1196,7 @@ object frmMain: TfrmMain
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
       OnClick = btnVideoStreamClick
-      Width = 80
+      Width = 60
     end
     object btnReportDay: TdxBarLargeButton
       Caption = 'Daily Report'
@@ -1349,7 +1369,7 @@ object frmMain: TfrmMain
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
       OnClick = btnReportDayClick
-      Width = 80
+      Width = 60
     end
     object btnReportWeek: TdxBarLargeButton
       Caption = 'Weekly Report'
@@ -1522,7 +1542,7 @@ object frmMain: TfrmMain
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
       OnClick = btnReportWeekClick
-      Width = 80
+      Width = 60
     end
     object btnReportMonth: TdxBarLargeButton
       Caption = 'Monthly Report'
@@ -1695,7 +1715,7 @@ object frmMain: TfrmMain
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
       OnClick = btnReportMonthClick
-      Width = 80
+      Width = 60
     end
     object btnHelp: TdxBarLargeButton
       Caption = 'Manual Guide'
@@ -1757,7 +1777,7 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'Filtering'
       Visible = ivAlways
-      Width = 100
+      Width = 50
       Text = 'Mean'
       Items.Strings = (
         'Mean'
@@ -1785,7 +1805,7 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'Max Speed'
       Visible = ivAlways
-      Width = 100
+      Width = 50
       Text = '30'
     end
     object dxbrdt2: TdxBarEdit
@@ -2242,7 +2262,6 @@ object frmMain: TfrmMain
       Align = iaClient
       Caption = 'Start Day '
       Category = 0
-      Enabled = False
       Hint = 'Start Day '
       Visible = ivAlways
       OnChange = cbbDailyChange
@@ -2270,7 +2289,9 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Month'
       Visible = ivAlways
+      OnChange = cbbMonthlyChange
       Width = 110
+      Text = 'Januari'
       Items.Strings = (
         'Januari'
         'Februari'
@@ -2284,7 +2305,7 @@ object frmMain: TfrmMain
         'Oktober'
         'November'
         'Desember')
-      ItemIndex = -1
+      ItemIndex = 0
     end
     object cbbWebcamList: TdxBarCombo
       Caption = 'Camera'
@@ -2373,7 +2394,7 @@ object frmMain: TfrmMain
       Category = 0
       Hint = 'Track'
       Visible = ivAlways
-      Width = 100
+      Width = 50
       Text = 'True'
       Items.Strings = (
         'True'
@@ -2387,7 +2408,7 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Top Left'
       Visible = ivAlways
-      Width = 100
+      Width = 60
     end
     object edtTengahAtas: TdxBarEdit
       Align = iaClient
@@ -2396,7 +2417,7 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Top Middle'
       Visible = ivAlways
-      Width = 100
+      Width = 60
     end
     object edtKananAtas: TdxBarEdit
       Align = iaClient
@@ -2405,7 +2426,7 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Top Right'
       Visible = ivAlways
-      Width = 100
+      Width = 60
     end
     object edtKiriBawah: TdxBarEdit
       Align = iaClient
@@ -2414,7 +2435,7 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Bottom Left'
       Visible = ivAlways
-      Width = 100
+      Width = 60
     end
     object edtTengahBawah: TdxBarEdit
       Align = iaClient
@@ -2423,7 +2444,7 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Bottom Middle'
       Visible = ivAlways
-      Width = 100
+      Width = 60
     end
     object edtKananBawah: TdxBarEdit
       Align = iaClient
@@ -2432,7 +2453,7 @@ object frmMain: TfrmMain
       Enabled = False
       Hint = 'Bottom Right'
       Visible = ivAlways
-      Width = 100
+      Width = 60
     end
     object edtMeter: TdxBarEdit
       Align = iaClient
@@ -2456,6 +2477,14 @@ object frmMain: TfrmMain
       Category = 0
       Visible = ivAlways
     end
+    object dxbrcmb4: TdxBarCombo
+      Caption = 'New Item'
+      Category = 0
+      Hint = 'New Item'
+      Visible = ivAlways
+      Width = 100
+      ItemIndex = -1
+    end
   end
   object dxbrplctnmn1: TdxBarApplicationMenu
     BarManager = dxbrmngr1
@@ -2463,21 +2492,21 @@ object frmMain: TfrmMain
     ExtraPane.Items = <>
     ItemLinks = <>
     UseOwnFont = False
-    Left = 688
-    Top = 288
+    Left = 112
+    Top = 472
   end
   object tmrThreshold: TTimer
     Enabled = False
     Interval = 100
     OnTimer = tmrThresholdTimer
-    Left = 216
-    Top = 424
+    Left = 56
+    Top = 376
   end
   object fltrgrph1: TFilterGraph
     Mode = gmCapture
     GraphEdit = False
-    Left = 144
-    Top = 224
+    Left = 16
+    Top = 360
   end
   object smplgrbr1: TSampleGrabber
     FilterGraph = fltrgrph1
@@ -2495,8 +2524,8 @@ object frmMain: TfrmMain
     Top = 32
   end
   object il1: TImageList
-    Left = 522
-    Top = 408
+    Left = 98
+    Top = 416
     Bitmap = {
       494C010105000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -2902,8 +2931,8 @@ object frmMain: TfrmMain
       000000000000}
   end
   object pm1: TPopupMenu
-    Left = 474
-    Top = 408
+    Left = 58
+    Top = 424
     object Seeting1: TMenuItem
       Caption = 'Setting Coord.'
       OnClick = Seeting1Click
@@ -2911,12 +2940,12 @@ object frmMain: TfrmMain
   end
   object dlgOpen1: TOpenDialog
     Filter = '.3gp'
-    Left = 458
-    Top = 312
+    Left = 98
+    Top = 360
   end
   object tmrJam: TTimer
     OnTimer = tmrJamTimer
-    Left = 402
-    Top = 472
+    Left = 10
+    Top = 424
   end
 end
