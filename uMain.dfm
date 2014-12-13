@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 232
-  Top = 133
+  Left = 200
+  Top = 88
   Width = 1036
   Height = 627
   Caption = 'frmMain'
@@ -316,7 +316,7 @@ object frmMain: TfrmMain
         TabOrder = 7
       end
       object pnlMedia: TsPanel
-        Left = 616
+        Left = 608
         Top = 28
         Width = 225
         Height = 189
@@ -601,13 +601,12 @@ object frmMain: TfrmMain
       object strngrdLaporan: TStringGrid
         Left = 0
         Top = 0
-        Width = 677
+        Width = 362
         Height = 410
         Align = alClient
         Color = clBtnShadow
         FixedColor = clWhite
-        RowCount = 1
-        FixedRows = 0
+        RowCount = 4
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
         Font.Height = -11
@@ -618,9 +617,9 @@ object frmMain: TfrmMain
         OnDrawCell = strngrdLaporanDrawCell
       end
       object pnlKanan: TPanel
-        Left = 677
+        Left = 362
         Top = 0
-        Width = 185
+        Width = 500
         Height = 410
         Align = alRight
         BevelOuter = bvNone
@@ -646,12 +645,188 @@ object frmMain: TfrmMain
           OnClick = btn2Click
         end
         object listPelanggar: TListBox
-          Left = 32
-          Top = 128
+          Left = 160
+          Top = 16
           Width = 137
-          Height = 145
+          Height = 49
           ItemHeight = 15
           TabOrder = 2
+          Visible = False
+        end
+        object chtSurabayaGresik: TChart
+          Left = 0
+          Top = 6
+          Width = 496
+          Height = 200
+          BackWall.Brush.Color = clWhite
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWhite
+          Title.Font.Height = -11
+          Title.Font.Name = 'Arial Narrow'
+          Title.Font.Style = [fsBold]
+          Title.Text.Strings = (
+            'Surabaya - Gresik')
+          BottomAxis.Automatic = False
+          BottomAxis.AutomaticMaximum = False
+          BottomAxis.AutomaticMinimum = False
+          BottomAxis.Axis.Color = clWhite
+          BottomAxis.LabelsFont.Charset = DEFAULT_CHARSET
+          BottomAxis.LabelsFont.Color = clWhite
+          BottomAxis.LabelsFont.Height = -11
+          BottomAxis.LabelsFont.Name = 'Arial'
+          BottomAxis.LabelsFont.Style = []
+          BottomAxis.Maximum = 31.000000000000000000
+          BottomAxis.Minimum = 1.000000000000000000
+          BottomAxis.Title.Caption = 'Date'
+          BottomAxis.Title.Font.Charset = ANSI_CHARSET
+          BottomAxis.Title.Font.Color = clWhite
+          BottomAxis.Title.Font.Height = -11
+          BottomAxis.Title.Font.Name = 'Arial'
+          BottomAxis.Title.Font.Style = []
+          LeftAxis.Automatic = False
+          LeftAxis.AutomaticMaximum = False
+          LeftAxis.AutomaticMinimum = False
+          LeftAxis.Axis.Color = clWhite
+          LeftAxis.LabelsFont.Charset = DEFAULT_CHARSET
+          LeftAxis.LabelsFont.Color = clWhite
+          LeftAxis.LabelsFont.Height = -11
+          LeftAxis.LabelsFont.Name = 'Arial'
+          LeftAxis.LabelsFont.Style = []
+          LeftAxis.Maximum = 120.000000000000000000
+          LeftAxis.Title.Caption = 'Offenders'
+          LeftAxis.Title.Font.Charset = ANSI_CHARSET
+          LeftAxis.Title.Font.Color = clWhite
+          LeftAxis.Title.Font.Height = -11
+          LeftAxis.Title.Font.Name = 'Arial'
+          LeftAxis.Title.Font.Style = []
+          Legend.Visible = False
+          TopAxis.Grid.Color = clBlack
+          TopAxis.MinorTicks.Color = clBlack
+          View3D = False
+          Align = alBottom
+          BevelOuter = bvNone
+          Color = clGrayText
+          TabOrder = 3
+          object seriesSurabayaGresik: TLineSeries
+            Marks.ArrowLength = 8
+            Marks.Visible = False
+            SeriesColor = clRed
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            Pointer.Visible = False
+            XValues.DateTime = False
+            XValues.Name = 'X'
+            XValues.Multiplier = 1.000000000000000000
+            XValues.Order = loAscending
+            YValues.DateTime = False
+            YValues.Name = 'Y'
+            YValues.Multiplier = 1.000000000000000000
+            YValues.Order = loNone
+          end
+          object seriesJumlahSurabayaGresik: TLineSeries
+            Marks.ArrowLength = 8
+            Marks.Visible = False
+            SeriesColor = clGreen
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            Pointer.Visible = False
+            XValues.DateTime = False
+            XValues.Name = 'X'
+            XValues.Multiplier = 1.000000000000000000
+            XValues.Order = loAscending
+            YValues.DateTime = False
+            YValues.Name = 'Y'
+            YValues.Multiplier = 1.000000000000000000
+            YValues.Order = loNone
+          end
+        end
+        object chtGresikSurabaya: TChart
+          Left = 0
+          Top = 206
+          Width = 496
+          Height = 200
+          BackWall.Brush.Color = clWhite
+          BackWall.Brush.Style = bsClear
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWhite
+          Title.Font.Height = -11
+          Title.Font.Name = 'Arial Narrow'
+          Title.Font.Style = [fsBold]
+          Title.Text.Strings = (
+            'Gresik - Surabaya')
+          BottomAxis.Automatic = False
+          BottomAxis.AutomaticMaximum = False
+          BottomAxis.AutomaticMinimum = False
+          BottomAxis.Axis.Color = clWhite
+          BottomAxis.LabelsFont.Charset = DEFAULT_CHARSET
+          BottomAxis.LabelsFont.Color = clWhite
+          BottomAxis.LabelsFont.Height = -11
+          BottomAxis.LabelsFont.Name = 'Arial'
+          BottomAxis.LabelsFont.Style = []
+          BottomAxis.Maximum = 31.000000000000000000
+          BottomAxis.Minimum = 1.000000000000000000
+          BottomAxis.Title.Caption = 'Date'
+          BottomAxis.Title.Font.Charset = ANSI_CHARSET
+          BottomAxis.Title.Font.Color = clWhite
+          BottomAxis.Title.Font.Height = -11
+          BottomAxis.Title.Font.Name = 'Arial'
+          BottomAxis.Title.Font.Style = []
+          LeftAxis.Automatic = False
+          LeftAxis.AutomaticMaximum = False
+          LeftAxis.AutomaticMinimum = False
+          LeftAxis.Axis.Color = clWhite
+          LeftAxis.ExactDateTime = False
+          LeftAxis.LabelsFont.Charset = DEFAULT_CHARSET
+          LeftAxis.LabelsFont.Color = clWhite
+          LeftAxis.LabelsFont.Height = -11
+          LeftAxis.LabelsFont.Name = 'Arial'
+          LeftAxis.LabelsFont.Style = []
+          LeftAxis.Maximum = 120.000000000000000000
+          LeftAxis.Title.Caption = 'Offenders'
+          LeftAxis.Title.Font.Charset = ANSI_CHARSET
+          LeftAxis.Title.Font.Color = clWhite
+          LeftAxis.Title.Font.Height = -11
+          LeftAxis.Title.Font.Name = 'Arial'
+          LeftAxis.Title.Font.Style = []
+          Legend.Visible = False
+          TopAxis.Axis.Color = clWhite
+          View3D = False
+          Align = alBottom
+          BevelOuter = bvNone
+          Color = clGrayText
+          TabOrder = 4
+          object seriesGresikSurabaya: TLineSeries
+            Marks.ArrowLength = 8
+            Marks.Visible = False
+            SeriesColor = clRed
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            Pointer.Visible = False
+            XValues.DateTime = False
+            XValues.Name = 'X'
+            XValues.Multiplier = 1.000000000000000000
+            XValues.Order = loAscending
+            YValues.DateTime = False
+            YValues.Name = 'Y'
+            YValues.Multiplier = 1.000000000000000000
+            YValues.Order = loNone
+          end
+          object seriesJumlahGresikSurabaya: TLineSeries
+            Marks.ArrowLength = 8
+            Marks.Visible = False
+            SeriesColor = clGreen
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            Pointer.Visible = False
+            XValues.DateTime = False
+            XValues.Name = 'X'
+            XValues.Multiplier = 1.000000000000000000
+            XValues.Order = loAscending
+            YValues.DateTime = False
+            YValues.Name = 'Y'
+            YValues.Multiplier = 1.000000000000000000
+            YValues.Order = loNone
+          end
         end
       end
     end
@@ -2947,7 +3122,6 @@ object frmMain: TfrmMain
     end
   end
   object dlgOpen1: TOpenDialog
-    Filter = '.3gp'
     Left = 98
     Top = 360
   end

@@ -11,7 +11,10 @@ uses
   ComCtrls, sPageControl, sTabControl, StdCtrls, sLabel, MPlayer, Unit1,
   jpeg, acProgressBar, dxBarExtItems, Math, DSPack, DirectShow9, DSUtil,
   dxGDIPlusClasses, TFlatButtonUnit, Menus,
-  Grids, DateUtils;
+  Grids, DateUtils,
+  sDialogs,
+  TeeProcs, TeEngine, Chart,
+  Series;
 
 type
   TfrmMain = class(TForm)
@@ -135,6 +138,12 @@ type
     dxbrcmb4: TdxBarCombo;
     btn2: TButton;
     listPelanggar: TListBox;
+    chtSurabayaGresik: TChart;
+    chtGresikSurabaya: TChart;
+    seriesSurabayaGresik: TLineSeries;
+    seriesGresikSurabaya: TLineSeries;
+    seriesJumlahSurabayaGresik: TLineSeries;
+    seriesJumlahGresikSurabaya: TLineSeries;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -213,6 +222,7 @@ type
     procedure CaptureImage(x1,y1,x2,y2 : Integer; speed : Double);
     procedure tampilList;
     procedure createFolder;
+    procedure tampilGrafik;
 
     function meanFilter(x,y : Integer):Integer;
     function sauvolaFilter(x,y : Integer):Integer;
@@ -220,7 +230,7 @@ type
     function hasilSpeed(jarak : Double) : Double;
     function PanelToBmp(Panel:TPanel):TBitmap;
     function fileCount(Path: String): Integer;
-    function LastDayCurrMon: TDate;
+
   end;
 
 var
@@ -230,11 +240,6 @@ var
 implementation
 
 {$R *.dfm}
-
-function TfrmMain.LastDayCurrMon: TDate;
-begin
-   result := EncodeDate(YearOf(Now),MonthOf(Now), DaysInMonth(Now)) ;
-end;
 
 function TfrmMain.fileCount (Path: String): Integer;
 var
@@ -508,6 +513,8 @@ begin
       Cells[4,0] := 'Speed Average (Km/h)';
     end;
   pnlKanan.Color := $303030;
+  chtSurabayaGresik.Color := $303030;
+  chtGresikSurabaya.Color := $303030;
 end;
 
 procedure TfrmMain.filter;
@@ -1657,7 +1664,85 @@ begin
 
 end;
 
+procedure TfrmMain.tampilGrafik;
+var
+  i,j : Integer;
+  tglMulai, tglAkir : Integer;
+begin
+  seriesGresikSurabaya.Clear;
+  seriesSurabayaGresik.Clear;
+  seriesJumlahSurabayaGresik.Clear;
+  seriesJumlahGresikSurabaya.Clear;
+  case jenisReport of
+    2:
+      begin
+        //Surabaya-Gresik
+        tglMulai := DayOf(cbbDaily.Date);
+        for i := 1 to 7 do
+          begin
+            with chtSurabayaGresik.Series[0] do
+              begin
+                seriesSurabayaGresik.LinePen.Width := 2;
+                AddXY((tglMulai + i) - 1, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+              end;
+            with chtSurabayaGresik.Series[1] do
+              begin
+                seriesJumlahSurabayaGresik.LinePen.Width := 2;
+                AddXY((tglMulai + i) - 1, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+              end;
+          end;
+        //Gresik-Surabaya
+        tglMulai := DayOf(cbbDaily.Date);
+        for i := 7 to 14 do
+          begin
+            with chtGresikSurabaya.Series[0] do
+              begin
+                seriesGresikSurabaya.LinePen.Width := 2;
+                AddXY((tglMulai + i) - 7, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+              end;
+            with chtGresikSurabaya.Series[1] do
+              begin
+                seriesJumlahGresikSurabaya.LinePen.Width := 2;
+                AddXY((tglMulai + i) - 7, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+              end;
+          end;
+      end;
+    3:
+      begin
+        tglMulai := 0;
+        tglAkir := DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1));
+        for i := 1 to tglAkir do
+          begin
+            with chtSurabayaGresik.Series[0] do
+              begin
+                seriesSurabayaGresik.LinePen.Width := 2;
+                AddXY(tglMulai + i, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+              end;
+            with chtSurabayaGresik.Series[1] do
+              begin
+                seriesJumlahSurabayaGresik.LinePen.Width := 2;
+                AddXY(tglMulai + i, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+              end;   
+          end;
+        for i := tglAkir + 1 to tglAkir * 2 do
+          begin
+            with chtGresikSurabaya.Series[0] do
+              begin
+                seriesGresikSurabaya.LinePen.Width := 2;
+                AddXY((tglMulai + i) - tglAkir, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+              end;
+            with chtGresikSurabaya.Series[1] do
+              begin
+                seriesJumlahGresikSurabaya.LinePen.Width := 2;
+                AddXY((tglMulai + i) - tglAkir, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+              end;
+          end;
 
+      end;
+  end;
+
+
+end;
 
 procedure TfrmMain.btn1Click(Sender: TObject);
 var
@@ -1716,7 +1801,9 @@ begin
                 if Cells[4,i] <> '0' then
                   jumlahAda := jumlahAda + 1;
               end;
-            Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
+            if Cells[4,RowCount-1] <> '0' then
+              Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
+            tampilGrafik;
           end;
       end;
 
@@ -1773,7 +1860,9 @@ begin
                 if Cells[4,i] <> '0' then
                   jumlahAda := jumlahAda + 1;
               end;
-            Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
+            if Cells[4,RowCount-1] <> '0' then
+              Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
+            tampilGrafik;
           end;
       end;
     3:
@@ -1834,8 +1923,9 @@ begin
                 if Cells[4,i] <> '0' then
                   jumlahAda := jumlahAda + 1;
               end;
-            Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
-
+            if Cells[4,RowCount-1] <> '0' then
+              Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
+            tampilGrafik;
           end;
       end;
   end;
@@ -1864,8 +1954,8 @@ procedure TfrmMain.cbbMonthlyChange(Sender: TObject);
 begin
   if jenisReport = 3 then
     begin
-      //cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
-      //cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
+      cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
+      cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
     end;
 
   //ShowMessage(IntToStr(DayOfTheMonth(LastDayCurrMon)));
@@ -1876,7 +1966,7 @@ end;
 
 procedure TfrmMain.btn2Click(Sender: TObject);
 begin
-   ShowMessage(IntToStr(DayOfTheMonth(EndOfAMonth(2014, 2))));
+//
 end;
 
 end.
