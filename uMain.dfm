@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 200
-  Top = 88
+  Left = 240
+  Top = 24
   Width = 1036
   Height = 627
   Caption = 'frmMain'
@@ -12,6 +12,7 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = pm1
+  Scaled = False
   WindowState = wsMaximized
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -158,7 +159,7 @@ object frmMain: TfrmMain
     TabOrder = 7
     SkinData.SkinSection = 'PAGECONTROL'
     object tabPreview: TsTabSheet
-      Caption = 'Preview'
+      Caption = 'Process'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -627,8 +628,8 @@ object frmMain: TfrmMain
         Color = clBtnShadow
         TabOrder = 1
         object btn1: TButton
-          Left = 38
-          Top = 16
+          Left = 6
+          Top = 64
           Width = 75
           Height = 25
           Caption = 'Tampil Report'
@@ -636,7 +637,7 @@ object frmMain: TfrmMain
           OnClick = btn1Click
         end
         object btn2: TButton
-          Left = 64
+          Left = 88
           Top = 64
           Width = 75
           Height = 25
@@ -645,8 +646,8 @@ object frmMain: TfrmMain
           OnClick = btn2Click
         end
         object listPelanggar: TListBox
-          Left = 160
-          Top = 16
+          Left = 232
+          Top = 72
           Width = 137
           Height = 49
           ItemHeight = 15
@@ -828,6 +829,226 @@ object frmMain: TfrmMain
             YValues.Order = loNone
           end
         end
+        object lstDaftarGambar: TListBox
+          Left = -216
+          Top = 8
+          Width = 713
+          Height = 49
+          ItemHeight = 15
+          TabOrder = 5
+          Visible = False
+        end
+        object btn4: TButton
+          Left = 40
+          Top = 0
+          Width = 75
+          Height = 25
+          Caption = 'Excel'
+          TabOrder = 6
+          OnClick = btn4Click
+        end
+        object btn5: TButton
+          Left = 136
+          Top = 0
+          Width = 75
+          Height = 25
+          Caption = 'Print'
+          TabOrder = 7
+        end
+      end
+    end
+    object tabViewImage: TsTabSheet
+      Caption = 'View Image'
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
+      object imgReport1: TImage
+        Left = 88
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport2: TImage
+        Left = 192
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport3: TImage
+        Left = 296
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport4: TImage
+        Left = 400
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport5: TImage
+        Left = 520
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport6: TImage
+        Left = 624
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport7: TImage
+        Left = 728
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport8: TImage
+        Left = 832
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport9: TImage
+        Left = 960
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport10: TImage
+        Left = 1064
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object imgReport11: TImage
+        Left = 96
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport12: TImage
+        Left = 200
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport13: TImage
+        Left = 304
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport14: TImage
+        Left = 408
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport15: TImage
+        Left = 528
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport16: TImage
+        Left = 632
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport17: TImage
+        Left = 736
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport18: TImage
+        Left = 840
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport19: TImage
+        Left = 968
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport20: TImage
+        Left = 1072
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object imgReport21: TImage
+        Left = 96
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport22: TImage
+        Left = 200
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport23: TImage
+        Left = 304
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport24: TImage
+        Left = 408
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport25: TImage
+        Left = 528
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport26: TImage
+        Left = 632
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport27: TImage
+        Left = 736
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport28: TImage
+        Left = 840
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport29: TImage
+        Left = 968
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object imgReport30: TImage
+        Left = 1072
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object btn3: TButton
+        Left = 24
+        Top = 16
+        Width = 75
+        Height = 25
+        Caption = 'Next'
+        TabOrder = 0
+        OnClick = btn3Click
       end
     end
   end

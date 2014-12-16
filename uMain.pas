@@ -9,12 +9,12 @@ uses
   dxRibbonStatusBar, cxClasses, dxRibbon, cxControls, dxBar,
   dxSkinsdxNavBar2Painter, dxNavBarCollns, dxNavBarBase, dxNavBar, ImgList,
   ComCtrls, sPageControl, sTabControl, StdCtrls, sLabel, MPlayer, Unit1,
-  jpeg, acProgressBar, dxBarExtItems, Math, DSPack, DirectShow9, DSUtil,
-  dxGDIPlusClasses, TFlatButtonUnit, Menus,
-  Grids, DateUtils,
-  sDialogs,
-  TeeProcs, TeEngine, Chart,
-  Series;
+  Menus, DSPack, dxBarExtItems, TeEngine, Series, TeeProcs, Chart, Grids,
+  dxGDIPlusClasses, acProgressBar, Math, DirectShow9, DSUtil,
+  TFlatButtonUnit,
+  DateUtils,
+  sDialogs, jpeg, ComObj,
+  QuickRpt, QRCtrls, Printers;
 
 type
   TfrmMain = class(TForm)
@@ -144,6 +144,41 @@ type
     seriesGresikSurabaya: TLineSeries;
     seriesJumlahSurabayaGresik: TLineSeries;
     seriesJumlahGresikSurabaya: TLineSeries;
+    lstDaftarGambar: TListBox;
+    tabViewImage: TsTabSheet;
+    imgReport1: TImage;
+    imgReport2: TImage;
+    imgReport3: TImage;
+    imgReport4: TImage;
+    imgReport5: TImage;
+    imgReport6: TImage;
+    imgReport7: TImage;
+    imgReport8: TImage;
+    imgReport9: TImage;
+    imgReport10: TImage;
+    imgReport11: TImage;
+    imgReport12: TImage;
+    imgReport13: TImage;
+    imgReport14: TImage;
+    imgReport15: TImage;
+    imgReport16: TImage;
+    imgReport17: TImage;
+    imgReport18: TImage;
+    imgReport19: TImage;
+    imgReport20: TImage;
+    imgReport21: TImage;
+    imgReport22: TImage;
+    imgReport23: TImage;
+    imgReport24: TImage;
+    imgReport25: TImage;
+    imgReport26: TImage;
+    imgReport27: TImage;
+    imgReport28: TImage;
+    imgReport29: TImage;
+    imgReport30: TImage;
+    btn3: TButton;
+    btn4: TButton;
+    btn5: TButton;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -174,7 +209,9 @@ type
     procedure strngrdLaporanDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure cbbMonthlyChange(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -210,6 +247,7 @@ type
 
 
     procedure ListFileDir(Path: string; FileList: TStrings);
+    procedure ListFileDetail(Path, text: string; FileList: TStrings);
     procedure tampilanAwal;
     procedure informasiVideo;
     procedure Filter;
@@ -223,6 +261,7 @@ type
     procedure tampilList;
     procedure createFolder;
     procedure tampilGrafik;
+    procedure tampilGambar;
 
     function meanFilter(x,y : Integer):Integer;
     function sauvolaFilter(x,y : Integer):Integer;
@@ -232,7 +271,6 @@ type
     function fileCount(Path: String): Integer;
 
   end;
-
 var
   frmMain: TfrmMain;
 
@@ -241,12 +279,14 @@ implementation
 
 {$R *.dfm}
 
+
+
 function TfrmMain.fileCount (Path: String): Integer;
 var
 SearchRec : TSearchRec;
 begin
   Result := 0;
-  Path := IncludeTrailingBackslash (ExtractFilePath (Path)) + '*.jpg*';
+  Path := IncludeTrailingBackslash (ExtractFilePath (Path)) + '*.bmp*';
   if FindFirst (Path, faAnyFile, SearchRec) = 0 then
     repeat
       if SearchRec.Attr <> faDirectory then
@@ -262,6 +302,7 @@ begin
   if not DirectoryExists(lokasiFolder+'Hasil Capture') then
     begin
       CreateDir(lokasiFolder+'Hasil Capture');
+      CreateDir(lokasiFolder+'Hasil Report');
       CreateDir(lokasiFolder+'Hasil Capture\Surabaya - Gresik');
       CreateDir(lokasiFolder+'Hasil Capture\Gresik - Surabaya');
     end;
@@ -272,7 +313,12 @@ begin
   if not DirectoryExists(lokasiFolder+'Hasil Capture\Gresik - Surabaya\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
     begin
       CreateDir(lokasiFolder+'Hasil Capture\Gresik - Surabaya\'+FormatDateTime('d mmmmmmmm yyyy',Now));
-    end;              
+    end;
+  if not DirectoryExists(lokasiFolder+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
+    begin
+      CreateDir(lokasiFolder+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now));
+    end;
+
 end;
 
 procedure TfrmMain.ListFileDir(Path: string; FileList: TStrings);
@@ -290,6 +336,23 @@ begin
     FindClose(SR);
   end;
 end;
+
+procedure TfrmMain.ListFileDetail(Path, text: string; FileList: TStrings);
+var
+  SR: TSearchRec;
+begin
+  if FindFirst(Path + '*.*', faAnyFile, SR) = 0 then
+  begin
+    repeat
+      if (SR.Attr <> faDirectory) then
+      begin
+        FileList.Add(text + SR.Name);
+      end;
+    until FindNext(SR) <> 0;
+    FindClose(SR);
+  end;
+end;
+
 
 procedure TfrmMain.tampilList;
 begin
@@ -1335,7 +1398,7 @@ var
 begin
   capture := PanelToBmp(pnlMainVideo);
   imgHasilCapture.Canvas.CopyRect(Rect(0,0,100,100),capture.Canvas,Rect(x1,y1,x2,y2));
-  imgHasilCapture.Picture.SaveToFile('Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').jpg');
+  imgHasilCapture.Picture.SaveToFile('Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').bmp');
 end;
 
 procedure TfrmMain.tmrThresholdTimer(Sender: TObject);
@@ -1744,6 +1807,44 @@ begin
 
 end;
 
+procedure TfrmMain.tampilGambar;
+var
+  i, j, k : Integer;
+
+begin
+  for i:= 0 to (ComponentCount - 1) do
+    begin
+      if (Components[i] is TImage) then
+        begin
+          //Clear
+          for j := 1 to 30 do
+            begin
+              if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                  TImage(Components[i]).Picture.Bitmap := nil;
+            end;
+
+          if lstDaftarGambar.Count <= 30 then
+            for j := 1 to lstDaftarGambar.Count do
+              begin
+                if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
+              end;
+          if lstDaftarGambar.Count > 30 then
+            for j := 1 to 30 do
+              begin
+                if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
+              end;
+        end;
+    end;
+  if lstDaftarGambar.Count > 30 then
+    begin
+      for k := 0 to 29 do
+        lstDaftarGambar.Items.Delete(k);
+    end;
+
+end;
+
 procedure TfrmMain.btn1Click(Sender: TObject);
 var
   i, j : Integer;
@@ -1752,6 +1853,7 @@ var
 begin
   //Atur Jumlah Baris
   listPelanggar.Clear;
+  lstDaftarGambar.Clear;
   jumlahAda := 0;
   case jenisReport of
     1:
@@ -1783,6 +1885,8 @@ begin
                     else Cells[3,i] := '0';
                 Cells[3,3] := IntToStr( StrToInt(Cells[3,3]) + StrToInt(Cells[3,i]) );
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
+                ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -1843,6 +1947,8 @@ begin
                     else Cells[3,i] := '0';
                 Cells[3,15] := IntToStr( StrToInt(Cells[3,15]) + StrToInt(Cells[3,i]) );
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
+                ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -1906,6 +2012,8 @@ begin
                     else Cells[3,i] := '0';
                 Cells[3,RowCount-1] := IntToStr( StrToInt(Cells[3,RowCount-1]) + StrToInt(Cells[3,i]) );
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
+                ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -1929,6 +2037,7 @@ begin
           end;
       end;
   end;
+  tampilGambar;
 
 end;
 
@@ -1964,9 +2073,81 @@ begin
   //cbbWeekly.Date := cbbDaily.Date + DayOfTheMonth(cbbMonthly.ItemIndex+1);
 end;
 
+procedure TfrmMain.btn3Click(Sender: TObject);
+begin
+  tampilGambar;
+end;
+
 procedure TfrmMain.btn2Click(Sender: TObject);
 begin
-//
+  ShowMessage(IntToStr(lstDaftarGambar.Count));
 end;
+
+function RefToCell(ARow, ACol: Integer): string;
+begin
+  Result := Chr(Ord('A') + ACol - 1) + IntToStr(ARow);
+end;
+
+function SaveAsExcelFile(AGrid: TStringGrid; ASheetName, AFileName: string): Boolean;
+const
+  xlWBATWorksheet = -4167;
+var
+  Row, Col: Integer;
+  GridPrevFile: string;
+  XLApp, Sheet, Data: OLEVariant;
+  i, j: Integer;
+begin
+  // Prepare Data
+  Data := VarArrayCreate([1, AGrid.RowCount, 1, AGrid.ColCount], varVariant);
+  for i := 0 to AGrid.ColCount - 1 do
+    for j := 0 to AGrid.RowCount - 1 do
+      Data[j + 1, i + 1] := AGrid.Cells[i, j];
+  // Create Excel-OLE Object
+  Result := False;
+  XLApp := CreateOleObject('Excel.Application');
+  try
+    // Hide Excel
+    XLApp.Visible := False;
+    // Add new Workbook
+    XLApp.Workbooks.Add(xlWBatWorkSheet);
+    Sheet := XLApp.Workbooks[1].WorkSheets[1];
+    Sheet.Name := ASheetName;
+    // Fill up the sheet
+    Sheet.Range[RefToCell(1, 1), RefToCell(AGrid.RowCount,
+      AGrid.ColCount)].Value := Data;
+    // Save Excel Worksheet
+    try
+      XLApp.Workbooks[1].SaveAs(AFileName);
+      Result := True;
+    except
+      // Error ?
+    end;
+  finally
+    // Quit Excel
+    if not VarIsEmpty(XLApp) then
+    begin
+      XLApp.DisplayAlerts := False;
+      XLApp.Quit;
+      XLAPP := Unassigned;
+      Sheet := Unassigned;
+    end;
+  end;
+end;
+
+procedure TfrmMain.btn4Click(Sender: TObject);
+var
+  namaFile : string;
+begin
+  case jenisReport of
+  1 : namaFile := 'Report in '+FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date)+'.xls';
+  2 : namaFile := 'Report in '+FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date)+' to '+FormatDateTime('d mmmmmmmm yyyy',cbbWeekly.Date)+'.xls';
+  3 : namaFile := 'Report in '+cbbMonthly.Text+'.xls';
+  end;
+
+  SaveAsExcelFile(strngrdLaporan, 'Report', ExtractFilePath(Application.ExeName)+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+namaFile);
+  ShowMessage('Data Saved');
+end;
+
+
 
 end.
