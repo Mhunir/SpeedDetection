@@ -7,18 +7,31 @@ uses
   Dialogs;
 
 type
-  TForm1 = class(TForm)
+  TfrmAbout = class(TForm)
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure tamilanAwalAbout;
   end;
 
 var
-  Form1: TForm1;
+  frmAbout: TfrmAbout;
 
 implementation
 
 {$R *.dfm}
+
+procedure TfrmAbout.tamilanAwalAbout;
+begin
+  Width := 600;
+  Height := 300;
+end;
+
+procedure TfrmAbout.FormCreate(Sender: TObject);
+begin
+  tamilanAwalAbout;
+end;
 
 end.

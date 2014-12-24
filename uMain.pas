@@ -215,6 +215,7 @@ type
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure imgNextClick(Sender: TObject);
+    procedure btnAboutProgramClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -282,7 +283,7 @@ implementation
 
 {$R *.dfm}
 
-
+uses uAbout;
 
 function TfrmMain.fileCount (Path: String): Integer;
 var
@@ -597,7 +598,7 @@ begin
 
   with btnAboutProgram do
     begin
-      Width := dxRibbon1.Width - dxbrmngr1Bar5.DockedLeft;
+      Width := dxRibbon1.Width - dxbrmngr1Bar5.DockedLeft - 14;
     end;
 end;
 
@@ -1999,6 +2000,11 @@ end;
 procedure TfrmMain.imgNextClick(Sender: TObject);
 begin
   tampilGambar;
+end;
+
+procedure TfrmMain.btnAboutProgramClick(Sender: TObject);
+begin
+  frmAbout.Show;
 end;
 
 end.
