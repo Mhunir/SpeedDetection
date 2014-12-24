@@ -176,9 +176,12 @@ type
     imgReport28: TImage;
     imgReport29: TImage;
     imgReport30: TImage;
-    btn3: TButton;
     btn4: TButton;
     btn5: TButton;
+    imgNext: TImage;
+    lblSpeedCapture: TLabel;
+    dxbrmngr1Bar5: TdxBar;
+    btnAboutProgram: TdxBarLargeButton;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -209,9 +212,9 @@ type
     procedure strngrdLaporanDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure cbbMonthlyChange(Sender: TObject);
-    procedure btn3Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
+    procedure imgNextClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -451,7 +454,7 @@ begin
       Left := pnlLabelMedia.Left;
       Height := pnlMainVideo.Height div 2;
       Width := pnlLabelMedia.Width;
-    end;     
+    end;
   with pnlLabelInformation do
     begin
       Left := pnlLabelFrameVideo.Left + pnlLabelFrameVideo.Width + 2;
@@ -578,6 +581,24 @@ begin
   pnlKanan.Color := $303030;
   chtSurabayaGresik.Color := $303030;
   chtGresikSurabaya.Color := $303030;
+
+  with imgNext do
+    begin
+      Left := (tabViewImage.Width - Width - 10);
+      Top := (tabViewImage.Height - Height - 10) + (28);
+    end;
+
+  with lblSpeedCapture do
+    begin
+      Width := pnlSpeed.Width - 2;
+      Left := 1;
+      Top := Height div 2 - 10;
+    end;
+
+  with btnAboutProgram do
+    begin
+      Width := dxRibbon1.Width - dxbrmngr1Bar5.DockedLeft;
+    end;
 end;
 
 procedure TfrmMain.filter;
@@ -676,7 +697,7 @@ var
   awalKanan, akirKanan : TPoint;//Untuk BLOB
   detX_AwalKanan, detY_AwalKanan : Boolean;//Untuk BLOB
   speedKiri, speedKanan, jarakKiri, jarakKanan : Double;
-  adaKiri, adaKanan : Boolean; 
+  adaKiri, adaKanan : Boolean;
 begin
   //Menampilkan Gambar Jalur
   if cbbJalur.ItemIndex = 0 then
@@ -744,7 +765,7 @@ begin
       if hasilSpeedKiri > 0 then
         TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,hasilSpeedKiri);
     end;
-    
+
   {Untuk BLOB Jalur Kanan}
   for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
     for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
@@ -852,6 +873,7 @@ begin
                 hasilSpeedKiri := speedKiri;
                 //mmo1.Lines.Add(IntToStr(kordKiriAkir.X)+','+IntToStr(kordKiriAkir.Y)+'>'+FloatToStr(speedKiri));
                 TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
+                lblSpeedCapture.Caption := FormatFloat('0.00',hasilSpeedKiri) + #10#13 + 'Km/H';
                 if hasilSpeedKiri > StrToInt(edtMaxSpeed.Text) then
                   CaptureImage(kordKiriAkir.X-25,kordKiriAkir.Y-50,kordKiriAkir.X+35,kordKiriAkir.Y+25, hasilSpeedKiri);
                 mmo1.Lines.Add(FormatFloat('Kiri : '+'0.00' + ' Km/h',hasilSpeedKiri));
@@ -946,6 +968,7 @@ begin
 //                mmo1.Lines.Add(IntToStr(kordKananAwal.X)+','+IntToStr(kordKananAwal.Y));
 //                mmo1.Lines.Add(IntToStr(kordKananAkir.X)+','+IntToStr(kordKananAkir.Y)+'>'+FloatToStr(speedKanan));
                 TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
+                lblSpeedCapture.Caption := FormatFloat('0.00',hasilSpeedKanan) + #10#13 + 'Km/H';
                 if hasilSpeedKanan > StrToInt(edtMaxSpeed.Text) then
                   CaptureImage(kordKananAkir.X-25,kordKananAkir.Y-50,kordKananAkir.X+35,kordKananAkir.Y+25, hasilSpeedKanan);
                 mmo1.Lines.Add(FormatFloat('Kanan : '+'0.00' + ' Km/h',hasilSpeedKanan));
@@ -975,206 +998,6 @@ begin
           hasilSpeedKanan := 0;
         end;
     end;
-        {
-  //X
-  for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
-    for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
-      begin
-        colcek := img5.Canvas.Pixels[x,y];
-        GetRGB(colcek, RKiri);
-        if RKiri = 255 then
-          begin
-            mp1.Stop;
-            tmrThreshold.Enabled := False;
-            //if (detX_AwalKiri = True) then
-            //  begin
-            //    awalKiri.X := x;
-            //    detX_AwalKiri := False;
-            //  end;
-            //akirKiri.X := x;
-          end;
-      end;
-
-              {
-  for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
-    for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
-      begin
-        colcek := img5.Canvas.Pixels[x,y];
-        GetRGB(colcek, RKiri);
-        if RKiri = 255 then
-          begin
-            if not adaKiri then adaKiri:= True;
-            Break;
-          end;
-      end;
-    mmo1.Lines.Add(BoolToStr(adaKiri));
-
-
-  //Cari kordinat X dan Y
-  {Jalur Kiri}
-  //Y
-  {for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
-    for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
-      begin
-        colcek := img5.Canvas.Pixels[x,y];
-        GetRGB(colcek, RKiri);
-        if RKiri = 255 then
-          begin
-            if (detY_AwalKiri = True) then
-              begin
-                awalKiri.Y := y;
-                detY_AwalKiri := False;
-              end;
-            akirKiri.Y := y;
-          end;
-      end;
-      
-  //X
-  for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
-    for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
-      begin
-        colcek := img5.Canvas.Pixels[x,y];
-        GetRGB(colcek, RKiri);
-        if RKiri = 255 then
-          begin
-            if (detX_AwalKiri = True) then
-              begin
-                awalKiri.X := x;
-                detX_AwalKiri := False;
-              end;
-            akirKiri.X := x;
-          end;
-      end;
-  {Jalur Kanan}
-  //Y
-  {for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
-    for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
-      begin
-        colcek := img5.Canvas.Pixels[x,y];
-        GetRGB(colcek, RKanan);
-        if RKanan = 255 then
-          begin
-            if (detY_AwalKanan = True) then
-              begin
-                awalKanan.Y := y;
-                detY_AwalKanan := False;
-              end;
-            akirKanan.Y := y;
-          end;
-      end;
-
-  //X
-  for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
-    for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
-      begin
-        colcek := img5.Canvas.Pixels[x,y];
-        GetRGB(colcek, RKanan);
-        if RKanan = 255 then
-          begin
-            if (detX_AwalKanan = True) then
-              begin
-                awalKanan.X := x;
-                detX_AwalKanan := False;
-              end;
-            akirKanan.X := x;
-          end;
-      end;
-
-  //Mencari Titik Tengah Tiap Box
-  if frameKe = 1 then
-    begin
-      centerAwalKiri.X := awalKiri.X + (akirKiri.X - awalKiri.X);
-      centerAwalKiri.Y := awalKiri.Y + (akirKiri.Y - awalKiri.Y);
-      centerAwalKanan.X := awalKanan.X + (akirKanan.X - awalKanan.X);
-      centerAwalKanan.Y := awalKanan.Y + (akirKanan.Y - awalKanan.Y);
-    end;
-  if frameKe = 2 then
-    begin
-      centerAkirKiri.X := awalKiri.X + (akirKiri.X - awalKiri.X);
-      centerAkirKiri.Y := awalKiri.Y + (akirKiri.Y - awalKiri.Y);
-      centerAkirKanan.X := awalKanan.X + (akirKanan.X - awalKanan.X);
-      centerAkirKanan.Y := awalKanan.Y + (akirKanan.Y - awalKanan.Y);
-
-      if (centerAwalKiri.X<>0)and(centerAwalKiri.Y<>0)and(centerAkirKiri.X<>0)and(centerAkirKiri.Y<>0) then
-        jarakKiri := hasilJarak(centerAwalKiri.X,centerAwalKiri.Y,centerAkirKiri.X,centerAkirKiri.Y) else
-          jarakKiri := 0;
-
-      if (centerAwalKanan.X<>0)and(centerAwalKanan.Y<>0)and(centerAkirKanan.X<>0)and(centerAkirKanan.Y<>0) then
-        jarakKanan := hasilJarak(centerAwalKanan.X,centerAwalKanan.Y,centerAkirKanan.X,centerAkirKanan.Y) else
-          jarakKanan := 0;
-
-      speedKiri := hasilSpeed(jarakKiri);
-      speedKanan := hasilSpeed(jarakKanan);
-
-//            mmo1.Lines.Add('JarakKiri:'+FloatToStr(jarakKiri));
-//      mmo1.Lines.Add('SpeedKiri:'+FloatToStr(speedKiri)+' Km/h');                              ////
-//      mmo1.Lines.Add('JarakKanan:'+FloatToStr(jarakKanan));
-    end;
-
-  //Menampilkan Box Kendaraan
-  if (awalKiri.X<>0)and(awalKiri.Y<>0)and(akirKiri.X<>0)and(akirKiri.Y<>0) then
-    begin
-      BlobBox(img5.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
-      BlobBox(img1.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
-      if frameKe = 2 then
-      if speedKiri <> 0 then
-        TulisSpeed(img1.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
-      if frameKe = 2 then
-      if speedKiri <> 0 then
-        TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
-
-      if speedKiri > StrToInt(edtMaxSpeed.Text) then
-        mmo1.Lines.Add('L: '+FloatToStr(speedKiri));
-      if speedKiri > StrToInt(edtMaxSpeed.Text) then
-        CaptureImage(awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5);
-      //if speedKiri > 1 then
-//      mmo1.Lines.Add(FormatFloat('0.00'+' Km/h',speedKiri));
-      if (adaKiri)and(speedKiri > 1) then
-        begin
-          mmo1.Lines.Add(FormatFloat('0.00'+' Km/h',speedKiri));
-          mp1.Stop;
-          tmrThreshold.Enabled := False;
-
-          //adaKiri := False;
-        end;
-
-    end;
-
-  if (awalKanan.X<>0)and(awalKanan.Y<>0)and(akirKanan.X<>0)and(akirKanan.Y<>0) then
-    begin
-      BlobBox(img5.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clAqua);
-      BlobBox(img1.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clAqua);
-      if frameKe = 2 then
-      if speedKanan <> 0 then
-        TulisSpeed(img1.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
-      if frameKe = 2 then
-      if speedKanan <> 0 then
-        TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
-
-      if speedKanan > StrToInt(edtMaxSpeed.Text) then
-        mmo1.Lines.Add('R: '+FloatToStr(speedKanan));
-      if speedKiri > StrToInt(edtMaxSpeed.Text) then
-        CaptureImage(awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5);
-      if speedKanan > 1 then
-        mmo1.Lines.Add(FormatFloat('0.00'+' Km/h',speedKanan));
-    end;
-    
-  //Reset Nilai Center Menajadi 0
-  if frameKe = 2 then
-    begin
-      centerAwalKiri.X := 0;
-      centerAwalKiri.Y := 0;
-      centerAkirKiri.X := 0;
-      centerAkirKiri.Y := 0;
-
-      centerAwalKanan.X := 0;
-      centerAwalKanan.Y := 0;
-      centerAkirKanan.X := 0;
-      centerAkirKanan.Y := 0;
-
-    end;
-   }
-
 end;
 
 procedure TfrmMain.GetRGB(Col: TColor; var R:Byte);
@@ -1434,7 +1257,7 @@ begin
   cbbMonthly.Enabled := False;
   cbbDaily.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now));
   cbbWeekly.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) + 6);
-
+  pageView.ActivePage := tabProcess;
 end;
 
 procedure TfrmMain.btnReportWeekClick(Sender: TObject);
@@ -1446,7 +1269,7 @@ begin
   cbbMonthly.Enabled := False;
   cbbDaily.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) - 6);
   cbbWeekly.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now));
-
+  pageView.ActivePage := tabProcess;
 end;
 
 procedure TfrmMain.btnReportMonthClick(Sender: TObject);
@@ -1458,7 +1281,7 @@ begin
   cbbMonthly.Enabled := True;
   cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
   cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
-
+  pageView.ActivePage := tabProcess;
 end;
 
 procedure TfrmMain.cbbDailyChange(Sender: TObject);
@@ -1816,13 +1639,41 @@ begin
     begin
       if (Components[i] is TImage) then
         begin
+          //Posisi
+          //imgReport1.Left := ((tabViewImage.Width div 10) - imgReport1.Width) div 2;
+          for j := 1 to 10 do
+            begin
+              if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                begin
+                  TImage(Components[i]).Top := ((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2 ;
+                  TImage(Components[i]).Left := (( ((tabViewImage.Width div 10) * j) - imgReport1.Width));
+                end;
+            end;
+          for j := 11 to 20 do
+            begin
+              if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                begin
+                  TImage(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + (tabViewImage.Height div 3);
+                  TImage(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-10)) - imgReport1.Width));
+                end;
+            end;
+          for j := 21 to 30 do
+            begin
+              if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                begin
+                  TImage(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + ((tabViewImage.Height div 3) * 2);
+                  TImage(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-20)) - imgReport1.Width));
+                end;
+            end;
+
+
+
           //Clear
           for j := 1 to 30 do
             begin
               if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
                   TImage(Components[i]).Picture.Bitmap := nil;
             end;
-
           if lstDaftarGambar.Count <= 30 then
             for j := 1 to lstDaftarGambar.Count do
               begin
@@ -1842,7 +1693,7 @@ begin
       for k := 0 to 29 do
         lstDaftarGambar.Items.Delete(k);
     end;
-
+  imgNext.Visible := True;
 end;
 
 procedure TfrmMain.btn1Click(Sender: TObject);
@@ -2073,11 +1924,6 @@ begin
   //cbbWeekly.Date := cbbDaily.Date + DayOfTheMonth(cbbMonthly.ItemIndex+1);
 end;
 
-procedure TfrmMain.btn3Click(Sender: TObject);
-begin
-  tampilGambar;
-end;
-
 procedure TfrmMain.btn2Click(Sender: TObject);
 begin
   ShowMessage(IntToStr(lstDaftarGambar.Count));
@@ -2149,5 +1995,10 @@ begin
 end;
 
 
+
+procedure TfrmMain.imgNextClick(Sender: TObject);
+begin
+  tampilGambar;
+end;
 
 end.
