@@ -3,4 +3,4 @@ Kiri : 50.26 Km/h
 Kiri : 39.92 Km/h
 Kanan : 32.19 Km/h
 Kiri : 39.62 Km/h
-Kanan : 28.23 Km/h
+Kanan : 25.56 Km/h

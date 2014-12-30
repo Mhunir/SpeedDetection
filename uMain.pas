@@ -134,7 +134,6 @@ type
     tmrJam: TTimer;
     strngrdLaporan: TStringGrid;
     pnlKanan: TPanel;
-    btn1: TButton;
     dxbrcmb4: TdxBarCombo;
     btn2: TButton;
     listPelanggar: TListBox;
@@ -176,12 +175,15 @@ type
     imgReport28: TImage;
     imgReport29: TImage;
     imgReport30: TImage;
-    btn4: TButton;
     btn5: TButton;
     imgNext: TImage;
     lblSpeedCapture: TLabel;
     dxbrmngr1Bar5: TdxBar;
     btnAboutProgram: TdxBarLargeButton;
+    lblYellow: TLabel;
+    lblLime: TLabel;
+    imgSearch: TImage;
+    imgExcel: TImage;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -208,14 +210,14 @@ type
     procedure listVIdeoClick(Sender: TObject);
     procedure btnVideoFileClick(Sender: TObject);
     procedure tmrJamTimer(Sender: TObject);
-    procedure btn1Click(Sender: TObject);
     procedure strngrdLaporanDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure cbbMonthlyChange(Sender: TObject);
     procedure btn2Click(Sender: TObject);
-    procedure btn4Click(Sender: TObject);
     procedure imgNextClick(Sender: TObject);
     procedure btnAboutProgramClick(Sender: TObject);
+    procedure imgExcelClick(Sender: TObject);
+    procedure imgSearchClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -374,8 +376,12 @@ begin
 end;
 
 procedure TfrmMain.informasiVideo;
+var
+  sumber, posisi : string;
 begin
-  lblVideoName.Caption := 'Name : ' + mp1.FileName;
+  sumber := mp1.FileName;
+  posisi :='VID';
+  lblVideoName.Caption := 'Name : ' + Copy(sumber,Pos(posisi,sumber),Length(sumber)-Pos(posisi,sumber)+1) ;//IntToStr(Pos(posisi,sumber));;//mp1.FileName;
   lblVideoLength.Caption := 'Length : ' + Format ('%2.2d:%2.2d', [(mp1.Length div 1000) div 60, (mp1.Length div 1000) mod 60]);
   lblVideoResolution.Caption := 'Resolution : 420 x 240';
   lblVideoLocation.Caption := 'Location : Surabaya-Gresik';
@@ -600,6 +606,28 @@ begin
     begin
       Width := dxRibbon1.Width - dxbrmngr1Bar5.DockedLeft - 14;
     end;
+
+  with lblLime do
+    begin
+      Left := (chtSurabayaGresik.Left + chtSurabayaGresik.Width) - 140;
+      Top := chtSurabayaGresik.Top - 20;
+    end;
+  with lblYellow do
+    begin
+      Left := lblLime.Left;
+      Top := chtSurabayaGresik.Top - 40;
+    end;
+  with imgSearch do
+    begin
+      Left := 20;
+      Top := 20;
+    end;
+  with imgExcel do
+    begin
+      Left := imgSearch.Left + imgSearch.Width + 20;
+      Top := imgSearch.Top;
+    end;
+
 end;
 
 procedure TfrmMain.filter;
@@ -1213,6 +1241,14 @@ begin
   markaBawah.X := jalurTengah_bawah.X;//170;
   markaBawah.Y := jalurTengah_bawah.Y;//217;
 
+  edtKiriAtas.Text := '('+IntToStr(jalurKiri_atas.X)+','+IntToStr(jalurKiri_atas.Y)+')';
+  edtKiriBawah.Text := '('+IntToStr(jalurKiri_bawah.X)+','+IntToStr(jalurKiri_bawah.Y)+')';
+  edtTengahAtas.Text := '('+IntToStr(jalurTengah_atas.X)+','+IntToStr(jalurTengah_atas.Y)+')';
+  edtTengahBawah.Text := '('+IntToStr(jalurTengah_bawah.X)+','+IntToStr(jalurTengah_bawah.Y)+')';
+  edtKananAtas.Text := '('+IntToStr(jalurKanan_atas.X)+','+IntToStr(jalurKanan_atas.Y)+')';
+  edtKananBawah.Text := '('+IntToStr(jalurKanan_bawah.X)+','+IntToStr(jalurKanan_bawah.Y)+')';
+
+
   mulaiHitung := True;
 end;
 
@@ -1257,8 +1293,8 @@ begin
   cbbWeekly.Enabled := False;
   cbbMonthly.Enabled := False;
   cbbDaily.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now));
-  cbbWeekly.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) + 6);
-  pageView.ActivePage := tabProcess;
+  cbbWeekly.Date := cbbDaily.Date + 6;//EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) + 6);
+  pageView.ActivePage := tabProcess;   
 end;
 
 procedure TfrmMain.btnReportWeekClick(Sender: TObject);
@@ -1373,7 +1409,8 @@ begin
   if not setKordinat then
     setKordinat := True;
   mp1.Pause;
-  pm1.Items[0].Enabled := False;
+  mulaiHitung := False;
+  //pm1.Items[0].Enabled := False;
 end;
 
 procedure TfrmMain.img1MouseDown(Sender: TObject; Button: TMouseButton;
@@ -1418,6 +1455,7 @@ begin
               MoveTo(jalurKiri_bawah.X, jalurKiri_atas.Y);
               LineTo(X,Y);
             end;
+
         end;
       5 :
         begin
@@ -1440,6 +1478,9 @@ begin
               MoveTo(jalurTengah_atas.X, jalurTengah_atas.Y);
               LineTo(X,Y);
             end;
+          setKordinat := False;
+          klikKe := 0;
+          mulaiHitung := True;
           edtKiriAtas.Text := '('+IntToStr(jalurKiri_atas.X)+','+IntToStr(jalurKiri_atas.Y)+')';
           edtKiriBawah.Text := '('+IntToStr(jalurKiri_bawah.X)+','+IntToStr(jalurKiri_bawah.Y)+')';
           edtTengahAtas.Text := '('+IntToStr(jalurTengah_atas.X)+','+IntToStr(jalurTengah_atas.Y)+')';
@@ -1580,17 +1621,17 @@ begin
           end;
         //Gresik-Surabaya
         tglMulai := DayOf(cbbDaily.Date);
-        for i := 7 to 14 do
+        for i := 8 to 14 do
           begin
             with chtGresikSurabaya.Series[0] do
               begin
                 seriesGresikSurabaya.LinePen.Width := 2;
-                AddXY((tglMulai + i) - 7, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+                AddXY((tglMulai + i) - 8, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
               end;
             with chtGresikSurabaya.Series[1] do
               begin
                 seriesJumlahGresikSurabaya.LinePen.Width := 2;
-                AddXY((tglMulai + i) - 7, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+                AddXY((tglMulai + i) - 8, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
               end;
           end;
       end;
@@ -1625,6 +1666,13 @@ begin
               end;
           end;
 
+      end;
+    1 :
+      begin
+        seriesSurabayaGresik.Clear;
+        seriesJumlahSurabayaGresik.Clear;
+        seriesGresikSurabaya.Clear;
+        seriesJumlahGresikSurabaya.Clear;
       end;
   end;
 
@@ -1697,7 +1745,119 @@ begin
   imgNext.Visible := True;
 end;
 
-procedure TfrmMain.btn1Click(Sender: TObject);
+procedure TfrmMain.strngrdLaporanDrawCell(Sender: TObject; ACol,
+  ARow: Integer; Rect: TRect; State: TGridDrawState);
+var
+  sText : String;
+  i, j : Integer;
+begin
+  for i := 0 to strngrdLaporan.ColCount-1 do
+    for j := 0 to strngrdLaporan.RowCount-1 do
+      begin
+        sText := strngrdLaporan.Cells[ACol,ARow];
+        if (aCol = i) and (aRow = j) then
+          begin
+            strngrdLaporan.Canvas.FillRect(Rect);
+            DrawText(strngrdLaporan.Canvas.Handle,PChar(sText),Length(sText),Rect,DT_VCENTER + DT_SINGLELINE + DT_CENTER);
+          end;
+      end;
+end;
+
+procedure TfrmMain.cbbMonthlyChange(Sender: TObject);
+begin
+  if jenisReport = 3 then
+    begin
+      cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
+      cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
+    end;
+
+  //ShowMessage(IntToStr(DayOfTheMonth(LastDayCurrMon)));
+  //cbbWeekly.Date := DayOfTheMonth(EncodeDate(2014,cbbMonthly.ItemIndex+1,1));
+  //ShowMessage(IntToStr(cbbMonthly.ItemIndex+1));
+  //cbbWeekly.Date := cbbDaily.Date + DayOfTheMonth(cbbMonthly.ItemIndex+1);
+end;
+
+procedure TfrmMain.btn2Click(Sender: TObject);
+begin
+  ShowMessage(IntToStr(lstDaftarGambar.Count));
+end;
+
+function RefToCell(ARow, ACol: Integer): string;
+begin
+  Result := Chr(Ord('A') + ACol - 1) + IntToStr(ARow);
+end;
+
+function SaveAsExcelFile(AGrid: TStringGrid; ASheetName, AFileName: string): Boolean;
+const
+  xlWBATWorksheet = -4167;
+var
+  Row, Col: Integer;
+  GridPrevFile: string;
+  XLApp, Sheet, Data: OLEVariant;
+  i, j: Integer;
+begin
+  // Prepare Data
+  Data := VarArrayCreate([1, AGrid.RowCount, 1, AGrid.ColCount], varVariant);
+  for i := 0 to AGrid.ColCount - 1 do
+    for j := 0 to AGrid.RowCount - 1 do
+      Data[j + 1, i + 1] := AGrid.Cells[i, j];
+  // Create Excel-OLE Object
+  Result := False;
+  XLApp := CreateOleObject('Excel.Application');
+  try
+    // Hide Excel
+    XLApp.Visible := False;
+    // Add new Workbook
+    XLApp.Workbooks.Add(xlWBatWorkSheet);
+    Sheet := XLApp.Workbooks[1].WorkSheets[1];
+    Sheet.Name := ASheetName;
+    // Fill up the sheet
+    Sheet.Range[RefToCell(1, 1), RefToCell(AGrid.RowCount,
+      AGrid.ColCount)].Value := Data;
+    // Save Excel Worksheet
+    try
+      XLApp.Workbooks[1].SaveAs(AFileName);
+      Result := True;
+    except
+      // Error ?
+    end;
+  finally
+    // Quit Excel
+    if not VarIsEmpty(XLApp) then
+    begin
+      XLApp.DisplayAlerts := False;
+      XLApp.Quit;
+      XLAPP := Unassigned;
+      Sheet := Unassigned;
+    end;
+  end;
+end;
+
+procedure TfrmMain.imgNextClick(Sender: TObject);
+begin
+  tampilGambar;
+end;
+
+procedure TfrmMain.btnAboutProgramClick(Sender: TObject);
+begin
+  frmAbout.Show;
+end;
+
+procedure TfrmMain.imgExcelClick(Sender: TObject);
+  var
+  namaFile : string;
+begin
+  case jenisReport of
+  1 : namaFile := 'Report in '+FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date)+'.xls';
+  2 : namaFile := 'Report in '+FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date)+' to '+FormatDateTime('d mmmmmmmm yyyy',cbbWeekly.Date)+'.xls';
+  3 : namaFile := 'Report in '+cbbMonthly.Text+'.xls';
+  end;
+
+  SaveAsExcelFile(strngrdLaporan, 'Report', ExtractFilePath(Application.ExeName)+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+namaFile);
+  ShowMessage('Data Saved');
+end;
+
+procedure TfrmMain.imgSearchClick(Sender: TObject);
 var
   i, j : Integer;
   awal, akir : Integer;
@@ -1890,121 +2050,6 @@ begin
       end;
   end;
   tampilGambar;
-
-end;
-
-procedure TfrmMain.strngrdLaporanDrawCell(Sender: TObject; ACol,
-  ARow: Integer; Rect: TRect; State: TGridDrawState);
-var
-  sText : String;
-  i, j : Integer;
-begin
-  for i := 0 to strngrdLaporan.ColCount-1 do
-    for j := 0 to strngrdLaporan.RowCount-1 do
-      begin
-        sText := strngrdLaporan.Cells[ACol,ARow];
-        if (aCol = i) and (aRow = j) then
-          begin
-            strngrdLaporan.Canvas.FillRect(Rect);
-            DrawText(strngrdLaporan.Canvas.Handle,PChar(sText),Length(sText),Rect,DT_VCENTER + DT_SINGLELINE + DT_CENTER);
-          end;
-      end;
-end;
-
-procedure TfrmMain.cbbMonthlyChange(Sender: TObject);
-begin
-  if jenisReport = 3 then
-    begin
-      cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
-      cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
-    end;
-
-  //ShowMessage(IntToStr(DayOfTheMonth(LastDayCurrMon)));
-  //cbbWeekly.Date := DayOfTheMonth(EncodeDate(2014,cbbMonthly.ItemIndex+1,1));
-  //ShowMessage(IntToStr(cbbMonthly.ItemIndex+1));
-  //cbbWeekly.Date := cbbDaily.Date + DayOfTheMonth(cbbMonthly.ItemIndex+1);
-end;
-
-procedure TfrmMain.btn2Click(Sender: TObject);
-begin
-  ShowMessage(IntToStr(lstDaftarGambar.Count));
-end;
-
-function RefToCell(ARow, ACol: Integer): string;
-begin
-  Result := Chr(Ord('A') + ACol - 1) + IntToStr(ARow);
-end;
-
-function SaveAsExcelFile(AGrid: TStringGrid; ASheetName, AFileName: string): Boolean;
-const
-  xlWBATWorksheet = -4167;
-var
-  Row, Col: Integer;
-  GridPrevFile: string;
-  XLApp, Sheet, Data: OLEVariant;
-  i, j: Integer;
-begin
-  // Prepare Data
-  Data := VarArrayCreate([1, AGrid.RowCount, 1, AGrid.ColCount], varVariant);
-  for i := 0 to AGrid.ColCount - 1 do
-    for j := 0 to AGrid.RowCount - 1 do
-      Data[j + 1, i + 1] := AGrid.Cells[i, j];
-  // Create Excel-OLE Object
-  Result := False;
-  XLApp := CreateOleObject('Excel.Application');
-  try
-    // Hide Excel
-    XLApp.Visible := False;
-    // Add new Workbook
-    XLApp.Workbooks.Add(xlWBatWorkSheet);
-    Sheet := XLApp.Workbooks[1].WorkSheets[1];
-    Sheet.Name := ASheetName;
-    // Fill up the sheet
-    Sheet.Range[RefToCell(1, 1), RefToCell(AGrid.RowCount,
-      AGrid.ColCount)].Value := Data;
-    // Save Excel Worksheet
-    try
-      XLApp.Workbooks[1].SaveAs(AFileName);
-      Result := True;
-    except
-      // Error ?
-    end;
-  finally
-    // Quit Excel
-    if not VarIsEmpty(XLApp) then
-    begin
-      XLApp.DisplayAlerts := False;
-      XLApp.Quit;
-      XLAPP := Unassigned;
-      Sheet := Unassigned;
-    end;
-  end;
-end;
-
-procedure TfrmMain.btn4Click(Sender: TObject);
-var
-  namaFile : string;
-begin
-  case jenisReport of
-  1 : namaFile := 'Report in '+FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date)+'.xls';
-  2 : namaFile := 'Report in '+FormatDateTime('d mmmmmmmm yyyy',cbbDaily.Date)+' to '+FormatDateTime('d mmmmmmmm yyyy',cbbWeekly.Date)+'.xls';
-  3 : namaFile := 'Report in '+cbbMonthly.Text+'.xls';
-  end;
-
-  SaveAsExcelFile(strngrdLaporan, 'Report', ExtractFilePath(Application.ExeName)+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+namaFile);
-  ShowMessage('Data Saved');
-end;
-
-
-
-procedure TfrmMain.imgNextClick(Sender: TObject);
-begin
-  tampilGambar;
-end;
-
-procedure TfrmMain.btnAboutProgramClick(Sender: TObject);
-begin
-  frmAbout.Show;
 end;
 
 end.
