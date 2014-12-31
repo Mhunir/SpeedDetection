@@ -1,6 +1,6 @@
 mmo1
-Kiri : 50.26 Km/h
-Kiri : 39.92 Km/h
-Kanan : 32.19 Km/h
-Kiri : 39.62 Km/h
-Kanan : 25.56 Km/h
+Kanan : 65.17 Km/h
+Kanan : 144.00 Km/h
+Kanan : 64.99 Km/h
+Kanan : 301.95 Km/h
+Kanan : 39.62 Km/h

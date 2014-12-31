@@ -1,8 +1,8 @@
 object frmMain: TfrmMain
-  Left = -8
-  Top = -8
-  Width = 1382
-  Height = 754
+  Left = 463
+  Top = 165
+  Width = 546
+  Height = 484
   Caption = 'SPEED DETECTION'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -45457,7 +45457,7 @@ object frmMain: TfrmMain
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
-    Width = 1366
+    Width = 530
     Height = 126
     BarManager = dxbrmngr1
     ColorSchemeName = 'Blue'
@@ -45488,8 +45488,8 @@ object frmMain: TfrmMain
   end
   object barBawah: TdxRibbonStatusBar
     Left = 0
-    Top = 693
-    Width = 1366
+    Top = 423
+    Width = 530
     Height = 23
     Images = il1
     Panels = <
@@ -45520,7 +45520,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 126
     Width = 150
-    Height = 567
+    Height = 297
     Align = alLeft
     Color = clSkyBlue
     ActiveGroupIndex = 0
@@ -45586,8 +45586,8 @@ object frmMain: TfrmMain
   object pageView: TsPageControl
     Left = 150
     Top = 126
-    Width = 1216
-    Height = 567
+    Width = 380
+    Height = 297
     ActivePage = tabProcess
     Align = alClient
     Font.Charset = ANSI_CHARSET
@@ -45730,8 +45730,8 @@ object frmMain: TfrmMain
         object lblSpeedCapture: TLabel
           Left = 0
           Top = 0
-          Width = 201
-          Height = 145
+          Width = 167
+          Height = 150
           Align = alClient
           Alignment = taCenter
           Caption = '000'#13#10'Km/H'
@@ -45889,7 +45889,7 @@ object frmMain: TfrmMain
         object mp1: TMediaPlayer
           Left = 48
           Top = 107
-          Width = 85
+          Width = -2
           Height = 30
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
@@ -46059,8 +46059,8 @@ object frmMain: TfrmMain
       object strngrdLaporan: TStringGrid
         Left = 0
         Top = 0
-        Width = 708
-        Height = 537
+        Width = 72
+        Height = 267
         Align = alClient
         Color = clBtnShadow
         FixedColor = clWhite
@@ -46075,10 +46075,10 @@ object frmMain: TfrmMain
         OnDrawCell = strngrdLaporanDrawCell
       end
       object pnlKanan: TPanel
-        Left = 708
+        Left = -128
         Top = 0
         Width = 500
-        Height = 537
+        Height = 267
         Align = alRight
         BevelOuter = bvNone
         BorderStyle = bsSingle
@@ -48113,7 +48113,7 @@ object frmMain: TfrmMain
             0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000200
             000002000806000000F478D4FA0000000467414D410000B18F0BFC6105000000
             206348524D00007A26000080840000FA00000080E8000075300000EA6000003A
-            98000017709CBA513C000000097048597300000EC200000EC20115284A800000
+            98000017709CBA513C000000097048597300000EC000000EC0016AD689090000
             0002624B474400FF878FCCBF0000000774494D4507DE0C1E0A2123B2B9FB1500
             00004174455874636F6D6D656E740043524541544F523A2067642D6A70656720
             76312E3020287573696E6720494A47204A50454720763632292C207175616C69
@@ -50959,7 +50959,7 @@ object frmMain: TfrmMain
         end
         object chtSurabayaGresik: TChart
           Left = 0
-          Top = 133
+          Top = -137
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51046,7 +51046,7 @@ object frmMain: TfrmMain
         end
         object chtGresikSurabaya: TChart
           Left = 0
-          Top = 333
+          Top = 63
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51346,7 +51346,7 @@ object frmMain: TfrmMain
           0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000048
           00000048080600000055EDB347000000206348524D00007A26000080840000FA
           00000080E8000075300000EA6000003A98000017709CBA513C00000009704859
-          7300000B0F00000B0F0192F903A500000002624B474400FF878FCCBF00000119
+          7300000B0D00000B0D01ED07C02C00000002624B474400FF878FCCBF00000119
           49444154785EEDD9590AC2301405D0AEC005382FD56195CEEE445FC00F29CD4B
           C11FD1130885369472B8AF4DD2AED30810204080000102040810204080000102
           04081020F0ED029B78C0D2B501816D9C7BBC3AA41ED0EE0D07520F673F8003E9
@@ -51453,7 +51453,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar2: TdxBar
       Caption = 'Report'
       CaptionButtons = <>
-      DockedLeft = 580
+      DockedLeft = 268
       DockedTop = 0
       FloatLeft = 623
       FloatTop = 336
@@ -51493,7 +51493,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar3: TdxBar
       Caption = 'Options'
       CaptionButtons = <>
-      DockedLeft = 279
+      DockedLeft = 109
       DockedTop = 0
       FloatLeft = 245
       FloatTop = 67
@@ -51529,7 +51529,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar4: TdxBar
       Caption = 'Cordinat'
       CaptionButtons = <>
-      DockedLeft = 938
+      DockedLeft = 313
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 10
@@ -51569,7 +51569,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar5: TdxBar
       Caption = 'About'
       CaptionButtons = <>
-      DockedLeft = 1226
+      DockedLeft = 366
       DockedTop = 0
       FloatLeft = 272
       FloatTop = 106
