@@ -1,2 +1,10 @@
 [1]Ubaidillah Umar, Reni Soelistijorini, Haryadi Amran Darwito. 2011, “Tracking Arah Gerakan Telunjuk Jari Berbasis Webcam Menggunakan Metode Optical Flow”. Surabaya
 [2]1.2	Dimas Arioputra. 2012, “Analisa Perbandingan Akurasi Metode Optical Flow Dan Gaussian Mixture Model untuk Sistem Pemantau Lalu Lintas Berbasis Computer Vision”. Depok
+[3]http://id.wikipedia.org/wiki/Pembatasan_kecepatan
+[4]http://id.wikipedia.org/wiki/Kecepatan_rencana
+[5]http://kuliahinformatika.wordpress.com/2010/02/13/buku-ta-thresholding-citra/
+[6]IJEST11-03-01-041.pdf
+[7]8_BAYU-JURNAL.pdf
+[8]ITS-Undergraduate-15890-5107100703-Paper.pdf
+[9]IJCSI-8-6-2-271-277 (adaptive).pdf
+[10]km60tahun1993.pdf
