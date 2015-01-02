@@ -67,7 +67,7 @@ end;
 procedure TfrmAbout.FormCreate(Sender: TObject);
 begin
   tamilanAwalAbout;
-end;
+end;                                            
 
 procedure TfrmAbout.btnCloseClick(Sender: TObject);
 begin

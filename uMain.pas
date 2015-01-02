@@ -383,9 +383,17 @@ begin
   posisi :='VID';
   lblVideoName.Caption := 'Name : ' + Copy(sumber,Pos(posisi,sumber),Length(sumber)-Pos(posisi,sumber)+1) ;//IntToStr(Pos(posisi,sumber));;//mp1.FileName;
   lblVideoLength.Caption := 'Length : ' + Format ('%2.2d:%2.2d', [(mp1.Length div 1000) div 60, (mp1.Length div 1000) mod 60]);
-  lblVideoResolution.Caption := 'Resolution : 420 x 240';
-  lblVideoLocation.Caption := 'Location : Surabaya-Gresik';
-  lblVideoTime.Caption := 'Time : Morning';
+  lblVideoResolution.Caption := 'Resolution : 1280 x 720';//420 x 240';
+  if lokasiKamera = 1 then
+    lblVideoLocation.Caption := 'Location : Surabaya-Gresik' else
+      lblVideoLocation.Caption := 'Location : Gresik-Surabaya';
+  if waktuRekaman = 1 then
+    lblVideoTime.Caption := 'Time : Morning' else
+  if waktuRekaman = 2 then
+    lblVideoTime.Caption := 'Time : Noon' else
+  if waktuRekaman = 3 then
+    lblVideoTime.Caption := 'Time : Afternoon';
+
 end;
 
 procedure TfrmMain.tampilanAwal;
@@ -522,8 +530,8 @@ begin
       Height := (tabPreview.Height - 7 - pnlInformation.Height - pnlLabelInformation.Height - pnlLabelOffender.Height);
       with listVIdeo do
         begin
-          Width := Width - 6;
-          Height := Height - 50;
+          Width := pnlOffender.Width - 6;
+          Height := pnlOffender.Height - 6;
           Left := 3;
           Top := 3;
         end;
@@ -627,7 +635,7 @@ begin
       Left := imgSearch.Left + imgSearch.Width + 20;
       Top := imgSearch.Top;
     end;
-
+  
 end;
 
 procedure TfrmMain.filter;
@@ -1304,8 +1312,8 @@ begin
   cbbDaily.Enabled := True;
   cbbWeekly.Enabled := True;
   cbbMonthly.Enabled := False;
-  cbbDaily.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) - 6);
   cbbWeekly.Date := EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now));
+  cbbDaily.Date := cbbWeekly.Date-6;//EncodeDate(YearOf(Now), MonthOf(Now), DayOf(Now) - 6);
   pageView.ActivePage := tabProcess;
 end;
 

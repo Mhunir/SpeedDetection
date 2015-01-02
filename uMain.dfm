@@ -1,8 +1,8 @@
 object frmMain: TfrmMain
-  Left = 463
-  Top = 165
-  Width = 546
-  Height = 484
+  Left = 435
+  Top = 38
+  Width = 886
+  Height = 604
   Caption = 'SPEED DETECTION'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -45457,7 +45457,7 @@ object frmMain: TfrmMain
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
-    Width = 530
+    Width = 870
     Height = 126
     BarManager = dxbrmngr1
     ColorSchemeName = 'Blue'
@@ -45488,8 +45488,8 @@ object frmMain: TfrmMain
   end
   object barBawah: TdxRibbonStatusBar
     Left = 0
-    Top = 423
-    Width = 530
+    Top = 543
+    Width = 870
     Height = 23
     Images = il1
     Panels = <
@@ -45520,7 +45520,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 126
     Width = 150
-    Height = 297
+    Height = 417
     Align = alLeft
     Color = clSkyBlue
     ActiveGroupIndex = 0
@@ -45586,8 +45586,8 @@ object frmMain: TfrmMain
   object pageView: TsPageControl
     Left = 150
     Top = 126
-    Width = 380
-    Height = 297
+    Width = 720
+    Height = 417
     ActivePage = tabProcess
     Align = alClient
     Font.Charset = ANSI_CHARSET
@@ -45730,8 +45730,8 @@ object frmMain: TfrmMain
         object lblSpeedCapture: TLabel
           Left = 0
           Top = 0
-          Width = 167
-          Height = 150
+          Width = 201
+          Height = 145
           Align = alClient
           Alignment = taCenter
           Caption = '000'#13#10'Km/H'
@@ -45889,7 +45889,7 @@ object frmMain: TfrmMain
         object mp1: TMediaPlayer
           Left = 48
           Top = 107
-          Width = -2
+          Width = 85
           Height = 30
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
@@ -46046,7 +46046,14 @@ object frmMain: TfrmMain
           Top = 112
           Width = 185
           Height = 201
+          Color = 3158064
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clSilver
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
           ItemHeight = 13
+          ParentFont = False
           TabOrder = 1
           OnClick = listVIdeoClick
         end
@@ -46059,8 +46066,8 @@ object frmMain: TfrmMain
       object strngrdLaporan: TStringGrid
         Left = 0
         Top = 0
-        Width = 72
-        Height = 267
+        Width = 212
+        Height = 387
         Align = alClient
         Color = clBtnShadow
         FixedColor = clWhite
@@ -46075,10 +46082,10 @@ object frmMain: TfrmMain
         OnDrawCell = strngrdLaporanDrawCell
       end
       object pnlKanan: TPanel
-        Left = -128
+        Left = 212
         Top = 0
         Width = 500
-        Height = 267
+        Height = 387
         Align = alRight
         BevelOuter = bvNone
         BorderStyle = bsSingle
@@ -48113,7 +48120,7 @@ object frmMain: TfrmMain
             0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000200
             000002000806000000F478D4FA0000000467414D410000B18F0BFC6105000000
             206348524D00007A26000080840000FA00000080E8000075300000EA6000003A
-            98000017709CBA513C000000097048597300000EC000000EC0016AD689090000
+            98000017709CBA513C000000097048597300000EBF00000EBF01380553240000
             0002624B474400FF878FCCBF0000000774494D4507DE0C1E0A2123B2B9FB1500
             00004174455874636F6D6D656E740043524541544F523A2067642D6A70656720
             76312E3020287573696E6720494A47204A50454720763632292C207175616C69
@@ -50959,7 +50966,7 @@ object frmMain: TfrmMain
         end
         object chtSurabayaGresik: TChart
           Left = 0
-          Top = -137
+          Top = -17
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51046,7 +51053,7 @@ object frmMain: TfrmMain
         end
         object chtGresikSurabaya: TChart
           Left = 0
-          Top = 63
+          Top = 183
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51346,7 +51353,7 @@ object frmMain: TfrmMain
           0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000048
           00000048080600000055EDB347000000206348524D00007A26000080840000FA
           00000080E8000075300000EA6000003A98000017709CBA513C00000009704859
-          7300000B0D00000B0D01ED07C02C00000002624B474400FF878FCCBF00000119
+          7300000B0C00000B0C013F4022C800000002624B474400FF878FCCBF00000119
           49444154785EEDD9590AC2301405D0AEC005382FD56195CEEE445FC00F29CD4B
           C11FD1130885369472B8AF4DD2AED30810204080000102040810204080000102
           04081020F0ED029B78C0D2B501816D9C7BBC3AA41ED0EE0D07520F673F8003E9
@@ -51453,7 +51460,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar2: TdxBar
       Caption = 'Report'
       CaptionButtons = <>
-      DockedLeft = 268
+      DockedLeft = 460
       DockedTop = 0
       FloatLeft = 623
       FloatTop = 336
@@ -51493,7 +51500,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar3: TdxBar
       Caption = 'Options'
       CaptionButtons = <>
-      DockedLeft = 109
+      DockedLeft = 159
       DockedTop = 0
       FloatLeft = 245
       FloatTop = 67
@@ -51529,7 +51536,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar4: TdxBar
       Caption = 'Cordinat'
       CaptionButtons = <>
-      DockedLeft = 313
+      DockedLeft = 639
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 10
@@ -51569,7 +51576,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar5: TdxBar
       Caption = 'About'
       CaptionButtons = <>
-      DockedLeft = 366
+      DockedLeft = 768
       DockedTop = 0
       FloatLeft = 272
       FloatTop = 106
