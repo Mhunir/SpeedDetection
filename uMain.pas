@@ -184,6 +184,36 @@ type
     lblLime: TLabel;
     imgSearch: TImage;
     imgExcel: TImage;
+    lblSpeed11: TLabel;
+    lblSpeed2: TLabel;
+    lblSpeed3: TLabel;
+    lblSpeed4: TLabel;
+    lblSpeed5: TLabel;
+    lblSpeed6: TLabel;
+    lblSpeed7: TLabel;
+    lblSpeed8: TLabel;
+    lblSpeed9: TLabel;
+    lblSpeed10: TLabel;
+    lblSpeed16: TLabel;
+    lblSpeed12: TLabel;
+    lblSpeed13: TLabel;
+    lblSpeed14: TLabel;
+    lblSpeed15: TLabel;
+    lblSpeed1: TLabel;
+    lblSpeed17: TLabel;
+    lblSpeed18: TLabel;
+    lblSpeed19: TLabel;
+    lblSpeed20: TLabel;
+    lblSpeed21: TLabel;
+    lblSpeed22: TLabel;
+    lblSpeed23: TLabel;
+    lblSpeed24: TLabel;
+    lblSpeed25: TLabel;
+    lblSpeed26: TLabel;
+    lblSpeed27: TLabel;
+    lblSpeed28: TLabel;
+    lblSpeed29: TLabel;
+    lblSpeed30: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -218,6 +248,7 @@ type
     procedure btnAboutProgramClick(Sender: TObject);
     procedure imgExcelClick(Sender: TObject);
     procedure imgSearchClick(Sender: TObject);
+    procedure lstDaftarGambarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -613,17 +644,16 @@ begin
   with btnAboutProgram do
     begin
       Width := dxRibbon1.Width - dxbrmngr1Bar5.DockedLeft - 14;
-    end;
-
+    end;  
   with lblLime do
     begin
-      Left := (chtSurabayaGresik.Left + chtSurabayaGresik.Width) - 140;
-      Top := chtSurabayaGresik.Top - 20;
+      Left := imgExcel.Left + imgExcel.Width + 15;//(chtSurabayaGresik.Left + chtSurabayaGresik.Width) - 140;
+      Top := imgExcel.Top + ((imgExcel.Height - (2 * lblLime.Height)) div 2);//chtSurabayaGresik.Top - 20;
     end;
   with lblYellow do
     begin
       Left := lblLime.Left;
-      Top := chtSurabayaGresik.Top - 40;
+      Top := lblLime.Top + lblLime.Height;//chtSurabayaGresik.Top - 40;
     end;
   with imgSearch do
     begin
@@ -1177,7 +1207,7 @@ var
 begin
   Result := 0;
   waktuTimer := 1000 / tmrThreshold.Interval;
-  panjangMeter := StrToInt(edtMeter.Text);//Panjang Marka + Cela (Meter)
+  panjangMeter := StrToFloat(edtMeter.Text);//Panjang Marka + Cela (Meter)
   panjangPixel := hasilJarak(markaAtas.X, markaAtas.Y, markaBawah.X, markaBawah.Y);//Pixel marka tengah
   satuanMeter := panjangPixel / panjangMeter;//Pixel/Meter
   jarakMeter := jarak / satuanMeter;
@@ -1266,7 +1296,7 @@ var
 begin
   capture := PanelToBmp(pnlMainVideo);
   imgHasilCapture.Canvas.CopyRect(Rect(0,0,100,100),capture.Canvas,Rect(x1,y1,x2,y2));
-  imgHasilCapture.Picture.SaveToFile('Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').bmp');
+  imgHasilCapture.Picture.SaveToFile(ExtractFilePath(Application.ExeName)+'Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').bmp');
 end;
 
 procedure TfrmMain.tmrThresholdTimer(Sender: TObject);
@@ -1586,9 +1616,9 @@ begin
       mp1.FileName := dlgOpen1.FileName;
       mp1.Open;
       mp1.DisplayRect:=Rect(0,0,pnlMainVideo.Width,pnlMainVideo.Height);
-      mp1.Play;
-      tmrThreshold.Enabled := True;
-      informasiVideo;
+      //mp1.Play;
+      //tmrThreshold.Enabled := True;
+      //informasiVideo;
     end;
 end;
 
@@ -1689,15 +1719,15 @@ end;
 
 procedure TfrmMain.tampilGambar;
 var
-  i, j, k : Integer;
-
+  i, j, k, l : Integer;
+  awal, akir : Integer;
 begin
+  //Gambar
   for i:= 0 to (ComponentCount - 1) do
     begin
       if (Components[i] is TImage) then
         begin
           //Posisi
-          //imgReport1.Left := ((tabViewImage.Width div 10) - imgReport1.Width) div 2;
           for j := 1 to 10 do
             begin
               if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
@@ -1721,9 +1751,151 @@ begin
                   TImage(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + ((tabViewImage.Height div 3) * 2);
                   TImage(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-20)) - imgReport1.Width));
                 end;
+            end;                       
+
+          //Clear
+          for j := 1 to 30 do
+            begin
+              if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                  TImage(Components[i]).Picture.Bitmap := nil;
+            end;                     
+          //Tampil Gambar
+          if lstDaftarGambar.Count <= 30 then
+            for j := 1 to lstDaftarGambar.Count do
+              begin
+                if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
+              end;
+          if lstDaftarGambar.Count > 30 then
+            for j := 1 to 30 do
+              begin
+                if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
+              end;
+        end;
+    end;
+
+  //Label Caption
+  for i:= 0 to (ComponentCount - 1) do
+    begin
+      if (Components[i] is TLabel) then
+        begin
+          {if lstDaftarGambar.Items.Count > 30 then
+            for j := 1 to 30 do
+              begin
+                if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+                  begin
+                      awal := AnsiPos('(', lstDaftarGambar.Items[j]);
+                      akir := AnsiPos(')',lstDaftarGambar.Items[j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[j],awal+1,akir-awal-1)) ) + ' Km/H';
+                  end;
+              end;              }
+          //Ada masalah ketika memasukkan daftar gambar bulan
+          if lstDaftarGambar.Items.Count > 30 then
+            for j := 0 to 29 do
+              begin
+                if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j+1) then
+                  begin
+                      awal := AnsiPos('(', lstDaftarGambar.Items[j]);
+                      akir := AnsiPos(')',lstDaftarGambar.Items[j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[j],awal+1,akir-awal-1)) ) + ' Km/H';
+                  end;
+              end;
+          if lstDaftarGambar.Items.Count <= 30 then
+            for j := 0 to lstDaftarGambar.Items.Count-1 do
+              begin
+                if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j+1) then
+                  begin
+                      awal := AnsiPos('(', lstDaftarGambar.Items[j]);
+                      akir := AnsiPos(')',lstDaftarGambar.Items[j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[j],awal+1,akir-awal-1)) ) + ' Km/H';
+                  end;
+              end;              
+        end;
+    end;
+  for i:= 0 to (ComponentCount - 1) do
+    begin
+      if (Components[i] is TLabel) then
+        begin
+          //Posisi
+          with lblSpeed1 do
+            begin
+              Left := imgReport1.Left + ((imgReport1.Width - lblSpeed1.Width) div 2);
+              Top := imgReport1.Top + imgReport1.Height + 5;
+            end; 
+          with lblSpeed11 do
+            begin
+              Left := imgReport11.Left + ((imgReport11.Width - lblSpeed11.Width) div 2);
+              Top := imgReport11.Top + imgReport11.Height + 5;
+            end;
+          with lblSpeed21 do
+            begin
+              Left := imgReport21.Left + ((imgReport21.Width - lblSpeed21.Width) div 2);
+              Top := imgReport21.Top + imgReport21.Height + 5;
+            end;                            
+
+          for j := 2 to 10 do
+            begin
+              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lblSpeed1.Top;
+                  TLabel(Components[i]).Left := imgReport1.Left + (100 * (j-1)) + ((imgReport1.Width - TLabel(Components[i]).Width)div 2) + ((imgReport2.Left - imgReport1.Left - 100)*(j-1));
+                end;
+            end;
+          for j := 12 to 20 do
+            begin
+              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lblSpeed11.Top;
+                  TLabel(Components[i]).Left := imgReport1.Left + (100 * (j-11)) + ((imgReport1.Width - TLabel(Components[i]).Width)div 2) + ((imgReport2.Left - imgReport1.Left - 100)*(j-11));
+                end;
+            end;
+           for j := 22 to 30 do
+            begin
+              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lblSpeed21.Top;
+                  TLabel(Components[i]).Left := imgReport1.Left + (100 * (j-21)) + ((imgReport1.Width - TLabel(Components[i]).Width)div 2) + ((imgReport2.Left - imgReport1.Left - 100)*(j-21));
+                end;
+            end;
+                                                       {
+          for j := 12 to 20 do
+            begin
+              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lblSpeed11.Top;
+                  TLabel(Components[i]).Left := (100 * j-1) + 25;//((imgReport1.Width - lblSpeed1.Width) div 2);
+                end;
+            end;
+          for j := 22 to 30 do
+            begin
+              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lblSpeed21.Top;
+                  TLabel(Components[i]).Left := (100 * j-1) + 25;//((imgReport1.Width - lblSpeed1.Width) div 2);
+                end;
             end;
 
 
+                                {
+          for j := 11 to 20 do
+            begin
+              if TLabel(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + (tabViewImage.Height div 3);
+                  TLabel(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-10)) - imgReport1.Width));
+                end;
+            end;
+          for j := 21 to 30 do
+            begin
+              if TLabel(Components[i]).Name = 'imgReport'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + ((tabViewImage.Height div 3) * 2);
+                  TLabel(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-20)) - imgReport1.Width));
+                end;
+            end;
+
+                          {
 
           //Clear
           for j := 1 to 30 do
@@ -1742,7 +1914,7 @@ begin
               begin
                 if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
                   TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
-              end;
+              end; }
         end;
     end;
   if lstDaftarGambar.Count > 30 then
@@ -2053,11 +2225,16 @@ begin
               end;
             if Cells[4,RowCount-1] <> '0' then
               Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
-            tampilGrafik;
+            tampilGrafik;       
           end;
       end;
   end;
   tampilGambar;
+end;
+
+procedure TfrmMain.lstDaftarGambarClick(Sender: TObject);
+begin
+  lstDaftarGambar.Items.SaveToFile('kk.txt');
 end;
 
 end.

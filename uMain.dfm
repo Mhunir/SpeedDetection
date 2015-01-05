@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 435
-  Top = 38
+  Left = 206
+  Top = 16
   Width = 886
   Height = 604
   Caption = 'SPEED DETECTION'
@@ -45894,8 +45894,8 @@ object frmMain: TfrmMain
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
           FileName = 
-            'E:\Tugas Akhir PENS\Coding\Delphi\Desain UI\Alpha_4\Desember\Gre' +
-            'sik - Surabaya (Asli)\Siang\VID_20141206_125505.3gp'
+            'E:\Tugas Akhir PENS\Coding\Delphi\SpeedDetection2.git\trunk\Dese' +
+            'mber\Lamborgini\Pagi\VID_20150104_094017.3gp'
           Visible = False
           TabOrder = 0
         end
@@ -48120,7 +48120,7 @@ object frmMain: TfrmMain
             0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000200
             000002000806000000F478D4FA0000000467414D410000B18F0BFC6105000000
             206348524D00007A26000080840000FA00000080E8000075300000EA6000003A
-            98000017709CBA513C000000097048597300000EBF00000EBF01380553240000
+            98000017709CBA513C000000097048597300000EBD00000EBD0147FB90AD0000
             0002624B474400FF878FCCBF0000000774494D4507DE0C1E0A2123B2B9FB1500
             00004174455874636F6D6D656E740043524541544F523A2067642D6A70656720
             76312E3020287573696E6720494A47204A50454720763632292C207175616C69
@@ -50956,13 +50956,12 @@ object frmMain: TfrmMain
           OnClick = btn2Click
         end
         object listPelanggar: TListBox
-          Left = 16
+          Left = 152
           Top = 80
-          Width = 137
+          Width = 161
           Height = 49
           ItemHeight = 15
           TabOrder = 1
-          Visible = False
         end
         object chtSurabayaGresik: TChart
           Left = 0
@@ -51140,13 +51139,13 @@ object frmMain: TfrmMain
           end
         end
         object lstDaftarGambar: TListBox
-          Left = 40
-          Top = 32
-          Width = 145
-          Height = 49
+          Left = -208
+          Top = 48
+          Width = 705
+          Height = 505
           ItemHeight = 15
           TabOrder = 4
-          Visible = False
+          OnClick = lstDaftarGambarClick
         end
         object btn5: TButton
           Left = 136
@@ -51366,6 +51365,216 @@ object frmMain: TfrmMain
           580000000049454E44AE426082}
         Visible = False
         OnClick = imgNextClick
+      end
+      object lblSpeed11: TLabel
+        Left = 104
+        Top = 208
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed2: TLabel
+        Left = 16
+        Top = 40
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed3: TLabel
+        Left = 24
+        Top = 64
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed4: TLabel
+        Left = 24
+        Top = 88
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed5: TLabel
+        Left = 24
+        Top = 112
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed6: TLabel
+        Left = 24
+        Top = 136
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed7: TLabel
+        Left = 32
+        Top = 160
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed8: TLabel
+        Left = 32
+        Top = 184
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed9: TLabel
+        Left = 88
+        Top = 40
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed10: TLabel
+        Left = 88
+        Top = 64
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed16: TLabel
+        Left = 96
+        Top = 88
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed12: TLabel
+        Left = 96
+        Top = 112
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed13: TLabel
+        Left = 96
+        Top = 136
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed14: TLabel
+        Left = 96
+        Top = 160
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed15: TLabel
+        Left = 104
+        Top = 184
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed1: TLabel
+        Left = 16
+        Top = 16
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed17: TLabel
+        Left = 16
+        Top = 208
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed18: TLabel
+        Left = 16
+        Top = 232
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed19: TLabel
+        Left = 24
+        Top = 256
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed20: TLabel
+        Left = 24
+        Top = 280
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed21: TLabel
+        Left = 24
+        Top = 304
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed22: TLabel
+        Left = 24
+        Top = 328
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed23: TLabel
+        Left = 32
+        Top = 352
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed24: TLabel
+        Left = 32
+        Top = 376
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed25: TLabel
+        Left = 88
+        Top = 232
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed26: TLabel
+        Left = 88
+        Top = 256
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed27: TLabel
+        Left = 96
+        Top = 280
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed28: TLabel
+        Left = 96
+        Top = 304
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed29: TLabel
+        Left = 96
+        Top = 328
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lblSpeed30: TLabel
+        Left = 96
+        Top = 352
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
       end
     end
   end
