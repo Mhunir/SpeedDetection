@@ -214,6 +214,7 @@ type
     lblSpeed28: TLabel;
     lblSpeed29: TLabel;
     lblSpeed30: TLabel;
+    imgBack: TImage;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -249,6 +250,7 @@ type
     procedure imgExcelClick(Sender: TObject);
     procedure imgSearchClick(Sender: TObject);
     procedure lstDaftarGambarClick(Sender: TObject);
+    procedure imgBackClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -281,7 +283,8 @@ type
     kordKananAwal, kordKananAkir : TPoint;
     cekAwalKanan, cekAkirKanan : Boolean;
     hasilSpeedKanan : Double;
-
+    //Menampilkan gambar
+    urutangambar : Integer;
 
     procedure ListFileDir(Path: string; FileList: TStrings);
     procedure ListFileDetail(Path, text: string; FileList: TStrings);
@@ -631,7 +634,13 @@ begin
   with imgNext do
     begin
       Left := (tabViewImage.Width - Width - 10);
-      Top := (tabViewImage.Height - Height - 10) + (28);
+      Top := -19;//(tabViewImage.Height - Height - 10) + (28);
+    end;
+
+  with imgBack do
+    begin
+      Left := imgNext.Left - imgBack.Width;
+      Top := imgNext.Top;
     end;
 
   with lblSpeedCapture do
@@ -901,9 +910,6 @@ begin
                 kordKiriAwal.X := x;
                 cekAwalKiri := False;
                 cekAkirKiri := True;
-                //mmo1.Lines.Add(IntToStr(kordKiriAwal.X)+','+IntToStr(kordKiriAwal.Y));
-                //mp1.Stop;
-                //tmrThreshold.Enabled := False;
                 Break;
               end;
           end;
@@ -933,16 +939,15 @@ begin
               begin
                 kordKiriAkir.X := x;
                 cekAkirKiri := False;
-//                tmrThreshold.Enabled := False;
-//                mp1.Stop;
                 jarakKiri := hasilJarak(kordKiriAwal.X,kordKiriAwal.Y,kordKiriAkir.X,kordKiriAkir.Y);
                 speedKiri := hasilSpeed(jarakKiri);
                 hasilSpeedKiri := speedKiri;
-                //mmo1.Lines.Add(IntToStr(kordKiriAkir.X)+','+IntToStr(kordKiriAkir.Y)+'>'+FloatToStr(speedKiri));
                 TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
                 lblSpeedCapture.Caption := FormatFloat('0.00',hasilSpeedKiri) + #10#13 + 'Km/H';
                 if hasilSpeedKiri > StrToInt(edtMaxSpeed.Text) then
                   CaptureImage(kordKiriAkir.X-25,kordKiriAkir.Y-50,kordKiriAkir.X+35,kordKiriAkir.Y+25, hasilSpeedKiri);
+                mmo1.Lines.Add(IntToStr(kordKiriAwal.X)+'-'+IntToStr(kordKiriAwal.Y));
+                mmo1.Lines.Add(IntToStr(kordKiriAkir.X)+'-'+IntToStr(kordKiriAkir.Y));
                 mmo1.Lines.Add(FormatFloat('Kiri : '+'0.00' + ' Km/h',hasilSpeedKiri));
                 Break;
               end;
@@ -969,6 +974,11 @@ begin
           cekAwalKiri := True;
           cekAkirKiri := True;
           hasilSpeedKiri := 0;
+          {kordKiriAwal.X := 0;
+          kordKiriAwal.Y := 0;
+          kordKiriAkir.X := 0;
+          kordKiriAkir.Y := 0;          }
+
         end;
     end;
 
@@ -1232,6 +1242,7 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
+  ShowMessage('cari penyebab hasil pertama dan kedua berbeda');
   tampilanAwal;
   createFolder;
   mp1.Open;
@@ -1288,6 +1299,7 @@ begin
 
 
   mulaiHitung := True;
+  urutangambar := 0;
 end;
 
 procedure TfrmMain.CaptureImage(x1,y1,x2,y2 : Integer; speed : Double);
@@ -1405,6 +1417,22 @@ end;
 
 procedure TfrmMain.imgPlayClick(Sender: TObject);
 begin
+  kordKiriAwal.X := 0;
+  kordKiriAwal.Y := 0;
+  kordKiriAkir.X := 0;
+  kordKiriAkir.Y := 0;
+  cekAwalKiri := True;
+  cekAkirKiri := False;
+  hasilSpeedKiri := 0;
+
+  kordKananAwal.X := 0;
+  kordKananAwal.Y := 0;
+  kordKananAkir.X := 0;
+  kordKananAkir.Y := 0;
+  cekAwalKanan := True;
+  cekAkirKanan := False;
+  hasilSpeedKanan := 0;
+  
   informasiVideo;
   mp1.Play;
   tmrThreshold.Enabled := True;
@@ -1760,17 +1788,17 @@ begin
                   TImage(Components[i]).Picture.Bitmap := nil;
             end;                     
           //Tampil Gambar
-          if lstDaftarGambar.Count <= 30 then
-            for j := 1 to lstDaftarGambar.Count do
+          if lstDaftarGambar.Count - urutangambar <= 30 then
+            for j := 1 to lstDaftarGambar.Count-urutangambar do
               begin
                 if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
+                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[urutangambar+j-1]);
               end;
-          if lstDaftarGambar.Count > 30 then
+          if lstDaftarGambar.Count - urutangambar > 30 then
             for j := 1 to 30 do
               begin
                 if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
+                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[urutangambar+j-1]);
               end;
         end;
     end;
@@ -1780,35 +1808,33 @@ begin
     begin
       if (Components[i] is TLabel) then
         begin
-          {if lstDaftarGambar.Items.Count > 30 then
-            for j := 1 to 30 do
-              begin
-                if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
+          for j := 0 to 29 do
+            begin
+              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j+1) then
                   begin
-                      awal := AnsiPos('(', lstDaftarGambar.Items[j]);
-                      akir := AnsiPos(')',lstDaftarGambar.Items[j]);
-                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      TLabel(Components[i]).Visible := False;
                   end;
-              end;              }
-          //Ada masalah ketika memasukkan daftar gambar bulan
-          if lstDaftarGambar.Items.Count > 30 then
+            end;
+          if lstDaftarGambar.Items.Count - urutangambar > 30 then
             for j := 0 to 29 do
               begin
                 if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j+1) then
                   begin
-                      awal := AnsiPos('(', lstDaftarGambar.Items[j]);
-                      akir := AnsiPos(')',lstDaftarGambar.Items[j]);
-                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      awal := AnsiPos('(', lstDaftarGambar.Items[urutangambar+j]);
+                      akir := AnsiPos(')',lstDaftarGambar.Items[urutangambar+j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[urutangambar+j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      TLabel(Components[i]).Visible := True;
                   end;
               end;
-          if lstDaftarGambar.Items.Count <= 30 then
-            for j := 0 to lstDaftarGambar.Items.Count-1 do
+          if lstDaftarGambar.Items.Count - urutangambar <= 30 then
+            for j := 0 to lstDaftarGambar.Items.Count - urutangambar - 1 do
               begin
                 if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j+1) then
                   begin
-                      awal := AnsiPos('(', lstDaftarGambar.Items[j]);
-                      akir := AnsiPos(')',lstDaftarGambar.Items[j]);
-                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      awal := AnsiPos('(', lstDaftarGambar.Items[urutangambar+j]);
+                      akir := AnsiPos(')',lstDaftarGambar.Items[urutangambar+j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstDaftarGambar.Items[urutangambar+j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      TLabel(Components[i]).Visible := True;
                   end;
               end;              
         end;
@@ -1858,71 +1884,10 @@ begin
                   TLabel(Components[i]).Left := imgReport1.Left + (100 * (j-21)) + ((imgReport1.Width - TLabel(Components[i]).Width)div 2) + ((imgReport2.Left - imgReport1.Left - 100)*(j-21));
                 end;
             end;
-                                                       {
-          for j := 12 to 20 do
-            begin
-              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
-                begin
-                  TLabel(Components[i]).Top := lblSpeed11.Top;
-                  TLabel(Components[i]).Left := (100 * j-1) + 25;//((imgReport1.Width - lblSpeed1.Width) div 2);
-                end;
-            end;
-          for j := 22 to 30 do
-            begin
-              if TLabel(Components[i]).Name = 'lblSpeed'+IntToStr(j) then
-                begin
-                  TLabel(Components[i]).Top := lblSpeed21.Top;
-                  TLabel(Components[i]).Left := (100 * j-1) + 25;//((imgReport1.Width - lblSpeed1.Width) div 2);
-                end;
-            end;
-
-
-                                {
-          for j := 11 to 20 do
-            begin
-              if TLabel(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                begin
-                  TLabel(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + (tabViewImage.Height div 3);
-                  TLabel(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-10)) - imgReport1.Width));
-                end;
-            end;
-          for j := 21 to 30 do
-            begin
-              if TLabel(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                begin
-                  TLabel(Components[i]).Top := (((tabViewImage.Height div 3) - (TImage(Components[i]).Height)) div 2) + ((tabViewImage.Height div 3) * 2);
-                  TLabel(Components[i]).Left := (( ((tabViewImage.Width div 10) * (j-20)) - imgReport1.Width));
-                end;
-            end;
-
-                          {
-
-          //Clear
-          for j := 1 to 30 do
-            begin
-              if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                  TImage(Components[i]).Picture.Bitmap := nil;
-            end;
-          if lstDaftarGambar.Count <= 30 then
-            for j := 1 to lstDaftarGambar.Count do
-              begin
-                if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
-              end;
-          if lstDaftarGambar.Count > 30 then
-            for j := 1 to 30 do
-              begin
-                if TImage(Components[i]).Name = 'imgReport'+IntToStr(j) then
-                  TImage(Components[i]).Picture.LoadFromFile(lstDaftarGambar.Items[j-1]);
-              end; }
         end;
     end;
-  if lstDaftarGambar.Count > 30 then
-    begin
-      for k := 0 to 29 do
-        lstDaftarGambar.Items.Delete(k);
-    end;
-  imgNext.Visible := True;
+  if lstDaftarGambar.Items.Count - urutangambar >= 30 then
+    imgNext.Visible := True;
 end;
 
 procedure TfrmMain.strngrdLaporanDrawCell(Sender: TObject; ACol,
@@ -1950,11 +1915,6 @@ begin
       cbbDaily.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,1);
       cbbWeekly.Date := EncodeDate(2014,cbbMonthly.ItemIndex+1,DayOfTheMonth(EndOfAMonth(2014,cbbMonthly.ItemIndex+1)));
     end;
-
-  //ShowMessage(IntToStr(DayOfTheMonth(LastDayCurrMon)));
-  //cbbWeekly.Date := DayOfTheMonth(EncodeDate(2014,cbbMonthly.ItemIndex+1,1));
-  //ShowMessage(IntToStr(cbbMonthly.ItemIndex+1));
-  //cbbWeekly.Date := cbbDaily.Date + DayOfTheMonth(cbbMonthly.ItemIndex+1);
 end;
 
 procedure TfrmMain.btn2Click(Sender: TObject);
@@ -2015,6 +1975,11 @@ end;
 
 procedure TfrmMain.imgNextClick(Sender: TObject);
 begin
+  urutangambar := urutangambar + 30;
+  if urutangambar >= 30 then
+    imgBack.Visible := True;
+  if lstDaftarGambar.Items.Count - urutangambar <= 30 then
+    imgNext.Visible := False;
   tampilGambar;
 end;
 
@@ -2164,6 +2129,7 @@ begin
           end;
       end;
     3:
+      //btn5Click(Sender);
       begin
         with strngrdLaporan do
           begin
@@ -2196,7 +2162,6 @@ begin
             Cells[3,RowCount-1] := '0';
             for i := 1 to RowCount-1 do
               Cells[4,i] := '0';
-
             for i := 1 to RowCount - 2 do
               begin
                 if DirectoryExists(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]) then
@@ -2205,7 +2170,7 @@ begin
                 Cells[3,RowCount-1] := IntToStr( StrToInt(Cells[3,RowCount-1]) + StrToInt(Cells[3,i]) );
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
                 ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
-                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);   
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -2225,16 +2190,28 @@ begin
               end;
             if Cells[4,RowCount-1] <> '0' then
               Cells[4,RowCount-1] := FormatFloat('0.00',StrToFloat(Cells[4,RowCount-1]) / jumlahAda);
-            tampilGrafik;       
+            tampilGrafik;
           end;
       end;
   end;
+  urutangambar := 0;
   tampilGambar;
+  imgBack.Visible := False;
 end;
 
 procedure TfrmMain.lstDaftarGambarClick(Sender: TObject);
 begin
   lstDaftarGambar.Items.SaveToFile('kk.txt');
+end;
+
+procedure TfrmMain.imgBackClick(Sender: TObject);
+begin
+  urutangambar := urutangambar - 30;
+  if urutangambar <= 30 then
+    imgBack.Visible := False;
+  if lstDaftarGambar.Items.Count - urutangambar >= 30 then
+    imgNext.Visible := True;
+  tampilGambar;
 end;
 
 end.

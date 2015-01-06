@@ -1,8 +1,8 @@
 object frmMain: TfrmMain
-  Left = 206
-  Top = 16
-  Width = 886
-  Height = 604
+  Left = 292
+  Top = 103
+  Width = 946
+  Height = 506
   Caption = 'SPEED DETECTION'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -45457,7 +45457,7 @@ object frmMain: TfrmMain
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
-    Width = 870
+    Width = 930
     Height = 126
     BarManager = dxbrmngr1
     ColorSchemeName = 'Blue'
@@ -45488,8 +45488,8 @@ object frmMain: TfrmMain
   end
   object barBawah: TdxRibbonStatusBar
     Left = 0
-    Top = 543
-    Width = 870
+    Top = 445
+    Width = 930
     Height = 23
     Images = il1
     Panels = <
@@ -45520,7 +45520,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 126
     Width = 150
-    Height = 417
+    Height = 319
     Align = alLeft
     Color = clSkyBlue
     ActiveGroupIndex = 0
@@ -45586,9 +45586,9 @@ object frmMain: TfrmMain
   object pageView: TsPageControl
     Left = 150
     Top = 126
-    Width = 720
-    Height = 417
-    ActivePage = tabProcess
+    Width = 780
+    Height = 319
+    ActivePage = tabPreview
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -45894,8 +45894,8 @@ object frmMain: TfrmMain
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
           FileName = 
-            'E:\Tugas Akhir PENS\Coding\Delphi\SpeedDetection2.git\trunk\Dese' +
-            'mber\Lamborgini\Pagi\VID_20150104_094017.3gp'
+            'E:\Tugas Akhir PENS\Coding\Delphi\Desain UI\Alpha_4\Desember\Gre' +
+            'sik - Surabaya (Asli)\Siang\VID_20141206_125505.3gp'
           Visible = False
           TabOrder = 0
         end
@@ -46066,8 +46066,8 @@ object frmMain: TfrmMain
       object strngrdLaporan: TStringGrid
         Left = 0
         Top = 0
-        Width = 212
-        Height = 387
+        Width = 272
+        Height = 289
         Align = alClient
         Color = clBtnShadow
         FixedColor = clWhite
@@ -46082,10 +46082,10 @@ object frmMain: TfrmMain
         OnDrawCell = strngrdLaporanDrawCell
       end
       object pnlKanan: TPanel
-        Left = 212
+        Left = 272
         Top = 0
         Width = 500
-        Height = 387
+        Height = 289
         Align = alRight
         BevelOuter = bvNone
         BorderStyle = bsSingle
@@ -48120,7 +48120,7 @@ object frmMain: TfrmMain
             0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000200
             000002000806000000F478D4FA0000000467414D410000B18F0BFC6105000000
             206348524D00007A26000080840000FA00000080E8000075300000EA6000003A
-            98000017709CBA513C000000097048597300000EBD00000EBD0147FB90AD0000
+            98000017709CBA513C000000097048597300000EBC00000EBC0195BC72490000
             0002624B474400FF878FCCBF0000000774494D4507DE0C1E0A2123B2B9FB1500
             00004174455874636F6D6D656E740043524541544F523A2067642D6A70656720
             76312E3020287573696E6720494A47204A50454720763632292C207175616C69
@@ -50962,10 +50962,11 @@ object frmMain: TfrmMain
           Height = 49
           ItemHeight = 15
           TabOrder = 1
+          Visible = False
         end
         object chtSurabayaGresik: TChart
           Left = 0
-          Top = -17
+          Top = -115
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51052,7 +51053,7 @@ object frmMain: TfrmMain
         end
         object chtGresikSurabaya: TChart
           Left = 0
-          Top = 183
+          Top = 85
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51139,17 +51140,18 @@ object frmMain: TfrmMain
           end
         end
         object lstDaftarGambar: TListBox
-          Left = -208
-          Top = 48
-          Width = 705
-          Height = 505
+          Left = 240
+          Top = 88
+          Width = 145
+          Height = 33
           ItemHeight = 15
           TabOrder = 4
+          Visible = False
           OnClick = lstDaftarGambarClick
         end
         object btn5: TButton
-          Left = 136
-          Top = 0
+          Left = 24
+          Top = 8
           Width = 75
           Height = 25
           Caption = 'Print'
@@ -51576,6 +51578,31 @@ object frmMain: TfrmMain
         Height = 15
         Caption = 'lblSpeed11'
       end
+      object imgBack: TImage
+        Left = 976
+        Top = 416
+        Width = 72
+        Height = 72
+        Cursor = crHandPoint
+        Picture.Data = {
+          0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000048
+          00000048080600000055EDB347000000206348524D00007A26000080840000FA
+          00000080E8000075300000EA6000003A98000017709CBA513C00000009704859
+          7300000B1100000B11017F645F9100000002624B474400FF878FCCBF00000140
+          49444154785EEDD95B6EC23010055056C0025AFA582A6D57D9D2D74EA8470235
+          420E9EF4ABCA1C4B163FC6920FD793D86C361A01020408102040800001020408
+          1020408000010204D626B06F0B8AAE750402E678EA902E80A638901238904E48
+          BDE49C71E2F3BDF56DD58294C1D9C1F92DCC97C9B983D3C7F9683070268FF469
+          72E0CCC004129C01CEBD9AD3AF399F0D06CE4C7AE05CD95681F3605BF5B7D517
+          9C3E4C3CADE05CD956DF92339F9CC079AC5A7362DDA3C36779A00C52E9FA73DE
+          3DA324414A6CB7D22F88D924414A24A9F4093E9B24488924C5E57CD95BC46C92
+          02A9EC253DA4054788D17BD2A1CD75BB60BE550E8594F85947486F6D8E9BC43C
+          AB1E32427A6DAB2FFBD773A670BFAC3A1E0B16D74BD2F382EF97183A457A2AB1
+          E23F2C3290A26B040810204080000102040810204080000102040810F8C7023F
+          3D270C864901D3C10000000049454E44AE426082}
+        Visible = False
+        OnClick = imgBackClick
+      end
     end
   end
   object sknmngr1: TsSkinManager
@@ -51745,7 +51772,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar4: TdxBar
       Caption = 'Cordinat'
       CaptionButtons = <>
-      DockedLeft = 639
+      DockedLeft = 698
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 10
@@ -51785,7 +51812,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar5: TdxBar
       Caption = 'About'
       CaptionButtons = <>
-      DockedLeft = 768
+      DockedLeft = 827
       DockedTop = 0
       FloatLeft = 272
       FloatTop = 106
