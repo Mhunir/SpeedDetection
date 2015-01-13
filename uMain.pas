@@ -215,6 +215,7 @@ type
     lblSpeed29: TLabel;
     lblSpeed30: TLabel;
     imgBack: TImage;
+    seeriesBatasSpeed: TLineSeries;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -1690,25 +1691,34 @@ begin
                 seriesSurabayaGresik.LinePen.Width := 2;
                 AddXY((tglMulai + i) - 1, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
               end;
-            with chtSurabayaGresik.Series[1] do
+            with chtGresikSurabaya.Series[0] do
               begin
                 seriesJumlahSurabayaGresik.LinePen.Width := 2;
-                AddXY((tglMulai + i) - 1, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+                AddXY((tglMulai + i) - 1, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clLime );
               end;
           end;
         //Gresik-Surabaya
         tglMulai := DayOf(cbbDaily.Date);
         for i := 8 to 14 do
           begin
-            with chtGresikSurabaya.Series[0] do
+            with chtSurabayaGresik.Series[1] do
               begin
                 seriesGresikSurabaya.LinePen.Width := 2;
-                AddXY((tglMulai + i) - 8, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+                AddXY((tglMulai + i) - 8, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clRed );
               end;
             with chtGresikSurabaya.Series[1] do
               begin
                 seriesJumlahGresikSurabaya.LinePen.Width := 2;
-                AddXY((tglMulai + i) - 8, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+                AddXY((tglMulai + i) - 8, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clRed );
+              end;
+          end;
+        //Menampilkan Batas
+        for i := 1 to 31 do
+          begin
+            with seeriesBatasSpeed do
+              begin
+                LinePen.Width := 1;
+                AddXY(i, 80, '', clYellow );
               end;
           end;
       end;
@@ -1723,26 +1733,34 @@ begin
                 seriesSurabayaGresik.LinePen.Width := 2;
                 AddXY(tglMulai + i, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
               end;
-            with chtSurabayaGresik.Series[1] do
+            with chtGresikSurabaya.Series[0] do
               begin
                 seriesJumlahSurabayaGresik.LinePen.Width := 2;
-                AddXY(tglMulai + i, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+                AddXY(tglMulai + i, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clLime );
               end;   
           end;
         for i := tglAkir + 1 to tglAkir * 2 do
           begin
-            with chtGresikSurabaya.Series[0] do
+            with chtSurabayaGresik.Series[1] do
               begin
                 seriesGresikSurabaya.LinePen.Width := 2;
-                AddXY((tglMulai + i) - tglAkir, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clLime );
+                AddXY((tglMulai + i) - tglAkir, Round(StrToFloat(strngrdLaporan.Cells[4,i])), '', clRed );
               end;
             with chtGresikSurabaya.Series[1] do
               begin
                 seriesJumlahGresikSurabaya.LinePen.Width := 2;
-                AddXY((tglMulai + i) - tglAkir, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clYellow );
+                AddXY((tglMulai + i) - tglAkir, Round(StrToFloat(strngrdLaporan.Cells[3,i])), '', clRed );
               end;
           end;
-
+        //Menampilkan Batas
+        for i := 1 to 31 do
+          begin
+            with seeriesBatasSpeed do
+              begin
+                LinePen.Width := 1;
+                AddXY(i, 80, '', clYellow );
+              end;
+          end;
       end;
     1 :
       begin

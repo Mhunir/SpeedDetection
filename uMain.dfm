@@ -1,8 +1,8 @@
 object frmMain: TfrmMain
-  Left = 292
-  Top = 103
-  Width = 946
-  Height = 506
+  Left = 186
+  Top = 5
+  Width = 1283
+  Height = 675
   Caption = 'SPEED DETECTION'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -45457,7 +45457,7 @@ object frmMain: TfrmMain
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
-    Width = 930
+    Width = 1267
     Height = 126
     BarManager = dxbrmngr1
     ColorSchemeName = 'Blue'
@@ -45488,8 +45488,8 @@ object frmMain: TfrmMain
   end
   object barBawah: TdxRibbonStatusBar
     Left = 0
-    Top = 445
-    Width = 930
+    Top = 614
+    Width = 1267
     Height = 23
     Images = il1
     Panels = <
@@ -45520,7 +45520,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 126
     Width = 150
-    Height = 319
+    Height = 488
     Align = alLeft
     Color = clSkyBlue
     ActiveGroupIndex = 0
@@ -45586,9 +45586,9 @@ object frmMain: TfrmMain
   object pageView: TsPageControl
     Left = 150
     Top = 126
-    Width = 780
-    Height = 319
-    ActivePage = tabPreview
+    Width = 1117
+    Height = 488
+    ActivePage = tabProcess
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -46066,8 +46066,8 @@ object frmMain: TfrmMain
       object strngrdLaporan: TStringGrid
         Left = 0
         Top = 0
-        Width = 272
-        Height = 289
+        Width = 609
+        Height = 458
         Align = alClient
         Color = clBtnShadow
         FixedColor = clWhite
@@ -46082,10 +46082,10 @@ object frmMain: TfrmMain
         OnDrawCell = strngrdLaporanDrawCell
       end
       object pnlKanan: TPanel
-        Left = 272
+        Left = 609
         Top = 0
         Width = 500
-        Height = 289
+        Height = 458
         Align = alRight
         BevelOuter = bvNone
         BorderStyle = bsSingle
@@ -46096,7 +46096,7 @@ object frmMain: TfrmMain
           Top = 16
           Width = 107
           Height = 15
-          Caption = 'Yellow - Speed Average'
+          Caption = 'Red : Gresik - Surabaya'
           Font.Charset = ANSI_CHARSET
           Font.Color = clYellow
           Font.Height = -11
@@ -46107,9 +46107,9 @@ object frmMain: TfrmMain
         object lblLime: TLabel
           Left = 368
           Top = 40
-          Width = 119
+          Width = 112
           Height = 15
-          Caption = 'Lime : Count of Offenders'
+          Caption = 'Lime : Surabaya - Gresik'
           Font.Charset = ANSI_CHARSET
           Font.Color = clLime
           Font.Height = -11
@@ -50966,7 +50966,7 @@ object frmMain: TfrmMain
         end
         object chtSurabayaGresik: TChart
           Left = 0
-          Top = -115
+          Top = 54
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -50976,7 +50976,7 @@ object frmMain: TfrmMain
           Title.Font.Name = 'Arial Narrow'
           Title.Font.Style = [fsBold]
           Title.Text.Strings = (
-            'Surabaya - Gresik')
+            'Speed Average')
           BottomAxis.Automatic = False
           BottomAxis.AutomaticMaximum = False
           BottomAxis.AutomaticMinimum = False
@@ -51004,7 +51004,7 @@ object frmMain: TfrmMain
           LeftAxis.LabelsFont.Name = 'Arial'
           LeftAxis.LabelsFont.Style = []
           LeftAxis.Maximum = 120.000000000000000000
-          LeftAxis.Title.Caption = 'Offenders'
+          LeftAxis.Title.Caption = 'Speed (Km/H)'
           LeftAxis.Title.Font.Charset = ANSI_CHARSET
           LeftAxis.Title.Font.Color = clWhite
           LeftAxis.Title.Font.Height = -11
@@ -51050,10 +51050,26 @@ object frmMain: TfrmMain
             YValues.Multiplier = 1.000000000000000000
             YValues.Order = loNone
           end
+          object seeriesBatasSpeed: TLineSeries
+            Marks.ArrowLength = 8
+            Marks.Visible = False
+            SeriesColor = clYellow
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            Pointer.Visible = False
+            XValues.DateTime = False
+            XValues.Name = 'X'
+            XValues.Multiplier = 1.000000000000000000
+            XValues.Order = loAscending
+            YValues.DateTime = False
+            YValues.Name = 'Y'
+            YValues.Multiplier = 1.000000000000000000
+            YValues.Order = loNone
+          end
         end
         object chtGresikSurabaya: TChart
           Left = 0
-          Top = 85
+          Top = 254
           Width = 496
           Height = 200
           BackWall.Brush.Color = clWhite
@@ -51064,7 +51080,7 @@ object frmMain: TfrmMain
           Title.Font.Name = 'Arial Narrow'
           Title.Font.Style = [fsBold]
           Title.Text.Strings = (
-            'Gresik - Surabaya')
+            'Count of Offenders')
           BottomAxis.Automatic = False
           BottomAxis.AutomaticMaximum = False
           BottomAxis.AutomaticMinimum = False
@@ -51082,9 +51098,6 @@ object frmMain: TfrmMain
           BottomAxis.Title.Font.Height = -11
           BottomAxis.Title.Font.Name = 'Arial'
           BottomAxis.Title.Font.Style = []
-          LeftAxis.Automatic = False
-          LeftAxis.AutomaticMaximum = False
-          LeftAxis.AutomaticMinimum = False
           LeftAxis.Axis.Color = clWhite
           LeftAxis.ExactDateTime = False
           LeftAxis.LabelsFont.Charset = DEFAULT_CHARSET
@@ -51092,8 +51105,7 @@ object frmMain: TfrmMain
           LeftAxis.LabelsFont.Height = -11
           LeftAxis.LabelsFont.Name = 'Arial'
           LeftAxis.LabelsFont.Style = []
-          LeftAxis.Maximum = 120.000000000000000000
-          LeftAxis.Title.Caption = 'Offenders'
+          LeftAxis.Title.Caption = 'Count'
           LeftAxis.Title.Font.Charset = ANSI_CHARSET
           LeftAxis.Title.Font.Color = clWhite
           LeftAxis.Title.Font.Height = -11
@@ -51588,7 +51600,7 @@ object frmMain: TfrmMain
           0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000048
           00000048080600000055EDB347000000206348524D00007A26000080840000FA
           00000080E8000075300000EA6000003A98000017709CBA513C00000009704859
-          7300000B1000000B1001AD23BD7500000002624B474400FF878FCCBF00000140
+          7300000B0F00000B0F0192F903A500000002624B474400FF878FCCBF00000140
           49444154785EEDD95B6EC23010055056C0025AFA582A6D57D9D2D74EA8470235
           420E9EF4ABCA1C4B163FC6920FD793D86C361A01020408102040800001020408
           1020408000010204D626B06F0B8AAE750402E678EA902E80A638901238904E48
@@ -51696,7 +51708,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar2: TdxBar
       Caption = 'Report'
       CaptionButtons = <>
-      DockedLeft = 460
+      DockedLeft = 580
       DockedTop = 0
       FloatLeft = 623
       FloatTop = 336
@@ -51736,7 +51748,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar3: TdxBar
       Caption = 'Options'
       CaptionButtons = <>
-      DockedLeft = 159
+      DockedLeft = 279
       DockedTop = 0
       FloatLeft = 245
       FloatTop = 67
@@ -51772,7 +51784,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar4: TdxBar
       Caption = 'Cordinat'
       CaptionButtons = <>
-      DockedLeft = 698
+      DockedLeft = 818
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 10
@@ -51812,7 +51824,7 @@ object frmMain: TfrmMain
     object dxbrmngr1Bar5: TdxBar
       Caption = 'About'
       CaptionButtons = <>
-      DockedLeft = 827
+      DockedLeft = 1106
       DockedTop = 0
       FloatLeft = 272
       FloatTop = 106
