@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 103
-  Top = 211
+  Left = 355
+  Top = 10
   Width = 1283
   Height = 675
   Caption = 'SPEED DETECTION'
@@ -45588,7 +45588,7 @@ object frmMain: TfrmMain
     Top = 126
     Width = 1117
     Height = 488
-    ActivePage = tabProcess
+    ActivePage = tabPreview
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -45730,8 +45730,8 @@ object frmMain: TfrmMain
         object lblSpeedCapture: TLabel
           Left = 0
           Top = 0
-          Width = 167
-          Height = 150
+          Width = 201
+          Height = 145
           Align = alClient
           Alignment = taCenter
           Caption = '000'#13#10'Km/H'
@@ -45889,7 +45889,7 @@ object frmMain: TfrmMain
         object mp1: TMediaPlayer
           Left = 48
           Top = 107
-          Width = -2
+          Width = 85
           Height = 30
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
@@ -46030,17 +46030,6 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         TabOrder = 17
         SkinData.SkinSection = 'PANEL'
-        object mmo1: TMemo
-          Left = 8
-          Top = 8
-          Width = 185
-          Height = 105
-          Lines.Strings = (
-            'mmo1')
-          TabOrder = 0
-          Visible = False
-          OnChange = mmo1Change
-        end
         object listVIdeo: TListBox
           Left = 8
           Top = 112
@@ -46054,8 +46043,18 @@ object frmMain: TfrmMain
           Font.Style = []
           ItemHeight = 13
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 0
           OnClick = listVIdeoClick
+        end
+        object mmo1: TMemo
+          Left = 8
+          Top = 8
+          Width = 185
+          Height = 105
+          Lines.Strings = (
+            'mmo1')
+          TabOrder = 1
+          OnChange = mmo1Change
         end
       end
     end
@@ -51600,7 +51599,7 @@ object frmMain: TfrmMain
           0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000048
           00000048080600000055EDB347000000206348524D00007A26000080840000FA
           00000080E8000075300000EA6000003A98000017709CBA513C00000009704859
-          7300000B0E00000B0E0140BEE14100000002624B474400FF878FCCBF00000140
+          7300000B0C00000B0C013F4022C800000002624B474400FF878FCCBF00000140
           49444154785EEDD95B6EC23010055056C0025AFA582A6D57D9D2D74EA8470235
           420E9EF4ABCA1C4B163FC6920FD793D86C361A01020408102040800001020408
           1020408000010204D626B06F0B8AAE750402E678EA902E80A638901238904E48

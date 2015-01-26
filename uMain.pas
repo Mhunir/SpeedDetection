@@ -96,7 +96,6 @@ type
     img5: TImage;
     tmrThreshold: TTimer;
     dxbrcmb1: TdxBarCombo;
-    mmo1: TMemo;
     imgHasilCapture: TImage;
     dxbrlrgbtn3: TdxBarLargeButton;
     cbbDaily: TdxBarDateCombo;
@@ -216,6 +215,7 @@ type
     lblSpeed30: TLabel;
     imgBack: TImage;
     seeriesBatasSpeed: TLineSeries;
+    mmo1: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -567,7 +567,7 @@ begin
       with listVIdeo do
         begin
           Width := pnlOffender.Width - 6;
-          Height := pnlOffender.Height - 6;
+          Height := 60;//pnlOffender.Height - 6;
           Left := 3;
           Top := 3;
         end;
@@ -925,9 +925,9 @@ begin
       if not adaKiri then
         begin
           cekAwalKiri := True;
-          cekAkirKiri := True;
+          cekAkirKiri := False;
           hasilSpeedKiri := 0;
-
+          speedKiri := 0;
         end;
     end;
 end;
@@ -1079,9 +1079,9 @@ begin
       if not adaKanan then
         begin
           cekAwalKanan := True;
-          cekAkirKanan := True;
+          cekAkirKanan := False;//True;
           hasilSpeedKanan := 0;
-
+          speedKanan := 0;
         end;
     end;
 end;
@@ -1426,21 +1426,21 @@ end;
 
 procedure TfrmMain.imgPlayClick(Sender: TObject);
 begin
-  kordKiriAwal.X := 0;
+  {kordKiriAwal.X := 0;
   kordKiriAwal.Y := 0;
   kordKiriAkir.X := 0;
-  kordKiriAkir.Y := 0;
-  cekAwalKiri := True;
+  kordKiriAkir.Y := 0;     }
+  {cekAwalKiri := True;
   cekAkirKiri := False;
   hasilSpeedKiri := 0;
 
-  kordKananAwal.X := 0;
+  {kordKananAwal.X := 0;
   kordKananAwal.Y := 0;
   kordKananAkir.X := 0;
-  kordKananAkir.Y := 0;
-  cekAwalKanan := True;
+  kordKananAkir.Y := 0;     }
+  {cekAwalKanan := True;
   cekAkirKanan := False;
-  hasilSpeedKanan := 0;
+  hasilSpeedKanan := 0;   }
   
   informasiVideo;
   mp1.Play;
@@ -1456,6 +1456,22 @@ begin
   img5.Picture.Assign(nil);
   mp1.Stop;
   imgPlay.Enabled := True;
+
+  {kordKiriAwal.X := 0;
+  kordKiriAwal.Y := 0;
+  kordKiriAkir.X := 0;
+  kordKiriAkir.Y := 0; }
+  {cekAwalKiri := True;
+  cekAkirKiri := False;
+  hasilSpeedKiri := 0;
+
+  {kordKananAwal.X := 0;
+  kordKananAwal.Y := 0;
+  kordKananAkir.X := 0;
+  kordKananAkir.Y := 0; }
+  {cekAwalKanan := True;
+  cekAkirKanan := False;
+  hasilSpeedKanan := 0;  }
 end;
 
 procedure TfrmMain.imgPauseClick(Sender: TObject);
