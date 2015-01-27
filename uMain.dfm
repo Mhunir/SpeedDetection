@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 355
-  Top = 10
+  Left = 130
+  Top = 16
   Width = 1283
   Height = 675
   Caption = 'SPEED DETECTION'
@@ -45588,7 +45588,7 @@ object frmMain: TfrmMain
     Top = 126
     Width = 1117
     Height = 488
-    ActivePage = tabPreview
+    ActivePage = tabProcess
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
