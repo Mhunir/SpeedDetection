@@ -567,7 +567,7 @@ begin
       with listVIdeo do
         begin
           Width := pnlOffender.Width - 6;
-          Height := 60;//pnlOffender.Height - 6;
+          Height := pnlOffender.Height - 6;
           Left := 3;
           Top := 3;
         end;
@@ -1485,7 +1485,7 @@ procedure TfrmMain.cbbWebcamListChange(Sender: TObject);
 begin
   fltrgrph1.ClearGraph;
   fltrgrph1.Active:=False;
-  fltr1.BaseFilter.Moniker:=SysDev.GetMoniker(1);
+  fltr1.BaseFilter.Moniker:=SysDev.GetMoniker(0);
   fltrgrph1.Active:=true;
   with fltrgrph1 as ICaptureGraphBuilder2 do
     RenderStream(@PIN_CATEGORY_PREVIEW, nil, fltr1 as IBaseFilter, smplgrbr1 as IBaseFilter, vdwndw1 as IBaseFilter);

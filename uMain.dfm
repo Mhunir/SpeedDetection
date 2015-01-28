@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 130
-  Top = 16
+  Left = 254
+  Top = 14
   Width = 1283
   Height = 675
   Caption = 'SPEED DETECTION'
@@ -45588,7 +45588,7 @@ object frmMain: TfrmMain
     Top = 126
     Width = 1117
     Height = 488
-    ActivePage = tabProcess
+    ActivePage = tabPreview
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -46054,6 +46054,7 @@ object frmMain: TfrmMain
           Lines.Strings = (
             'mmo1')
           TabOrder = 1
+          Visible = False
           OnChange = mmo1Change
         end
       end
