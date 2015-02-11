@@ -93,7 +93,7 @@ type
     dxbrdtcmb3: TdxBarDateCombo;
     img1: TImage;
     img2: TImage;
-    img5: TImage;
+    img55: TImage;
     tmrThreshold: TTimer;
     dxbrcmb1: TdxBarCombo;
     imgHasilCapture: TImage;
@@ -216,6 +216,68 @@ type
     imgBack: TImage;
     seeriesBatasSpeed: TLineSeries;
     mmo1: TMemo;
+    notOffenders: TsTabSheet;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    lbl9: TLabel;
+    lbl10: TLabel;
+    lbl11: TLabel;
+    lbl12: TLabel;
+    lbl13: TLabel;
+    lbl14: TLabel;
+    lbl15: TLabel;
+    lbl16: TLabel;
+    lbl17: TLabel;
+    lbl18: TLabel;
+    lbl19: TLabel;
+    lbl20: TLabel;
+    lbl21: TLabel;
+    lbl22: TLabel;
+    lbl23: TLabel;
+    lbl24: TLabel;
+    lbl25: TLabel;
+    lbl26: TLabel;
+    lbl27: TLabel;
+    lbl28: TLabel;
+    lbl29: TLabel;
+    lbl30: TLabel;
+    lstBukanPelanggar: TListBox;
+    img3: TImage;
+    img4: TImage;
+    img5: TImage;
+    img6: TImage;
+    img7: TImage;
+    img8: TImage;
+    img9: TImage;
+    img10: TImage;
+    img11: TImage;
+    img12: TImage;
+    img13: TImage;
+    img14: TImage;
+    img15: TImage;
+    img16: TImage;
+    img17: TImage;
+    img18: TImage;
+    img19: TImage;
+    img20: TImage;
+    img21: TImage;
+    img22: TImage;
+    img23: TImage;
+    img24: TImage;
+    img25: TImage;
+    img26: TImage;
+    img27: TImage;
+    img28: TImage;
+    img29: TImage;
+    img30: TImage;
+    img31: TImage;
+    img32: TImage;
     procedure FormCreate(Sender: TObject);
     procedure tmrThresholdTimer(Sender: TObject);
     procedure mmo1Change(Sender: TObject);
@@ -300,10 +362,13 @@ type
     procedure GetRGB(Col: TColor; var R : Byte);
     procedure gray;
     procedure CaptureImage(x1,y1,x2,y2 : Integer; speed : Double);
+    procedure CaptureImageNotOffenders(x1,y1,x2,y2 : Integer; speed : Double);
     procedure tampilList;
     procedure createFolder;
     procedure tampilGrafik;
     procedure tampilGambar;
+    procedure tampilGambarBukanPelanggar;
+
 
     function meanFilter(x,y : Integer):Integer;
     function sauvolaFilter(x,y : Integer):Integer;
@@ -359,6 +424,14 @@ begin
   if not DirectoryExists(lokasiFolder+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
     begin
       CreateDir(lokasiFolder+'Hasil Report\'+FormatDateTime('d mmmmmmmm yyyy',Now));
+    end;
+  if not DirectoryExists(lokasiFolder+'Hasil Capture Bukan Pelanggar\Surabaya - Gresik\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
+    begin
+      CreateDir(lokasiFolder+'Hasil Capture Bukan Pelanggar\Surabaya - Gresik\'+FormatDateTime('d mmmmmmmm yyyy',Now));
+    end;
+  if not DirectoryExists(lokasiFolder+'Hasil Capture Bukan Pelanggar\Gresik - Surabaya\'+FormatDateTime('d mmmmmmmm yyyy',Now)) then
+    begin
+      CreateDir(lokasiFolder+'Hasil Capture Bukan Pelanggar\Gresik - Surabaya\'+FormatDateTime('d mmmmmmmm yyyy',Now));
     end;
 
 end;
@@ -730,7 +803,7 @@ begin
                 else pbmpHasilMean[x]:=255;//Fungsi Threshold
             end;
         end;
-      img5.Picture.Bitmap.Assign(bmpHasilMean);
+      img55.Picture.Bitmap.Assign(bmpHasilMean);
     end;                                       
 end;
 
@@ -770,11 +843,11 @@ begin
   //Menampilkan Gambar Jalur
   if cbbJalur.ItemIndex = 0 then
     begin
-      LineLurus(img5.Canvas,markaAtas.X,markaAtas.Y,markaBawah.X,markaBawah.Y,clGray);
-      LineLurus(img5.Canvas,jalurKiri_atas.X,jalurKiri_atas.Y,jalurTengah_atas.X,jalurTengah_atas.Y,clRed);
-      LineLurus(img5.Canvas,jalurKiri_bawah.X,jalurKiri_bawah.Y,jalurTengah_bawah.X,jalurTengah_bawah.Y,clRed);
-      LineLurus(img5.Canvas,jalurTengah_atas.X,jalurTengah_atas.Y,jalurKanan_atas.X,jalurKanan_atas.Y,clYellow);
-      LineLurus(img5.Canvas,jalurTengah_bawah.X,jalurTengah_bawah.Y,jalurKanan_bawah.X,jalurKanan_bawah.Y,clYellow);
+      LineLurus(img55.Canvas,markaAtas.X,markaAtas.Y,markaBawah.X,markaBawah.Y,clGray);
+      LineLurus(img55.Canvas,jalurKiri_atas.X,jalurKiri_atas.Y,jalurTengah_atas.X,jalurTengah_atas.Y,clRed);
+      LineLurus(img55.Canvas,jalurKiri_bawah.X,jalurKiri_bawah.Y,jalurTengah_bawah.X,jalurTengah_bawah.Y,clRed);
+      LineLurus(img55.Canvas,jalurTengah_atas.X,jalurTengah_atas.Y,jalurKanan_atas.X,jalurKanan_atas.Y,clYellow);
+      LineLurus(img55.Canvas,jalurTengah_bawah.X,jalurTengah_bawah.Y,jalurKanan_bawah.X,jalurKanan_bawah.Y,clYellow);
     end;
 end;
 
@@ -801,7 +874,7 @@ begin
   for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
     for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
       begin
-        colcek := img5.Canvas.Pixels[x,y];
+        colcek := img55.Canvas.Pixels[x,y];
         GetRGB(colcek, RKiri);
         if RKiri = 255 then
           begin
@@ -818,7 +891,7 @@ begin
   for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
     for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
       begin
-        colcek := img5.Canvas.Pixels[x,y];
+        colcek := img55.Canvas.Pixels[x,y];
         GetRGB(colcek, RKiri);
         if RKiri = 255 then
           begin
@@ -832,13 +905,13 @@ begin
       end;
   if (awalKiri.X<>0)and(awalKiri.Y<>0)and(akirKiri.X<>0)and(akirKiri.Y<>0) then
     begin
-      BlobBox(img5.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
+      BlobBox(img55.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
       BlobBox(img1.Canvas,awalKiri.X-5,awalKiri.Y-5,akirKiri.X+5,akirKiri.Y+5,clLime);
       if hasilSpeedKiri > 0 then
-        TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,hasilSpeedKiri);
+        TulisSpeed(img55.Canvas,awalKiri.X,awalKiri.Y,clLime,hasilSpeedKiri);
     end;
   {Untuk Kordinat Awal Kiri}
-  colCek := img5.Canvas.Pixels[1,1];
+  colCek := img55.Canvas.Pixels[1,1];
   GetRGB(colCek,RPojok);
   if (RPojok = 0)and(cekAwalKiri = True) then
     begin
@@ -846,7 +919,7 @@ begin
       for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
         for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,y];
+            colcek := img55.Canvas.Pixels[x,y];
             GetRGB(colcek, RKiri);
             if (cekAwalKiri = True)and(RKiri = 255) then
               begin
@@ -857,7 +930,7 @@ begin
       if kordKiriAwal.Y <> 0 then
         for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,kordKiriAwal.Y];
+            colcek := img55.Canvas.Pixels[x,kordKiriAwal.Y];
             GetRGB(colcek, RKiri);
             if (cekAwalKiri = True)and(RKiri = 255) then
               begin
@@ -875,7 +948,7 @@ begin
       for y := kordKiriAwal.Y+1 to jalurTengah_bawah.Y-1 do
         for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,y];
+            colcek := img55.Canvas.Pixels[x,y];
             GetRGB(colcek, RKiri);
             if (cekAkirKiri = True)and(RKiri = 255) then
               begin
@@ -886,7 +959,7 @@ begin
       if kordKiriAkir.Y <> 0 then
         for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,kordKiriAkir.Y];
+            colcek := img55.Canvas.Pixels[x,kordKiriAkir.Y];
             GetRGB(colcek, RKiri);
             if (cekAkirKiri = True)and(RKiri = 255) then
               begin
@@ -895,10 +968,13 @@ begin
                 jarakKiri := hasilJarak(kordKiriAwal.X,kordKiriAwal.Y,kordKiriAkir.X,kordKiriAkir.Y);
                 speedKiri := hasilSpeed(jarakKiri);
                 hasilSpeedKiri := speedKiri;
-                TulisSpeed(img5.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
+                TulisSpeed(img55.Canvas,awalKiri.X,awalKiri.Y,clLime,speedKiri);
                 lblSpeedCapture.Caption := FormatFloat('0.00',hasilSpeedKiri) + #10#13 + 'Km/H';
                 if hasilSpeedKiri > StrToInt(edtMaxSpeed.Text) then
                   CaptureImage(kordKiriAkir.X-25,kordKiriAkir.Y-50,kordKiriAkir.X+35,kordKiriAkir.Y+25, hasilSpeedKiri);
+                if hasilSpeedKiri <= StrToInt(edtMaxSpeed.Text) then
+                  CaptureImageNotOffenders(kordKiriAkir.X-25,kordKiriAkir.Y-50,kordKiriAkir.X+35,kordKiriAkir.Y+25, hasilSpeedKiri);
+
                 mmo1.Lines.Add(IntToStr(kordKiriAwal.X)+'-'+IntToStr(kordKiriAwal.Y));
                 mmo1.Lines.Add(IntToStr(kordKiriAkir.X)+'-'+IntToStr(kordKiriAkir.Y));
                 mmo1.Lines.Add(FormatFloat('Kiri : '+'0.00' + ' Km/h',hasilSpeedKiri));
@@ -914,7 +990,7 @@ begin
       for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
         for x := jalurKiri_atas.X+1 to jalurTengah_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,y];
+            colcek := img55.Canvas.Pixels[x,y];
             GetRGB(colcek, RKiri);
             if (RKiri = 255) then
               begin
@@ -955,7 +1031,7 @@ begin
   for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
     for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
       begin
-        colcek := img5.Canvas.Pixels[x,y];
+        colcek := img55.Canvas.Pixels[x,y];
         GetRGB(colcek, RKanan);
         if RKanan = 255 then
           begin
@@ -972,7 +1048,7 @@ begin
   for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
     for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
       begin
-        colcek := img5.Canvas.Pixels[x,y];
+        colcek := img55.Canvas.Pixels[x,y];
         GetRGB(colcek, RKanan);
         if RKanan = 255 then
           begin
@@ -986,13 +1062,13 @@ begin
       end;
   if (awalKanan.X<>0)and(awalKanan.Y<>0)and(akirKanan.X<>0)and(akirKanan.Y<>0) then
     begin
-      BlobBox(img5.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clLime);
+      BlobBox(img55.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clLime);
       BlobBox(img1.Canvas,awalKanan.X-5,awalKanan.Y-5,akirKanan.X+5,akirKanan.Y+5,clLime);
       if hasilSpeedKanan > 0 then
-        TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,hasilSpeedKanan);
+        TulisSpeed(img55.Canvas,awalKanan.X,awalKanan.Y,clLime,hasilSpeedKanan);
     end;
   {Untuk Kordinat Awal Kanan}
-  colCek := img5.Canvas.Pixels[1,1];
+  colCek := img55.Canvas.Pixels[1,1];
   GetRGB(colCek,RPojok);
   if (RPojok = 0)and(cekAwalKanan = True) then
     begin
@@ -1000,7 +1076,7 @@ begin
       for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
         for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,y];
+            colcek := img55.Canvas.Pixels[x,y];
             GetRGB(colcek, RKanan);
             if (cekAwalKanan = True)and(RKanan = 255) then
               begin
@@ -1011,7 +1087,7 @@ begin
       if kordKananAwal.Y <> 0 then
         for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,kordKananAwal.Y];
+            colcek := img55.Canvas.Pixels[x,kordKananAwal.Y];
             GetRGB(colcek, RKanan);
             if (cekAwalKanan = True)and(RKanan = 255) then
               begin
@@ -1029,7 +1105,7 @@ begin
       for y := kordKananAwal.Y+1 to jalurTengah_bawah.Y-1 do
         for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,y];
+            colcek := img55.Canvas.Pixels[x,y];
             GetRGB(colcek, RKanan);
             if (cekAkirKanan = True)and(RKanan = 255) then
               begin
@@ -1040,7 +1116,7 @@ begin
       if kordKananAkir.Y <> 0 then
         for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,kordKananAkir.Y];
+            colcek := img55.Canvas.Pixels[x,kordKananAkir.Y];
             GetRGB(colcek, RKanan);
             if (cekAkirKanan = True)and(RKanan = 255) then
               begin
@@ -1049,10 +1125,12 @@ begin
                 jarakKanan := hasilJarak(kordKananAwal.X,kordKananAwal.Y,kordKananAkir.X,kordKananAkir.Y);
                 speedKanan := hasilSpeed(jarakKanan);
                 hasilSpeedKanan := speedKanan;
-                TulisSpeed(img5.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
+                TulisSpeed(img55.Canvas,awalKanan.X,awalKanan.Y,clLime,speedKanan);
                 lblSpeedCapture.Caption := FormatFloat('0.00',hasilSpeedKanan) + #10#13 + 'Km/H';
                 if hasilSpeedKanan > StrToInt(edtMaxSpeed.Text) then
                   CaptureImage(kordKananAkir.X-25,kordKananAkir.Y-50,kordKananAkir.X+35,kordKananAkir.Y+25, hasilSpeedKanan);
+                if hasilSpeedKanan <= StrToInt(edtMaxSpeed.Text) then
+                  CaptureImageNotOffenders(kordKananAkir.X-25,kordKananAkir.Y-50,kordKananAkir.X+35,kordKananAkir.Y+25, hasilSpeedKanan);
                 mmo1.Lines.Add(IntToStr(kordKananAwal.X)+'-'+IntToStr(kordKananAwal.Y));
                 mmo1.Lines.Add(IntToStr(kordKananAkir.X)+'-'+IntToStr(kordKananAkir.Y));
                 mmo1.Lines.Add(FormatFloat('Kanan : '+'0.00' + ' Km/h',hasilSpeedKanan));
@@ -1068,7 +1146,7 @@ begin
       for y := jalurTengah_atas.Y+1 to jalurTengah_bawah.Y-1 do
         for x := jalurTengah_atas.X+1 to jalurKanan_atas.X-1 do
           begin
-            colcek := img5.Canvas.Pixels[x,y];
+            colcek := img55.Canvas.Pixels[x,y];
             GetRGB(colcek, RKanan);
             if (RKanan = 255) then
               begin
@@ -1318,6 +1396,15 @@ begin
   imgHasilCapture.Picture.SaveToFile(ExtractFilePath(Application.ExeName)+'Hasil Capture\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').bmp');
 end;
 
+procedure TfrmMain.CaptureImageNotOffenders(x1,y1,x2,y2 : Integer; speed : Double);
+var
+  capture : TBitmap;
+begin
+  capture := PanelToBmp(pnlMainVideo);
+  imgHasilCapture.Canvas.CopyRect(Rect(0,0,100,100),capture.Canvas,Rect(x1,y1,x2,y2));
+  imgHasilCapture.Picture.SaveToFile(ExtractFilePath(Application.ExeName)+'Hasil Capture Bukan Pelanggar\'+folderJurusan+'\'+FormatDateTime('d mmmmmmmm yyyy',Now)+'\'+FormatDateTime('ddmmyy',Now)+'_'+FormatDateTime('hhnnss',Now)+'_('+FormatFloat('0.00',speed)+').bmp');
+end;
+
 procedure TfrmMain.tmrThresholdTimer(Sender: TObject);
 begin
   img1.Picture.Bitmap.Assign(PanelToBmp(pnlMainVideo));
@@ -1419,7 +1506,7 @@ begin
       tmrThreshold.Enabled := False;
       img1.Picture.Assign(nil);
       img2.Picture.Assign(nil);
-      img5.Picture.Assign(nil);
+      img55.Picture.Assign(nil);
     end;
 
 end;
@@ -1453,7 +1540,7 @@ begin
   tmrThreshold.Enabled := False;
   img1.Picture.Assign(nil);
   img2.Picture.Assign(nil);
-  img5.Picture.Assign(nil);
+  img55.Picture.Assign(nil);
   mp1.Stop;
   imgPlay.Enabled := True;
 
@@ -1653,7 +1740,7 @@ begin
   mp1.Close;
   img1.Picture.Assign(nil);
   img2.Picture.Assign(nil);
-  img5.Picture.Assign(nil);
+  img55.Picture.Assign(nil);
   tmrThreshold.Enabled := False;
   mp1.FileName := ExtractFilePath(Application.ExeName)+'Desember\'+folderJurusan+'\'+folderWaktu+'\'+listVIdeo.Items[listVIdeo.ItemIndex];
   mp1.Open;
@@ -1935,6 +2022,151 @@ begin
     imgNext.Visible := True;
 end;
 
+procedure TfrmMain.tampilGambarBukanPelanggar;
+var
+  i, j : Integer;
+  awal, akir : Integer;
+begin
+  //Gambar
+  for i:= 0 to (ComponentCount - 1) do
+    begin
+      if (Components[i] is TImage) then
+        begin
+          //Posisi
+          for j := 3 to 12 do
+            begin
+              if TImage(Components[i]).Name = 'img'+IntToStr(j) then
+                begin
+                  TImage(Components[i]).Top := ((notOffenders.Height div 3) - (TImage(Components[i]).Height)) div 2 ;
+                  TImage(Components[i]).Left := (( ((notOffenders.Width div 10) * (j-2)) - img3.Width));
+                end;
+            end;
+          for j := 13 to 22 do
+            begin
+              if TImage(Components[i]).Name = 'img'+IntToStr(j) then
+                begin
+                  TImage(Components[i]).Top := (((notOffenders.Height div 3) - (TImage(Components[i]).Height)) div 2) + (notOffenders.Height div 3);
+                  TImage(Components[i]).Left := (( ((notOffenders.Width div 10) * (j-12)) - img3.Width));
+                end;
+            end;
+          for j := 23 to 32 do
+            begin
+              if TImage(Components[i]).Name = 'img'+IntToStr(j) then
+                begin
+                  TImage(Components[i]).Top := (((notOffenders.Height div 3) - (TImage(Components[i]).Height)) div 2) + ((notOffenders.Height div 3) * 2);
+                  TImage(Components[i]).Left := (( ((notOffenders.Width div 10) * (j-22)) - img3.Width));
+                end;
+            end;                       
+
+          //Clear
+          for j := 3 to 32 do
+            begin
+              if TImage(Components[i]).Name = 'img'+IntToStr(j) then
+                  TImage(Components[i]).Picture.Bitmap := nil;
+            end;
+          //Tampil Gambar
+          if lstBukanPelanggar.Count - urutangambar <= 30 then
+            for j := 1 to lstBukanPelanggar.Count-urutangambar do
+              begin
+                if TImage(Components[i]).Name = 'img'+IntToStr(j+2) then
+                  TImage(Components[i]).Picture.LoadFromFile(lstBukanPelanggar.Items[urutangambar+j-1]);
+              end;
+          if lstBukanPelanggar.Count - urutangambar > 30 then
+            for j := 1 to 30 do
+              begin
+                if TImage(Components[i]).Name = 'img'+IntToStr(j+2) then
+                  TImage(Components[i]).Picture.LoadFromFile(lstBukanPelanggar.Items[urutangambar+j-1]);
+              end; 
+        end;
+    end;
+
+  //Label Caption
+  for i:= 0 to (ComponentCount - 1) do
+    begin
+      if (Components[i] is TLabel) then
+        begin
+          for j := 0 to 29 do
+            begin
+              if TLabel(Components[i]).Name = 'lbl'+IntToStr(j+1) then
+                  begin
+                      TLabel(Components[i]).Visible := False;
+                  end;
+            end;
+          if lstBukanPelanggar.Items.Count - urutangambar > 30 then
+            for j := 0 to 29 do
+              begin
+                if TLabel(Components[i]).Name = 'lbl'+IntToStr(j+1) then
+                  begin
+                      awal := AnsiPos('(', lstBukanPelanggar.Items[urutangambar+j]);
+                      akir := AnsiPos(')',lstBukanPelanggar.Items[urutangambar+j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstBukanPelanggar.Items[urutangambar+j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      TLabel(Components[i]).Visible := True;
+                  end;
+              end;
+          if lstBukanPelanggar.Items.Count - urutangambar <= 30 then
+            for j := 0 to lstBukanPelanggar.Items.Count - urutangambar - 1 do
+              begin
+                if TLabel(Components[i]).Name = 'lbl'+IntToStr(j+1) then
+                  begin
+                      awal := AnsiPos('(', lstBukanPelanggar.Items[urutangambar+j]);
+                      akir := AnsiPos(')',lstBukanPelanggar.Items[urutangambar+j]);
+                      TLabel(Components[i]).Caption := FloatToStr( StrToFloat(Copy(lstBukanPelanggar.Items[urutangambar+j],awal+1,akir-awal-1)) ) + ' Km/H';
+                      TLabel(Components[i]).Visible := True;
+                  end;
+              end;              
+        end;
+    end;
+  for i:= 0 to (ComponentCount - 1) do
+    begin
+      if (Components[i] is TLabel) then
+        begin
+          //Posisi
+          with lbl1 do
+            begin
+              Left := img3.Left + ((img3.Width - lbl1.Width) div 2);
+              Top := img3.Top + img3.Height + 5;
+            end; 
+          with lbl11 do
+            begin
+              Left := img13.Left + ((img13.Width - lbl11.Width) div 2);
+              Top := img13.Top + img13.Height + 5;
+            end;
+          with lbl21 do
+            begin
+              Left := img23.Left + ((img23.Width - lbl21.Width) div 2);
+              Top := img23.Top + img23.Height + 5;
+            end;                            
+
+          for j := 2 to 10 do
+            begin
+              if TLabel(Components[i]).Name = 'lbl'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lbl1.Top;
+                  TLabel(Components[i]).Left := img3.Left + (100 * (j-1)) + ((img3.Width - TLabel(Components[i]).Width)div 2) + ((img4.Left - img3.Left - 100)*(j-1));
+                end;
+            end;
+          for j := 12 to 20 do
+            begin
+              if TLabel(Components[i]).Name = 'lbl'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lbl11.Top;
+                  TLabel(Components[i]).Left := img3.Left + (100 * (j-11)) + ((img3.Width - TLabel(Components[i]).Width)div 2) + ((img4.Left - img3.Left - 100)*(j-11));
+                end;
+            end;
+           for j := 22 to 30 do
+            begin
+              if TLabel(Components[i]).Name = 'lbl'+IntToStr(j) then
+                begin
+                  TLabel(Components[i]).Top := lbl21.Top;
+                  TLabel(Components[i]).Left := img3.Left + (100 * (j-21)) + ((img3.Width - TLabel(Components[i]).Width)div 2) + ((img4.Left - img3.Left - 100)*(j-21));
+                end;
+            end;
+        end;
+    end;                     {
+  if lstDaftarGambar.Items.Count - urutangambar >= 30 then
+    imgNext.Visible := True; }
+end;
+
 procedure TfrmMain.strngrdLaporanDrawCell(Sender: TObject; ACol,
   ARow: Integer; Rect: TRect; State: TGridDrawState);
 var
@@ -2054,6 +2286,7 @@ begin
   //Atur Jumlah Baris
   listPelanggar.Clear;
   lstDaftarGambar.Clear;
+  lstBukanPelanggar.Clear;
   jumlahAda := 0;
   case jenisReport of
     1:
@@ -2087,6 +2320,9 @@ begin
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
                 ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
                       ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
+                ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture Bukan Pelanggar\'+Cells[2,i]+'\'+Cells[1,i]+'\',
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture Bukan Pelanggar\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstBukanPelanggar.Items);
+
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -2149,6 +2385,8 @@ begin
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
                 ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
                       ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
+                ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture Bukan Pelanggar\'+Cells[2,i]+'\'+Cells[1,i]+'\',
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture Bukan Pelanggar\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstBukanPelanggar.Items);
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -2213,7 +2451,9 @@ begin
                 Cells[3,RowCount-1] := IntToStr( StrToInt(Cells[3,RowCount-1]) + StrToInt(Cells[3,i]) );
                 ListFileDir(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', listPelanggar.Items);
                 ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\',
-                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);   
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstDaftarGambar.Items);
+                ListFileDetail(ExtractFilePath(Application.ExeName)+'\Hasil Capture Bukan Pelanggar\'+Cells[2,i]+'\'+Cells[1,i]+'\',
+                      ExtractFilePath(Application.ExeName)+'Hasil Capture Bukan Pelanggar\'+Cells[2,i]+'\'+Cells[1,i]+'\', lstBukanPelanggar.Items);
                 for j := 0 to listPelanggar.Count-1 do
                   begin
                     awal := AnsiPos('(', listPelanggar.Items[j]);
@@ -2239,6 +2479,7 @@ begin
   end;
   urutangambar := 0;
   tampilGambar;
+  tampilGambarBukanPelanggar;
   imgBack.Visible := False;
 end;
 

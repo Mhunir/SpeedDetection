@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 254
-  Top = 14
+  Left = 238
+  Top = 112
   Width = 1283
   Height = 675
   Caption = 'SPEED DETECTION'
@@ -45588,7 +45588,7 @@ object frmMain: TfrmMain
     Top = 126
     Width = 1117
     Height = 488
-    ActivePage = tabPreview
+    ActivePage = notOffenders
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -46014,7 +46014,7 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         TabOrder = 16
         SkinData.SkinSection = 'PANEL'
-        object img5: TImage
+        object img55: TImage
           Left = 0
           Top = 0
           Width = 113
@@ -50955,15 +50955,6 @@ object frmMain: TfrmMain
           Visible = False
           OnClick = btn2Click
         end
-        object listPelanggar: TListBox
-          Left = 152
-          Top = 80
-          Width = 161
-          Height = 49
-          ItemHeight = 15
-          TabOrder = 1
-          Visible = False
-        end
         object chtSurabayaGresik: TChart
           Left = 0
           Top = 54
@@ -51152,13 +51143,12 @@ object frmMain: TfrmMain
           end
         end
         object lstDaftarGambar: TListBox
-          Left = 240
-          Top = 88
-          Width = 145
-          Height = 33
+          Left = -136
+          Top = 256
+          Width = 625
+          Height = 65
           ItemHeight = 15
           TabOrder = 4
-          Visible = False
           OnClick = lstDaftarGambarClick
         end
         object btn5: TButton
@@ -51170,10 +51160,27 @@ object frmMain: TfrmMain
           TabOrder = 5
           Visible = False
         end
+        object listPelanggar: TListBox
+          Left = -104
+          Top = 128
+          Width = 593
+          Height = 121
+          ItemHeight = 15
+          TabOrder = 1
+        end
+        object lstBukanPelanggar: TListBox
+          Left = -137
+          Top = 328
+          Width = 625
+          Height = 94
+          ItemHeight = 15
+          TabOrder = 6
+          OnClick = lstDaftarGambarClick
+        end
       end
     end
     object tabViewImage: TsTabSheet
-      Caption = 'View Image'
+      Caption = 'Offenders'
       SkinData.CustomColor = False
       SkinData.CustomFont = False
       object imgReport1: TImage
@@ -51614,6 +51621,401 @@ object frmMain: TfrmMain
           3D270C864901D3C10000000049454E44AE426082}
         Visible = False
         OnClick = imgBackClick
+      end
+    end
+    object notOffenders: TsTabSheet
+      Caption = 'Not Offenders'
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
+      object lbl1: TLabel
+        Left = 16
+        Top = 16
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl2: TLabel
+        Left = 16
+        Top = 40
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl3: TLabel
+        Left = 24
+        Top = 64
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl4: TLabel
+        Left = 24
+        Top = 88
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl5: TLabel
+        Left = 24
+        Top = 112
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl6: TLabel
+        Left = 24
+        Top = 136
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl7: TLabel
+        Left = 32
+        Top = 160
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl8: TLabel
+        Left = 32
+        Top = 184
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl9: TLabel
+        Left = 16
+        Top = 208
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl10: TLabel
+        Left = 16
+        Top = 232
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl11: TLabel
+        Left = 24
+        Top = 256
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl12: TLabel
+        Left = 24
+        Top = 280
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl13: TLabel
+        Left = 24
+        Top = 304
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl14: TLabel
+        Left = 24
+        Top = 328
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl15: TLabel
+        Left = 32
+        Top = 352
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl16: TLabel
+        Left = 32
+        Top = 376
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl17: TLabel
+        Left = 96
+        Top = 352
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl18: TLabel
+        Left = 96
+        Top = 328
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl19: TLabel
+        Left = 104
+        Top = 312
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl20: TLabel
+        Left = 96
+        Top = 280
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl21: TLabel
+        Left = 88
+        Top = 256
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl22: TLabel
+        Left = 88
+        Top = 232
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl23: TLabel
+        Left = 104
+        Top = 208
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl24: TLabel
+        Left = 104
+        Top = 184
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl25: TLabel
+        Left = 96
+        Top = 160
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl26: TLabel
+        Left = 96
+        Top = 136
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl27: TLabel
+        Left = 96
+        Top = 112
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl28: TLabel
+        Left = 96
+        Top = 88
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl29: TLabel
+        Left = 88
+        Top = 64
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object lbl30: TLabel
+        Left = 88
+        Top = 40
+        Width = 50
+        Height = 15
+        Caption = 'lblSpeed11'
+      end
+      object img3: TImage
+        Left = 88
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img4: TImage
+        Left = 192
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img5: TImage
+        Left = 296
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img6: TImage
+        Left = 400
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img7: TImage
+        Left = 520
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img8: TImage
+        Left = 624
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img9: TImage
+        Left = 728
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img10: TImage
+        Left = 832
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img11: TImage
+        Left = 960
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img12: TImage
+        Left = 1064
+        Top = 56
+        Width = 100
+        Height = 100
+      end
+      object img13: TImage
+        Left = 96
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img14: TImage
+        Left = 200
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img15: TImage
+        Left = 304
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img16: TImage
+        Left = 408
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img17: TImage
+        Left = 528
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img18: TImage
+        Left = 632
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img19: TImage
+        Left = 736
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img20: TImage
+        Left = 840
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img21: TImage
+        Left = 968
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img22: TImage
+        Left = 1072
+        Top = 168
+        Width = 100
+        Height = 100
+      end
+      object img23: TImage
+        Left = 96
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img24: TImage
+        Left = 200
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img25: TImage
+        Left = 304
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img26: TImage
+        Left = 408
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img27: TImage
+        Left = 528
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img28: TImage
+        Left = 632
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img29: TImage
+        Left = 736
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img30: TImage
+        Left = 840
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img31: TImage
+        Left = 968
+        Top = 304
+        Width = 100
+        Height = 100
+      end
+      object img32: TImage
+        Left = 1072
+        Top = 304
+        Width = 100
+        Height = 100
       end
     end
   end
