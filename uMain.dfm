@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 238
-  Top = 112
+  Left = -160
+  Top = 52
   Width = 1283
   Height = 675
   Caption = 'SPEED DETECTION'
@@ -45588,7 +45588,7 @@ object frmMain: TfrmMain
     Top = 126
     Width = 1117
     Height = 488
-    ActivePage = notOffenders
+    ActivePage = tabPreview
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -45893,9 +45893,6 @@ object frmMain: TfrmMain
           Height = 30
           VisibleButtons = [btPlay, btPause, btStop]
           Display = pnlMainVideo
-          FileName = 
-            'E:\Tugas Akhir PENS\Coding\Delphi\Desain UI\Alpha_4\Desember\Gre' +
-            'sik - Surabaya (Asli)\Siang\VID_20141206_125505.3gp'
           Visible = False
           TabOrder = 0
         end

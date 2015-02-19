@@ -1331,6 +1331,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   tampilanAwal;
   createFolder;
+  mp1.FileName := edtLocation.Text + 'Desember\Gresik - Surabaya\Siang\VID_20141206_125505.3gp';
   mp1.Open;
   mp1.DisplayRect:=Rect(0,0,pnlMainVideo.Width,pnlMainVideo.Height);
   klikKe := 0;
@@ -1385,6 +1386,8 @@ begin
 
   mulaiHitung := True;
   urutangambar := 0;
+
+  //mp1.FileName := 
 end;
 
 procedure TfrmMain.CaptureImage(x1,y1,x2,y2 : Integer; speed : Double);
